@@ -7,9 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger
   * A simple object pool that creates the objects as needed until a maximum number of objects has
   * been created.
   */
-class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
-  private[this] val items = new ArrayBlockingQueue[A](maxSize)
-  private[this] val alive = new AtomicInteger(0)
+class SimplePool[A](val capacity: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
+  private[this] val items = new ArrayBlockingQueue[A](capacity)
+  private[this] val live = new AtomicInteger(0)
 
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
@@ -19,11 +19,11 @@ class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extend
   }
 
   private def createOr(a: => A): A = {
-    alive.getAndIncrement match {
-      case n if n < maxSize =>
+    live.getAndIncrement match {
+      case n if n < capacity =>
         factory()
       case _ =>
-        alive.getAndDecrement
+        live.getAndDecrement
         a
     }
   }
@@ -33,12 +33,16 @@ class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extend
 
   def tryAcquire(): Option[Lease[A]] =
     Option(createOr(items.poll())).map(new SimpleLease(_))
+
+  def size() = items.size
+
+  def live() = live.get()
 }
 
 /**
   * Object containing factory methods for `SimplePool`.
   */
 object SimplePool {
-  def apply[A](maxSize: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
-    new SimplePool(maxSize, factory, dispose)
+  def apply[A](capacity: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
+    new SimplePool(capacity, factory, dispose)
 }

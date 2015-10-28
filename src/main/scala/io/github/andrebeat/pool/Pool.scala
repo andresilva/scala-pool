@@ -12,8 +12,8 @@ trait Lease[A] {
   protected def handleRelease(): Unit
 
   /**
-    * Returns the object being leased by the pool. No references to the returned object should ever
-    * be kept. Throws an `IllegalStateException` if the lease has already been released.
+    * Returns the object being leased by the pool. Throws an `IllegalStateException` if the lease
+    * has already been released.
     * @return the object being leased by the pool.
     */
   def get(): A =
@@ -21,7 +21,8 @@ trait Lease[A] {
     else throw new IllegalStateException("Tried to get an object from an already released lease.")
 
   /**
-    * Releases the object back to the pool for reuse.
+    * Releases the object back to the pool for reuse. When releasing an object it is mandatory that
+    * there are no references to the returned object.
     */
   def release(): Unit = if (released.compareAndSet(false, true)) handleRelease
 }
@@ -57,4 +58,30 @@ trait Pool[A] {
     * @return a lease for an object from this pool.
     */
   def acquire(): Lease[A]
+
+  /**
+    * Returns the number of objects in the pool.
+    * @return the number of objects in the pool.
+    */
+  def size(): Int
+
+  /**
+    * Returns the capacity of the pool, i.e. the maximum number of objects the pool can hold.
+    * @return the capacity of the pool.
+    */
+  def capacity(): Int
+
+  /**
+    * Returns the number of live objects, i.e. the number of currently pooled objects plus leased
+    * objects.
+    * @return the number of live objects.
+    */
+  def live(): Int
+
+  /**
+    * Returns the number of leased objects.
+    * @return the number of leased objects.
+    */
+  def leased(): Int = live - size
+
 }

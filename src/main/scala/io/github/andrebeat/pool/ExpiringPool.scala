@@ -54,6 +54,12 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
   def tryAcquire() = lock.synchronized {
     Option(items.poll()).map { item => new ExpiringLease(item.acquire()) }
   }
+
+  def size() = items.size
+
+  def capacity() = ???
+
+  def live() = ???
 }
 
 object ExpiringPool {
