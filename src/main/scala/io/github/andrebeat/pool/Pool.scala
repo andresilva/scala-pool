@@ -8,24 +8,35 @@ import scala.concurrent.duration.Duration
   * back to the pool when no longer needed.
   */
 trait Lease[A <: AnyRef] {
-  private[this] val released = new AtomicBoolean(false)
+  private[this] val dirty = new AtomicBoolean(false)
   protected def a: A
   protected def handleRelease(): Unit
+  protected def handleInvalidate(): Unit
 
   /**
     * Returns the object being leased by the pool. Throws an `IllegalStateException` if the lease
-    * has already been released.
+    * has already been released or invalidated.
     * @return the object being leased by the pool.
     */
   def get(): A =
-    if (!released.get()) a
-    else throw new IllegalStateException("Tried to get an object from an already released lease.")
+    if (!dirty.get()) a
+    else throw new IllegalStateException("Tried to get an object from an already released or invalidated lease.")
 
   /**
     * Releases the object back to the pool for reuse. When releasing an object it is mandatory that
     * there are no references to the returned object.
+    *
+    * If the lease has already been released or invalidated this method does nothing.
     */
-  def release(): Unit = if (released.compareAndSet(false, true)) handleRelease
+  def release(): Unit = if (dirty.compareAndSet(false, true)) handleRelease
+
+  /**
+    * Invalidates the current lease. The object is "destroyed" and is no longer eligible to be
+    * returned to the pool. Additionally, the number of live objects in the pool is decremented.
+    *
+    * If the lease has already been released or invalidated this method does nothing.
+    */
+  def invalidate(): Unit = if (dirty.compareAndSet(false, true)) handleInvalidate
 }
 
 /**

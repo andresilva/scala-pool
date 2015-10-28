@@ -18,6 +18,9 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
 
   private class SimpleLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = if (!items.offer(a)) dispose(a)
+    protected def handleInvalidate() = {
+      dispose(a); live.getAndDecrement
+    }
   }
 
   private def createOr(a: => A): A = {
@@ -25,8 +28,7 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
       case n if n < capacity =>
         factory()
       case _ =>
-        live.getAndDecrement
-        a
+        live.getAndDecrement; a
     }
   }
 
@@ -42,8 +44,7 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
   @tailrec final def drain() = {
     val i = Option(items.poll())
     if (i.nonEmpty) {
-      dispose(i.get)
-      live.getAndDecrement
+      dispose(i.get); live.getAndDecrement
       drain()
     }
   }

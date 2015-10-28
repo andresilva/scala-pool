@@ -41,6 +41,8 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
       if (items.offer(new Item(a, timerTask))) timer.schedule(timerTask, maxIdleTime)
       else dispose(a)
     }
+
+    protected def handleInvalidate() = ???
   }
 
   def acquire() = lock.synchronized {
