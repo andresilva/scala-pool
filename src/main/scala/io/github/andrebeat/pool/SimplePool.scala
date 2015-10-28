@@ -11,7 +11,7 @@ class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extend
   private[this] var created = 0
 
   protected def factory() = _factory()
-  override protected def dispose(a: A) = _dispose(a)
+  protected def dispose(a: A) = _dispose(a)
 
   class SimpleLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = if (!items.offer(a)) dispose(a)

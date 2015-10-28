@@ -44,7 +44,7 @@ trait Pool[A] {
     * example, when doing connection pooling it is necessary to close the connection whenever it is
     * evicted (i.e. permanently removed) from the pool.
     */
-  protected def dispose(a: A): Unit = {}
+  protected def dispose(a: A): Unit
 
   /**
     * Try to acquire a lease for an object without blocking.
