@@ -60,6 +60,11 @@ trait Pool[A] {
   def acquire(): Lease[A]
 
   /**
+    * Drains the object pool, i.e. evicts every object currently pooled.
+    */
+  def drain(): Unit
+
+  /**
     * Returns the number of objects in the pool.
     * @return the number of objects in the pool.
     */

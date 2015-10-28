@@ -55,6 +55,8 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
     Option(items.poll()).map { item => new ExpiringLease(item.acquire()) }
   }
 
+  def drain() = ???
+
   def size() = items.size
 
   def capacity() = ???
