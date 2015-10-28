@@ -15,19 +15,22 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
   private[this] val live = new AtomicInteger(0)
 
   @inline private[this] def decrementLive = live.getAndDecrement
-  @inline private[this] def destroy(a: A) = {
-    dispose(a)
-    decrementLive
-  }
 
   @inline protected def factory() = _factory()
   @inline protected def dispose(a: A) = _dispose(a)
   @inline protected def reset(a: A) = _reset(a)
 
+  @inline private[this] def destroy(a: A) = {
+    dispose(a)
+    decrementLive
+  }
+
+  @inline private[this] def tryOffer(a: A) = if (!items.offer(a)) destroy(a)
+
   private class SimpleLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = {
       reset(a)
-      if (!items.offer(a)) destroy(a)
+      tryOffer(a)
     }
 
     protected def handleInvalidate() = {
@@ -66,7 +69,7 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
     if (io.nonEmpty) {
       val i = io.get
       reset(i)
-      if (!items.offer(i)) destroy(i)
+      tryOffer(i)
       fill()
     }
   }
