@@ -1,6 +1,7 @@
 package io.github.andrebeat.pool
 
 import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
   * A simple object pool that creates the objects as needed until a maximum number of objects has
@@ -8,7 +9,7 @@ import java.util.concurrent.ArrayBlockingQueue
   */
 class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
   private[this] val items = new ArrayBlockingQueue[A](maxSize)
-  private[this] var created = 0
+  private[this] val alive = new AtomicInteger(0)
 
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
@@ -17,12 +18,13 @@ class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extend
     protected def handleRelease() = if (!items.offer(a)) dispose(a)
   }
 
-  def acquire() = synchronized {
-    if (items.size == 0 && created < maxSize) {
-      created += 1
-      new SimpleLease(factory())
-    } else new SimpleLease(items.take())
-  }
+  def acquire() =
+    alive.getAndIncrement match {
+      case n if n < maxSize => new SimpleLease(factory())
+      case _ =>
+        alive.getAndDecrement
+        new SimpleLease(items.take())
+    }
 
   def tryAcquire() = Option(items.poll()).map(new SimpleLease(_))
 }
