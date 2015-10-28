@@ -9,15 +9,17 @@ import scala.concurrent.duration.{Duration, NANOSECONDS}
   * A simple object pool that creates the objects as needed until a maximum number of objects has
   * been created.
   */
-class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
+class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A => Unit, _dispose: A => Unit)
+    extends Pool[A] {
   private[this] val items = new ArrayBlockingQueue[A](capacity)
   private[this] val live = new AtomicInteger(0)
 
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
+  protected def reset(a: A) = _reset(a)
 
   private class SimpleLease(protected val a: A) extends Lease[A] {
-    protected def handleRelease() = if (!items.offer(a)) dispose(a)
+    protected def handleRelease() = reset(a); if (!items.offer(a)) dispose(a)
     protected def handleInvalidate() = {
       dispose(a); live.getAndDecrement
     }
@@ -52,6 +54,7 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
   @tailrec final def fill() = {
     val i = Option(createOr(null.asInstanceOf[A]))
     if (i.nonEmpty) {
+      reset(i.get)
       items.offer(i.get)
       fill()
     }
@@ -66,6 +69,10 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
   * Object containing factory methods for `SimplePool`.
   */
 object SimplePool {
-  def apply[A <: AnyRef](capacity: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
-    new SimplePool(capacity, factory, dispose)
+  def apply[A <: AnyRef](
+    capacity: Int,
+    factory: () => A,
+    reset: A => Unit = { _: A => () },
+    dispose: A => Unit = { _: A => () }) =
+    new SimplePool(capacity, factory, reset, dispose)
 }

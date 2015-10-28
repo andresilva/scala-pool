@@ -34,6 +34,7 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
 
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
+  protected def reset(a: A) = ???
 
   class ExpiringLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = lock.synchronized {

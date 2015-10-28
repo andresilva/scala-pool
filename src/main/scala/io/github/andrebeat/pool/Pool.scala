@@ -53,6 +53,14 @@ trait Pool[A <: AnyRef] {
   protected def factory(): A
 
   /**
+    * Resets the internal state of object. This method is called on an object whenever it is
+    * added/released back to the pool. For example, if pooling an object like a `ByteBuffer` it
+    * might make sense to call its `reset()` method whenever the object is released to the pool, so
+    * that its future users do not observe the internal state introduced by previous ones.
+    */
+  protected def reset(a: A): Unit
+
+  /**
     * Object "destructor". This method is called whenever the object is evicted from the pool.  For
     * example, when doing connection pooling it is necessary to close the connection whenever it is
     * evicted (i.e. permanently removed) from the pool.
