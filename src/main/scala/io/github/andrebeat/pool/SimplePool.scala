@@ -3,6 +3,7 @@ package io.github.andrebeat.pool
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
+import scala.concurrent.duration.{Duration, NANOSECONDS}
 
 /**
   * A simple object pool that creates the objects as needed until a maximum number of objects has
@@ -34,6 +35,9 @@ class SimplePool[A](val capacity: Int, _factory: () => A, _dispose: A => Unit) e
 
   def tryAcquire(): Option[Lease[A]] =
     Option(createOr(items.poll())).map(new SimpleLease(_))
+
+  def tryAcquire(atMost: Duration): Option[Lease[A]] =
+    Option(createOr(items.poll(atMost.toNanos, NANOSECONDS))).map(new SimpleLease(_))
 
   @tailrec final def drain() = {
     val i = Option(items.poll())

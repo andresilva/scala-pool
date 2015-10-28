@@ -2,6 +2,7 @@ package io.github.andrebeat.pool
 
 import java.util.{Timer, TimerTask}
 import java.util.concurrent.ArrayBlockingQueue
+import scala.concurrent.duration.Duration
 import scala.language.implicitConversions
 
 // TODO: - use a duration for maxIdleTime?
@@ -54,6 +55,8 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
   def tryAcquire() = lock.synchronized {
     Option(items.poll()).map { item => new ExpiringLease(item.acquire()) }
   }
+
+  def tryAcquire(atMost: Duration): Option[Lease[A]] = ???
 
   def drain() = ???
 

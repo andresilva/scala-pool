@@ -1,6 +1,7 @@
 package io.github.andrebeat.pool
 
 import java.util.concurrent.atomic.AtomicBoolean
+import scala.concurrent.duration.Duration
 
 /**
   * A lease on an object requested from a `Pool` allowing the object to be accessed and then released
@@ -52,6 +53,13 @@ trait Pool[A] {
     * @return a lease for an object from this pool if available, `None` otherwise.
     */
   def tryAcquire(): Option[Lease[A]]
+
+  /**
+    * Try to acquire a lease for an object blocking at most until the given duration.
+    * @param atMost maximum wait time for the lease to be available.
+    * @return a lease for an object from this pool if available until the given duration, `None` otherwise.
+    */
+  def tryAcquire(atMost: Duration): Option[Lease[A]]
 
   /**
     * Acquire a lease for an object blocking if none is available.
