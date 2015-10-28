@@ -73,6 +73,12 @@ trait Pool[A <: AnyRef] {
   def drain(): Unit
 
   /**
+    * Fills the object pool by creating (and pooling) new objects until the number of live objects
+    * reaches the pool capacity.
+    */
+  def fill(): Unit
+
+  /**
     * Returns the number of objects in the pool.
     * @return the number of objects in the pool.
     */

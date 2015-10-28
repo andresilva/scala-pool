@@ -60,6 +60,8 @@ class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => 
 
   def drain() = ???
 
+  def fill() = ???
+
   def size() = items.size
 
   def capacity() = ???

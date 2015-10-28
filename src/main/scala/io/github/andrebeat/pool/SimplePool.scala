@@ -48,6 +48,14 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A 
     }
   }
 
+  @tailrec final def fill() = {
+    val i = Option(createOr(null.asInstanceOf[A]))
+    if (i.nonEmpty) {
+      items.offer(i.get)
+      fill()
+    }
+  }
+
   def size() = items.size
 
   def live() = live.get()
