@@ -14,23 +14,33 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
   private[this] val items = new ArrayBlockingQueue[A](capacity)
   private[this] val live = new AtomicInteger(0)
 
+  @inline private[this] def decrementLive = live.getAndDecrement
+  @inline private[this] def destroy(a: A) = {
+    dispose(a)
+    decrementLive
+  }
+
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
   protected def reset(a: A) = _reset(a)
 
   private class SimpleLease(protected val a: A) extends Lease[A] {
-    protected def handleRelease() = reset(a); if (!items.offer(a)) dispose(a)
+    protected def handleRelease() = {
+      reset(a)
+      if (!items.offer(a)) destroy(a)
+    }
+
     protected def handleInvalidate() = {
-      dispose(a); live.getAndDecrement
+      destroy(a)
     }
   }
 
-  private def createOr(a: => A): A = {
+  @inline private def createOr(a: => A): A = {
     live.getAndIncrement match {
       case n if n < capacity =>
         factory()
       case _ =>
-        live.getAndDecrement; a
+        decrementLive; a
     }
   }
 
@@ -46,16 +56,17 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
   @tailrec final def drain() = {
     val i = Option(items.poll())
     if (i.nonEmpty) {
-      dispose(i.get); live.getAndDecrement
+      destroy(i.get)
       drain()
     }
   }
 
   @tailrec final def fill() = {
-    val i = Option(createOr(null.asInstanceOf[A]))
-    if (i.nonEmpty) {
-      reset(i.get)
-      items.offer(i.get)
+    val io = Option(createOr(null.asInstanceOf[A]))
+    if (io.nonEmpty) {
+      val i = io.get
+      reset(i)
+      if (!items.offer(i)) destroy(i)
       fill()
     }
   }
