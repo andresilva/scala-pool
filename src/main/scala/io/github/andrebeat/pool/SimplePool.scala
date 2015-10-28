@@ -14,19 +14,25 @@ class SimplePool[A](maxSize: Int, _factory: () => A, _dispose: A => Unit) extend
   protected def factory() = _factory()
   protected def dispose(a: A) = _dispose(a)
 
-  class SimpleLease(protected val a: A) extends Lease[A] {
+  private class SimpleLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = if (!items.offer(a)) dispose(a)
   }
 
-  def acquire() =
+  private def createOr(a: => A): A = {
     alive.getAndIncrement match {
-      case n if n < maxSize => new SimpleLease(factory())
+      case n if n < maxSize =>
+        factory()
       case _ =>
         alive.getAndDecrement
-        new SimpleLease(items.take())
+        a
     }
+  }
 
-  def tryAcquire() = Option(items.poll()).map(new SimpleLease(_))
+  def acquire(): Lease[A] =
+    new SimpleLease(createOr(items.take()))
+
+  def tryAcquire(): Option[Lease[A]] =
+    Option(createOr(items.poll())).map(new SimpleLease(_))
 }
 
 /**
