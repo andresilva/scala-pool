@@ -20,9 +20,9 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
     decrementLive
   }
 
-  protected def factory() = _factory()
-  protected def dispose(a: A) = _dispose(a)
-  protected def reset(a: A) = _reset(a)
+  @inline protected def factory() = _factory()
+  @inline protected def dispose(a: A) = _dispose(a)
+  @inline protected def reset(a: A) = _reset(a)
 
   private class SimpleLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = {
