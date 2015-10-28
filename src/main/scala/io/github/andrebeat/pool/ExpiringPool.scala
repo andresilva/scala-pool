@@ -2,77 +2,100 @@ package io.github.andrebeat.pool
 
 import java.util.{Timer, TimerTask}
 import java.util.concurrent.ArrayBlockingQueue
-import scala.concurrent.duration.Duration
+import java.util.concurrent.atomic.AtomicInteger
+import scala.annotation.tailrec
+import scala.concurrent.duration.{Duration, NANOSECONDS}
 import scala.language.implicitConversions
 
-// TODO: - use a duration for maxIdleTime?
-//       - add tryAcquire with timeout parameter
+// TODO: Generalize SimplePool and ExpiringPool implementation:
+// - Lease constructor must be abstract
+// - The item stored in the pool must be abstract (in the expiring pool we want store the object and
+//   its associated timer for cleanup):
+//   - Fetching from the pool is abstract (B -> A)
+//   - Adding to the pool is abstract (A -> B)
+
 /**
-  * An object pool that creates the objects as needed until a maximum number of objects have been
+  * An object pool that creates the objects as needed until a maximum number of objects has been
   * created and automatically evicts objects after they have been idle for a given amount of time.
   */
-class ExpiringPool[A <: AnyRef](maxSize: Int, maxIdleTime: Int, _factory: () => A, _dispose: A => Unit)
+class ExpiringPool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A => Unit, _dispose: A => Unit)
     extends Pool[A] {
-  implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
+  private[this] val items = new ArrayBlockingQueue[A](capacity)
+  private[this] val live = new AtomicInteger(0)
 
-  private class Item(val a: A, timerTask: TimerTask = () => {}) {
-    def acquire() = {
-      timerTask.cancel()
-      a
-    }
+  @inline private[this] def decrementLive = live.getAndDecrement
 
-    override def equals(that: Any) = that match {
-      case that: Item => this.a eq that.a
-      case _ => false
-    }
+  @inline protected def factory() = _factory()
+  @inline protected def dispose(a: A) = _dispose(a)
+  @inline protected def reset(a: A) = _reset(a)
+
+  @inline private[this] def destroy(a: A) = {
+    dispose(a)
+    decrementLive
   }
 
-  private[this] val lock = new Object
-  private[this] val items = new ArrayBlockingQueue[Item](maxSize)
-  private[this] val timer = new Timer(true)
-  private[this] var created = 0
+  @inline private[this] def tryOffer(a: A) = if (!items.offer(a)) destroy(a)
 
-  protected def factory() = _factory()
-  protected def dispose(a: A) = _dispose(a)
-  protected def reset(a: A) = ???
-
-  class ExpiringLease(protected val a: A) extends Lease[A] {
-    protected def handleRelease() = lock.synchronized {
-      val timerTask: TimerTask = () => lock.synchronized { if (items.remove(new Item(a))) dispose(a) }
-      if (items.offer(new Item(a, timerTask))) timer.schedule(timerTask, maxIdleTime)
-      else dispose(a)
+  private class ExpiringLease(protected val a: A) extends Lease[A] {
+    protected def handleRelease() = {
+      reset(a)
+      tryOffer(a)
     }
 
-    protected def handleInvalidate() = ???
-  }
-
-  def acquire() = lock.synchronized {
-    if (items.size == 0 && created < maxSize) {
-      created += 1
-      new ExpiringLease(factory())
-    } else {
-      new ExpiringLease(items.take().acquire())
+    protected def handleInvalidate() = {
+      destroy(a)
     }
   }
 
-  def tryAcquire() = lock.synchronized {
-    Option(items.poll()).map { item => new ExpiringLease(item.acquire()) }
+  @inline private def createOr(a: => A): A = {
+    live.getAndIncrement match {
+      case n if n < capacity =>
+        factory()
+      case _ =>
+        decrementLive; a
+    }
   }
 
-  def tryAcquire(atMost: Duration): Option[Lease[A]] = ???
+  def acquire(): Lease[A] =
+    new ExpiringLease(createOr(items.take()))
 
-  def drain() = ???
+  def tryAcquire(): Option[Lease[A]] =
+    Option(createOr(items.poll())).map(new ExpiringLease(_))
 
-  def fill() = ???
+  def tryAcquire(atMost: Duration): Option[Lease[A]] =
+    Option(createOr(items.poll(atMost.toNanos, NANOSECONDS))).map(new ExpiringLease(_))
+
+  @tailrec final def drain() = {
+    val i = Option(items.poll())
+    if (i.nonEmpty) {
+      destroy(i.get)
+      drain()
+    }
+  }
+
+  @tailrec final def fill() = {
+    val io = Option(createOr(null.asInstanceOf[A]))
+    if (io.nonEmpty) {
+      val i = io.get
+      reset(i)
+      tryOffer(i)
+      fill()
+    }
+  }
 
   def size() = items.size
 
-  def capacity() = ???
-
-  def live() = ???
+  def live() = live.get()
 }
 
+/**
+  * Object containing factory methods for `ExpiringPool`.
+  */
 object ExpiringPool {
-  def apply[A <: AnyRef](maxSize: Int, maxIdleTime: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
-    new ExpiringPool(maxSize, maxIdleTime, factory, dispose)
+  def apply[A <: AnyRef](
+    capacity: Int,
+    factory: () => A,
+    reset: A => Unit = { _: A => () },
+    dispose: A => Unit = { _: A => () }) =
+    new ExpiringPool(capacity, factory, reset, dispose)
 }
