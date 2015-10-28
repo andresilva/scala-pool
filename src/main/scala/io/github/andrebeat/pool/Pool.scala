@@ -7,7 +7,7 @@ import scala.concurrent.duration.Duration
   * A lease on an object requested from a `Pool` allowing the object to be accessed and then released
   * back to the pool when no longer needed.
   */
-trait Lease[A] {
+trait Lease[A <: AnyRef] {
   private[this] val released = new AtomicBoolean(false)
   protected def a: A
   protected def handleRelease(): Unit
@@ -34,7 +34,7 @@ trait Lease[A] {
   *
   * @tparam A the type of object to pool
   */
-trait Pool[A] {
+trait Pool[A <: AnyRef] {
   /**
     * Factory method for creating new objects.
     * @return a new object.
@@ -96,5 +96,4 @@ trait Pool[A] {
     * @return the number of leased objects.
     */
   def leased(): Int = live - size
-
 }

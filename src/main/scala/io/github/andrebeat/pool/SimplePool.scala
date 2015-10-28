@@ -9,7 +9,7 @@ import scala.concurrent.duration.{Duration, NANOSECONDS}
   * A simple object pool that creates the objects as needed until a maximum number of objects has
   * been created.
   */
-class SimplePool[A](val capacity: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
+class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _dispose: A => Unit) extends Pool[A] {
   private[this] val items = new ArrayBlockingQueue[A](capacity)
   private[this] val live = new AtomicInteger(0)
 
@@ -57,6 +57,6 @@ class SimplePool[A](val capacity: Int, _factory: () => A, _dispose: A => Unit) e
   * Object containing factory methods for `SimplePool`.
   */
 object SimplePool {
-  def apply[A](capacity: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
+  def apply[A <: AnyRef](capacity: Int, factory: () => A, dispose: A => Unit = { _: A => () }) =
     new SimplePool(capacity, factory, dispose)
 }
