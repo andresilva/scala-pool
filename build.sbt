@@ -8,6 +8,9 @@ version := "0.1"
 
 scalaVersion := "2.11.7"
 
+libraryDependencies ++= Seq(
+  "org.specs2" %% "specs2-core" % "3.6.5" % "test")
+
 resolvers ++= Seq(
   "snapshots"           at "http://oss.sonatype.org/content/repositories/snapshots",
   "releases"            at "http://oss.sonatype.org/content/repositories/releases",
@@ -16,4 +19,8 @@ resolvers ++= Seq(
 scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked",
-  "-feature")
+  "-feature",
+  "-language:higherKinds",
+  "-language:implicitConversions")
+
+scalacOptions in Test ++= Seq("-Yrangepos")

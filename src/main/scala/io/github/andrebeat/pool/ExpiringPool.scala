@@ -5,7 +5,6 @@ import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
 import scala.concurrent.duration.{Duration, NANOSECONDS}
-import scala.language.implicitConversions
 
 // TODO: Generalize SimplePool and ExpiringPool implementation:
 // - Lease constructor must be abstract
