@@ -38,23 +38,23 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
     }
   }
 
-  @inline private def createOr(a: => A): A = {
+  @inline private def createOr(a: => Option[A]): Option[A] = {
     live.getAndIncrement match {
       case n if n < capacity =>
-        factory()
+        Some(factory())
       case _ =>
         decrementLive; a
     }
   }
 
   def acquire(): Lease[A] =
-    new SimpleLease(createOr(items.take()))
+    new SimpleLease(createOr(Some(items.take())).get)
 
   def tryAcquire(): Option[Lease[A]] =
-    Option(createOr(items.poll())).map(new SimpleLease(_))
+    createOr(Option(items.poll())).map(new SimpleLease(_))
 
   def tryAcquire(atMost: Duration): Option[Lease[A]] =
-    Option(createOr(items.poll(atMost.toNanos, NANOSECONDS))).map(new SimpleLease(_))
+    createOr(Option(items.poll(atMost.toNanos, NANOSECONDS))).map(new SimpleLease(_))
 
   @tailrec final def drain() = {
     val i = Option(items.poll())
@@ -65,7 +65,7 @@ class SimplePool[A <: AnyRef](val capacity: Int, _factory: () => A, _reset: A =>
   }
 
   @tailrec final def fill() = {
-    val io = Option(createOr(null.asInstanceOf[A]))
+    val io = createOr(None)
     if (io.nonEmpty) {
       val i = io.get
       reset(i)
