@@ -1,11 +1,15 @@
 language: scala
 scala:
   - 2.11.7
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
 script:
   - sbt clean coverage test
 after_success:
-  - git config --global user.name "Travis CI"
-  - git config --global user.email "bot@travis-ci.org"
+  - git config --global user.name "travisbot"
+  - git config --global user.email "support@travis-ci.org"
   - git config --global push.default simple
   - sbt coveralls ghpages-push-site
 cache:
