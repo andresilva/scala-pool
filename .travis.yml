@@ -1,5 +1,9 @@
 language: scala
 scala:
   - 2.11.7
-script: "sbt clean coverage test"
-after_success: "sbt coveralls ghpages-push-site"
+script:
+  - sbt clean coverage test
+after_success:
+  - git config --global user.name "Travis CI"
+  - git config --global user.email "bot@travis-ci.org"
+  - sbt coveralls ghpages-push-site
