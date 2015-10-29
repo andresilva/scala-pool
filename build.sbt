@@ -24,3 +24,5 @@ scalacOptions ++= Seq(
   "-language:implicitConversions")
 
 scalacOptions in Test ++= Seq("-Yrangepos")
+
+fork := true

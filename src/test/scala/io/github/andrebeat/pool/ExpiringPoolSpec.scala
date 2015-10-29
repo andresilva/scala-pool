@@ -7,5 +7,5 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
     capacity: Int,
     factory: () => A,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }) = ExpiringPool(capacity, Duration.Inf, factory, reset, dispose)
+    dispose: A => Unit = { _: A => () }) = ExpiringPool(capacity, 42.hours, factory, reset, dispose)
 }
