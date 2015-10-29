@@ -26,3 +26,8 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 fork := true
+
+site.settings
+site.includeScaladoc()
+ghpages.settings
+git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andrebeat/scala-pool.git"""
