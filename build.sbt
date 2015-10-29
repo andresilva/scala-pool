@@ -27,8 +27,14 @@ scalacOptions in Test ++= Seq("-Yrangepos")
 
 fork := true
 
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+import scalariform.formatter.preferences._
+
+ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
+
 site.settings
 site.includeScaladoc()
 ghpages.settings
 git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andrebeat/scala-pool.git"""
-
