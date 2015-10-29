@@ -2,6 +2,7 @@ language: scala
 scala:
   - 2.11.7
 jdk:
+  - oraclejdk8
   - oraclejdk7
   - openjdk7
 script:
@@ -11,11 +12,12 @@ after_success:
   - git config --global user.email "support@travis-ci.org"
   - git config --global push.default simple
   - sbt coveralls
-  - if [[ ! -z $COMMAND ]]; then $COMMAND; fi
-matrix:
-  include:
-    - env: COMMAND="sbt ghpages-push-site"
-      jdk: oraclejdk8
+  -
+  >
+    echo $TRAVIS_BRANCH; echo $TRAVIS_PULL_REQUEST; echo $TRAVIS_JDK_VERSION;
+    if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_JDK_VERSION == 'oraclejdk8' ]]; then
+      sbt ghpages-push-site
+    fi
 cache:
   directories:
     - $HOME/.ivy2/cache
