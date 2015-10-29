@@ -1,10 +1,10 @@
 package io.github.andrebeat.pool
 
-import java.util.{Timer, TimerTask}
+import java.util.{ Timer, TimerTask }
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
-import scala.concurrent.duration.{Duration, NANOSECONDS}
+import scala.concurrent.duration.{ Duration, NANOSECONDS }
 
 // TODO: Generalize SimplePool and ExpiringPool implementation:
 // - Lease constructor must be abstract
@@ -22,7 +22,8 @@ class ExpiringPool[A <: AnyRef](
   val maxIdleTime: Duration,
   _factory: () => A,
   _reset: A => Unit,
-  _dispose: A => Unit)
+  _dispose: A => Unit
+)
     extends Pool[A] {
   implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
 
@@ -58,8 +59,7 @@ class ExpiringPool[A <: AnyRef](
 
     if (items.offer(new Item(a, timerTask))) {
       timer.schedule(timerTask, maxIdleTime.toMillis)
-    }
-    else {
+    } else {
       destroy(a)
     }
   }
@@ -127,6 +127,7 @@ object ExpiringPool {
     maxIdleTime: Duration,
     factory: () => A,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }) =
+    dispose: A => Unit = { _: A => () }
+  ) =
     new ExpiringPool(capacity, maxIdleTime, factory, reset, dispose)
 }

@@ -3,7 +3,7 @@ package io.github.andrebeat.pool
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
-import scala.concurrent.duration.{Duration, NANOSECONDS}
+import scala.concurrent.duration.{ Duration, NANOSECONDS }
 
 /**
   * A simple object pool that creates the objects as needed until a maximum number of objects has
@@ -87,6 +87,7 @@ object SimplePool {
     capacity: Int,
     factory: () => A,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }) =
+    dispose: A => Unit = { _: A => () }
+  ) =
     new SimplePool(capacity, factory, reset, dispose)
 }
