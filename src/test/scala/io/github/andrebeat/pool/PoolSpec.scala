@@ -112,10 +112,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
 
       p.acquire()
       p.acquire()
-
-      Future {
-        val l = p.acquire()
-      }
+      p.acquire()
 
       Await.result(Future[Option[Lease[_]]] {
         p.tryAcquire(100.millis)
