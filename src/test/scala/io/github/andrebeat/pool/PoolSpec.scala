@@ -2,9 +2,8 @@ package io.github.andrebeat.pool
 
 import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
-import scala.concurrent.Await
+import scala.concurrent.{ Await, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
 
@@ -103,7 +102,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
         l1.release()
       }
 
-      Await.result(f, 150.millis) must beSome
+      Await.result(f, 300.millis) must beSome
     }
 
     "only block until a given duration when trying to acquire an object" >> {
@@ -116,7 +115,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
 
       Await.result(Future[Option[Lease[_]]] {
         p.tryAcquire(100.millis)
-      }, 150.millis) must beNone
+      }, 300.millis) must beNone
     }
 
     "call the reset method when adding/releasing an object to the pool" >> {
