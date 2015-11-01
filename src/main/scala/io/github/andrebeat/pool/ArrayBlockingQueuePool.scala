@@ -6,10 +6,11 @@ import scala.annotation.tailrec
 import scala.concurrent.duration.{ Duration, NANOSECONDS }
 
 /**
-  * A generic object pooling implementation based on `java.util.concurrent.ArrayBlockingQueue`.
+  * A generic object pooling implementation based on [[java.util.concurrent.ArrayBlockingQueue]].
   * This implementation relies on the thread-safety and blocking/non-blocking mechanisms of the
   * underlying data structure to implement the pool interface. Furthermore, for synchronization and
-  * tracking of live instances an `AtomicInteger` is used. No locks are used in this implementation.
+  * tracking of live instances an [[java.util.concurrent.atomic.AtomicInteger]] is used. No locks
+  * are used in this implementation.
   *
   * The type of items inserted in the queue must implement the `Item` interface. This class defines
   * methods for consuming the item (e.g. disposing of any resources associated with it) and a method

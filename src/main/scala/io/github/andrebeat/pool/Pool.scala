@@ -4,8 +4,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import scala.concurrent.duration.Duration
 
 /**
-  * A lease on an object requested from a `Pool` allowing the object to be accessed and then released
-  * back to the pool when no longer needed.
+  * A lease on an object requested from a [[io.github.andrebeat.pool.Pool]] allowing the object to
+  * be accessed and then released back to the pool when no longer needed.
   */
 trait Lease[A <: AnyRef] {
   private[this] val dirty = new AtomicBoolean(false)
@@ -14,8 +14,8 @@ trait Lease[A <: AnyRef] {
   protected[this] def handleInvalidate(): Unit
 
   /**
-    * Returns the object being leased by the pool. Throws an `IllegalStateException` if the lease
-    * has already been released or invalidated.
+    * Returns the object being leased by the pool. Throws an [[java.lang.IllegalStateException]]
+    * if the lease has already been released or invalidated.
     * @return the object being leased by the pool.
     */
   def get(): A =
@@ -54,9 +54,10 @@ trait Pool[A <: AnyRef] {
 
   /**
     * Resets the internal state of object. This method is called on an object whenever it is
-    * added/released back to the pool. For example, if pooling an object like a `ByteBuffer` it
-    * might make sense to call its `reset()` method whenever the object is released to the pool, so
-    * that its future users do not observe the internal state introduced by previous ones.
+    * added/released back to the pool. For example, if pooling an object like a
+    * [[java.nio.ByteBuffer]] it might make sense to call its `reset()` method whenever the object
+    * is released to the pool, so that its future users do not observe the internal state introduced
+    * by previous ones.
     */
   protected def reset(a: A): Unit
 
@@ -81,7 +82,7 @@ trait Pool[A <: AnyRef] {
   def tryAcquire(atMost: Duration): Option[Lease[A]]
 
   /**
-    * Returns the `ReferenceType` of the objects stored in the pool.
+    * Returns the [[io.github.andrebeat.pool.ReferenceType]] of the objects stored in the pool.
     */
   def referenceType: ReferenceType
 
@@ -105,8 +106,9 @@ trait Pool[A <: AnyRef] {
   /**
     * Returns the number of objects in the pool.
     *
-    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
-    * GC-based eviction is checked only when trying to acquire an object.
+    * The value returned by this method is only accurate when the `referenceType` is
+    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
+    * acquire an object.
     *
     * @return the number of objects in the pool.
     */
@@ -122,8 +124,9 @@ trait Pool[A <: AnyRef] {
     * Returns the number of live objects, i.e. the number of currently pooled objects plus leased
     * objects.
     *
-    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
-    * GC-based eviction is checked only when trying to acquire an object.
+    * The value returned by this method is only accurate when the `referenceType` is
+    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
+    * acquire an object.
     *
     * @return the number of live objects.
     */
@@ -132,8 +135,9 @@ trait Pool[A <: AnyRef] {
   /**
     * Returns the number of leased objects.
     *
-    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
-    * GC-based eviction is checked only when trying to acquire an object.
+    * The value returned by this method is only accurate when the `referenceType` is
+    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
+    * acquire an object.
     *
     * @return the number of leased objects.
     */
@@ -141,22 +145,24 @@ trait Pool[A <: AnyRef] {
 }
 
 /**
-  * Object containing factory methods for `Pool`.
+  * Object containing factory methods for [[io.github.andrebeat.pool.Pool]].
   */
 object Pool {
   /**
-    * Creates a new `ExpiringPool` or `SimplePool` instance depending on whether a non-zero and
-    * finite `maxIdleTime` is set or not.
+    * Creates a new [[io.github.andrebeat.pool.ExpiringPool]] or
+    * [[io.github.andrebeat.pool.SimplePool]] instance depending on whether a non-zero and finite
+    * `maxIdleTime` is set or not.
     *
     * @param capacity the maximum capacity of the pool
     * @param factory the function used to create new objects in the pool
-    * @param referenceType the reference type of objects in the `Pool`. `Soft` and `Weak` reference
-    *        are eligible for collection by the GC
+    * @param referenceType the reference type of objects in the [[io.github.andrebeat.pool.Pool]].
+    *                      [[io.github.andrebeat.pool.Soft]] and [[io.github.andrebeat.pool.Weak]]
+    *                      reference are eligible for collection by the GC
     * @param maxIdleTime the maximum amount of the time that objects are allowed to
     *        idle in the pool before being evicted
     * @param reset the function used to reset objects in the pool (called when leasing an object from the pool)
     * @param dispose the function used to destroy an object from the pool
-    * @return a new instance of `Pool`.
+    * @return a new instance of [[io.github.andrebeat.pool.Pool]].
     */
   def apply[A <: AnyRef](
     capacity: Int,

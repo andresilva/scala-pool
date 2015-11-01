@@ -3,13 +3,14 @@ package io.github.andrebeat.pool
 /**
   * A trait to abstract over two distinct implementations of a long adder.
   *
-  * The JDK8 introduces a new class `LongAdder` which when only using the `sum()` and `increment()`
-  * methods is guaranteed to be sequentially consistent and a lot faster than an `AtomicLong`.
+  * The JDK8 introduces a new class [[java.util.concurrent.atomic.LongAdder]] which when only using
+  * the `sum()` and `increment()` methods is guaranteed to be sequentially consistent and a lot
+  * faster than an [[java.util.concurrent.atomic.AtomicLong]].
   * (http://concurrencyfreaks.blogspot.se/2013/09/longadder-is-not-sequentially-consistent.html).
-  * On JDK7 an `AtomicLong` is used to implement this trait.
+  * On JDK7 an [[java.util.concurrent.atomic.AtomicLong]] is used to implement this trait.
   *
-  * The implementations of the `Adder`s are in different files to allow conditional compilation on
-  * JDK7 and JDK8.
+  * The implementations of the [[io.github.andrebeat.pool.Adder]]s are in different files to allow
+  * conditional compilation on JDK7 and JDK8.
   */
 private[pool] trait Adder {
   def increment(): Unit

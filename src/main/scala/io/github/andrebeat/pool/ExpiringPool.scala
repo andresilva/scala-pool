@@ -55,7 +55,7 @@ class ExpiringPool[A <: AnyRef](
 }
 
 /**
-  * Object containing factory methods for `ExpiringPool`.
+  * Object containing factory methods for [[io.github.andrebeat.pool.ExpiringPool]].
   */
 object ExpiringPool {
   private val count = new AtomicInteger(0)

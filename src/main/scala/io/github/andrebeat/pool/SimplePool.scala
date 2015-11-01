@@ -27,7 +27,7 @@ class SimplePool[A <: AnyRef](
 }
 
 /**
-  * Object containing factory methods for `SimplePool`.
+  * Object containing factory methods for [[io.github.andrebeat.pool.SimplePool]].
   */
 object SimplePool {
   def apply[A <: AnyRef](

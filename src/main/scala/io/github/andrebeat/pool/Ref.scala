@@ -39,11 +39,11 @@ object ReferenceType {
     */
   case object Strong extends ReferenceType
   /**
-    * Soft references (`java.lang.ref.SoftReference`).
+    * Soft references ([[java.lang.ref.SoftReference]]).
     */
   case object Soft extends ReferenceType
   /**
-    * Weak references (`java.lang.ref.WeakReference`).
+    * Weak references ([[java.lang.ref.WeakReference]]).
     */
   case object Weak extends ReferenceType
 }
