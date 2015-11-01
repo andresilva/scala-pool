@@ -167,10 +167,13 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
         p.fill()
         val l = p.acquire()
 
-        val items =
+        val itemsField =
           p.getClass
-            .getDeclaredField("io$github$andrebeat$pool$" + ct.runtimeClass.getSimpleName + "$$items")
-            .get(p).asInstanceOf[BlockingQueue[Object]]
+            .getSuperclass
+            .getDeclaredField("items")
+        itemsField.setAccessible(true)
+
+        val items = itemsField.get(p).asInstanceOf[BlockingQueue[Object]]
 
         items.offer(new Object)
 

@@ -9,9 +9,9 @@ import scala.concurrent.duration.Duration
   */
 trait Lease[A <: AnyRef] {
   private[this] val dirty = new AtomicBoolean(false)
-  protected def a: A
-  protected def handleRelease(): Unit
-  protected def handleInvalidate(): Unit
+  protected[this] def a: A
+  protected[this] def handleRelease(): Unit
+  protected[this] def handleInvalidate(): Unit
 
   /**
     * Returns the object being leased by the pool. Throws an `IllegalStateException` if the lease

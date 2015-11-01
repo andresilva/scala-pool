@@ -18,7 +18,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 3
       p.live() === 3
 
-      Thread.sleep(100)
+      Thread.sleep(200)
 
       p.size() === 0
       p.live() === 0
@@ -33,7 +33,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 2
       p.live() === 3
 
-      Thread.sleep(100)
+      Thread.sleep(200)
 
       p.size() === 0
       p.live() === 1
@@ -43,7 +43,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 1
       p.live() === 1
 
-      Thread.sleep(100)
+      Thread.sleep(200)
 
       p.size() === 0
       p.live() === 0
