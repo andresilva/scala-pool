@@ -221,7 +221,26 @@ reaches the pool capacity.</p>
       </a>
     </span>
       <p class="shortcomment cmt">Returns the number of live objects, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of live objects, i.e. the number of currently pooled objects plus leased
-objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl></div>
+objects.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.Pool#referenceType" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="referenceType:io.github.andrebeat.pool.ReferenceType"></a>
+      <a id="referenceType:ReferenceType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">referenceType</span><span class="result">: <a href="ReferenceType.html" class="extype" name="io.github.andrebeat.pool.ReferenceType">ReferenceType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool@referenceType:io.github.andrebeat.pool.ReferenceType" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the <code>ReferenceType</code> of the objects stored in the pool.</p>
     </li><li name="io.github.andrebeat.pool.Pool#reset" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="reset(a:A):Unit"></a>
       <a id="reset(A):Unit"></a>
@@ -259,7 +278,9 @@ that its future users do not observe the internal state introduced by previous o
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.Pool#tryAcquire" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="tryAcquire(atMost:scala.concurrent.duration.Duration):Option[io.github.andrebeat.pool.Lease[A]]"></a>
       <a id="tryAcquire(Duration):Option[Lease[A]]"></a>
@@ -514,7 +535,9 @@ that its future users do not observe the internal state introduced by previous o
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the number of leased objects.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of leased objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of leased objects.</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns the number of leased objects.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of leased objects.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of leased objects.</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

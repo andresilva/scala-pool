@@ -52,10 +52,12 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A generic object pooling implementation based on <code>java.util.concurrent.ArrayBlockingQueue</code>.
 This implementation relies on the thread-safety and blocking/non-blocking mechanisms of the
 underlying data structure to implement the pool interface. Furthermore, for synchronization and
-tracking of live instances an <code>AtomicInteger</code> is used. No locks are used in this implementation.</p><p>The type of items inserted in the queue is generic and implementations of this class must
-provide methods to create and acquire these items. Additionally, there's an &quot;hook&quot; that's called
-whenever an item is succesfully inserted into the queue.
-</p></div><div class="toggleContainer block">
+tracking of live instances an <code>AtomicInteger</code> is used. No locks are used in this implementation.</p><p>The type of items inserted in the queue must implement the <code>Item</code> interface. This class defines
+methods for consuming the item (e.g. disposing of any resources associated with it) and a method
+that's called whenever an item is successfully inserted into the queue (useful for triggering a
+side-effect). This class is also responsible for dealing with the reference type that's wrapping
+the value (i.e. ensure calling its destructor if the value is defined).
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>]</dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
@@ -98,7 +100,7 @@ whenever an item is succesfully inserted into the queue.
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(capacity:Int):io.github.andrebeat.pool.ArrayBlockingQueuePool[A]"></a>
+      <a id="&lt;init&gt;(capacity:Int,referenceType:io.github.andrebeat.pool.ReferenceType):io.github.andrebeat.pool.ArrayBlockingQueuePool[A]"></a>
       <a id="&lt;init&gt;:ArrayBlockingQueuePool[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -106,10 +108,10 @@ whenever an item is succesfully inserted into the queue.
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">ArrayBlockingQueuePool</span><span class="params">(<span name="capacity">capacity: <span class="extype" name="scala.Int">Int</span></span>)</span>
+        <span class="name">ArrayBlockingQueuePool</span><span class="params">(<span name="capacity">capacity: <span class="extype" name="scala.Int">Int</span></span>, <span name="referenceType">referenceType: <a href="ReferenceType.html" class="extype" name="io.github.andrebeat.pool.ReferenceType">ReferenceType</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@&lt;init&gt;(capacity:Int):io.github.andrebeat.pool.ArrayBlockingQueuePool[A]" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@&lt;init&gt;(capacity:Int,referenceType:io.github.andrebeat.pool.ReferenceType):io.github.andrebeat.pool.ArrayBlockingQueuePool[A]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -119,63 +121,29 @@ whenever an item is succesfully inserted into the queue.
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="Item"></a>
+              <ol><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="ItemextendsAnyRef"></a>
       <a id="Item:Item"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
-        <span class="kind">type</span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Item</span>
+        <a href="ArrayBlockingQueuePool$Item.html"><span class="name">Item</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@Item" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@ItemextendsAnyRef" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li></ol>
             </div>
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#acquireItem" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="acquireItem(i:ArrayBlockingQueuePool.this.Item):A"></a>
-      <a id="acquireItem(Item):A"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">acquireItem</span><span class="params">(<span name="i">i: <a href="#Item" class="extmbr" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@acquireItem(i:ArrayBlockingQueuePool.this.Item):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#createItem" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="createItem(a:A):ArrayBlockingQueuePool.this.Item"></a>
-      <a id="createItem(A):Item"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">createItem</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span></span>)</span><span class="result">: <a href="#Item" class="extmbr" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@createItem(a:A):ArrayBlockingQueuePool.this.Item" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#dispose" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+              <ol><li name="io.github.andrebeat.pool.Pool#dispose" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="dispose(a:A):Unit"></a>
       <a id="dispose(A):Unit"></a>
       <h4 class="signature">
@@ -212,19 +180,19 @@ evicted (i.e. permanently removed) from the pool.
       </a>
     </span>
       <p class="shortcomment cmt">Factory method for creating new objects.</p><div class="fullcomment"><div class="comment cmt"><p>Factory method for creating new objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new object.</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#offerSuccess" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="offerSuccess(i:ArrayBlockingQueuePool.this.Item):Unit"></a>
-      <a id="offerSuccess(Item):Unit"></a>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#newItem" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="newItem(a:A):ArrayBlockingQueuePool.this.Item"></a>
+      <a id="newItem(A):Item"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">offerSuccess</span><span class="params">(<span name="i">i: <a href="#Item" class="extmbr" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">newItem</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span></span>)</span><span class="result">: <a href="ArrayBlockingQueuePool$Item.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@offerSuccess(i:ArrayBlockingQueuePool.this.Item):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@newItem(a:A):ArrayBlockingQueuePool.this.Item" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -561,7 +529,7 @@ reaches the pool capacity.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">items</span><span class="result">: <span class="extype" name="java.util.concurrent.ArrayBlockingQueue">ArrayBlockingQueue</span>[<a href="#Item" class="extmbr" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a>]</span>
+        <span class="name">items</span><span class="result">: <span class="extype" name="java.util.concurrent.ArrayBlockingQueue">ArrayBlockingQueue</span>[<a href="ArrayBlockingQueuePool$Item.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.Item">Item</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@items:java.util.concurrent.ArrayBlockingQueue[ArrayBlockingQueuePool.this.Item]" title="Permalink" target="_top">
@@ -585,7 +553,9 @@ reaches the pool capacity.
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the number of leased objects.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of leased objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of leased objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns the number of leased objects.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of leased objects.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of leased objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#live" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="live():Int"></a>
       <a id="live():Int"></a>
@@ -603,7 +573,9 @@ reaches the pool capacity.
       </a>
     </span>
       <p class="shortcomment cmt">Returns the number of live objects, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of live objects, i.e. the number of currently pooled objects plus leased
-objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+objects.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -655,6 +627,24 @@ objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#referenceType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="referenceType:io.github.andrebeat.pool.ReferenceType"></a>
+      <a id="referenceType:ReferenceType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">referenceType</span><span class="result">: <a href="ReferenceType.html" class="extype" name="io.github.andrebeat.pool.ReferenceType">ReferenceType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@referenceType:io.github.andrebeat.pool.ReferenceType" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the <code>ReferenceType</code> of the objects stored in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the <code>ReferenceType</code> of the objects stored in the pool.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="size():Int"></a>
       <a id="size():Int"></a>
@@ -671,7 +661,9 @@ objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p><p>The value returned by this method is only accurate when the <code>referenceType</code> is <code>Strong</code>, since
+GC-based eviction is checked only when trying to acquire an object.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
