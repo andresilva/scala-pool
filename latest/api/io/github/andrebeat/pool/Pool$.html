@@ -170,8 +170,9 @@
 <a href="SimplePool.html" class="extype" name="io.github.andrebeat.pool.SimplePool">io.github.andrebeat.pool.SimplePool</a> instance depending on whether a non-zero and finite
 <code>maxIdleTime</code> is set or not.
 </p></div><dl class="paramcmts block"><dt class="param">capacity</dt><dd class="cmt"><p>the maximum capacity of the pool</p></dd><dt class="param">factory</dt><dd class="cmt"><p>the function used to create new objects in the pool</p></dd><dt class="param">referenceType</dt><dd class="cmt"><p>the reference type of objects in the <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a>.
-                     <span class="extype" name="io.github.andrebeat.pool.Soft">io.github.andrebeat.pool.Soft</span> and <span class="extype" name="io.github.andrebeat.pool.Weak">io.github.andrebeat.pool.Weak</span>
-                     reference are eligible for collection by the GC</p></dd><dt class="param">maxIdleTime</dt><dd class="cmt"><p>the maximum amount of the time that objects are allowed to
+                     <a href="ReferenceType$$Soft$.html" class="extype" name="io.github.andrebeat.pool.ReferenceType.Soft">io.github.andrebeat.pool.ReferenceType.Soft</a> and
+                     <a href="ReferenceType$$Weak$.html" class="extype" name="io.github.andrebeat.pool.ReferenceType.Weak">io.github.andrebeat.pool.ReferenceType.Weak</a> reference are eligible
+                     for collection by the GC</p></dd><dt class="param">maxIdleTime</dt><dd class="cmt"><p>the maximum amount of the time that objects are allowed to
        idle in the pool before being evicted</p></dd><dt class="param">reset</dt><dd class="cmt"><p>the function used to reset objects in the pool (called when leasing an object from the pool)</p></dd><dt class="param">dispose</dt><dd class="cmt"><p>the function used to destroy an object from the pool</p></dd><dt>returns</dt><dd class="cmt"><p>a new instance of <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a>.</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
