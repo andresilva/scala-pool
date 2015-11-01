@@ -107,8 +107,8 @@ trait Pool[A <: AnyRef] {
     * Returns the number of objects in the pool.
     *
     * The value returned by this method is only accurate when the `referenceType` is
-    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
-    * acquire an object.
+    * [[io.github.andrebeat.pool.ReferenceType.Strong]], since GC-based eviction is checked only
+    * when trying to acquire an object.
     *
     * @return the number of objects in the pool.
     */
@@ -125,8 +125,8 @@ trait Pool[A <: AnyRef] {
     * objects.
     *
     * The value returned by this method is only accurate when the `referenceType` is
-    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
-    * acquire an object.
+    * [[io.github.andrebeat.pool.ReferenceType.Strong]], since GC-based eviction is checked only
+    * when trying to acquire an object.
     *
     * @return the number of live objects.
     */
@@ -136,8 +136,8 @@ trait Pool[A <: AnyRef] {
     * Returns the number of leased objects.
     *
     * The value returned by this method is only accurate when the `referenceType` is
-    * [[io.github.andrebeat.pool.Strong]], since GC-based eviction is checked only when trying to
-    * acquire an object.
+    * [[io.github.andrebeat.pool.ReferenceType.Strong]], since GC-based eviction is checked only
+    * when trying to acquire an object.
     *
     * @return the number of leased objects.
     */
@@ -156,8 +156,9 @@ object Pool {
     * @param capacity the maximum capacity of the pool
     * @param factory the function used to create new objects in the pool
     * @param referenceType the reference type of objects in the [[io.github.andrebeat.pool.Pool]].
-    *                      [[io.github.andrebeat.pool.Soft]] and [[io.github.andrebeat.pool.Weak]]
-    *                      reference are eligible for collection by the GC
+    *                      [[io.github.andrebeat.pool.ReferenceType.Soft]] and
+    *                      [[io.github.andrebeat.pool.ReferenceType.Weak]] reference are eligible
+    *                      for collection by the GC
     * @param maxIdleTime the maximum amount of the time that objects are allowed to
     *        idle in the pool before being evicted
     * @param reset the function used to reset objects in the pool (called when leasing an object from the pool)

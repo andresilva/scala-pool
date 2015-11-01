@@ -17,7 +17,7 @@
 [![Coverage](https://img.shields.io/coveralls/andrebeat/scala-pool/master.svg)](https://coveralls.io/github/andrebeat/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE)
 
-[Scaladoc](https://andrebeat.github.io/scala-pool/latest/api)
+[Scaladoc](https://andrebeat.github.io/scala-pool/latest/api/index.html#io.github.andrebeat.pool.package)
 
 ## Installation
 
