@@ -1,10 +1,9 @@
 package io.github.andrebeat.pool
 
 import java.util.{ Timer, TimerTask }
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.atomic.{ AtomicInteger, LongAdder }
 import scala.annotation.tailrec
-import scala.concurrent.duration.{ Duration, NANOSECONDS }
+import scala.concurrent.duration.Duration
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
   * An object pool that creates the objects as needed until a maximum number of objects has been
@@ -38,11 +37,7 @@ class ExpiringPool[A <: AnyRef](
   }
 
   private[this] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
-
-  // Since we're only using the `sum()` and `increment()` methods, the `LongAdder` is guaranteed to
-  // be sequentially consistent (and faster than `AtomicLong`).
-  // http://concurrencyfreaks.blogspot.se/2013/09/longadder-is-not-sequentially-consistent.html
-  private[this] val adder = new LongAdder()
+  private[this] val adder = Adder()
 
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
@@ -50,7 +45,7 @@ class ExpiringPool[A <: AnyRef](
 
   @inline protected[this] def newItem(a: A) = {
     adder.increment()
-    val id = adder.sum()
+    val id = adder.count()
     val r = Ref(a, referenceType)
     new ExpiringItem(id, r, () => {
       val i = new ExpiringItem(id, r)

@@ -1,9 +1,6 @@
 package io.github.andrebeat.pool
 
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
-import scala.concurrent.duration.{ Duration, NANOSECONDS }
 
 /**
   * A simple object pool that creates the objects as needed until a maximum number of objects has
