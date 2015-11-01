@@ -1,10 +1,9 @@
 package io.github.andrebeat.pool
 
 import java.util.{ Timer, TimerTask }
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
-import scala.concurrent.duration.{ Duration, NANOSECONDS }
+import scala.concurrent.duration.Duration
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
   * An object pool that creates the objects as needed until a maximum number of objects has been
@@ -13,35 +12,46 @@ import scala.concurrent.duration.{ Duration, NANOSECONDS }
 class ExpiringPool[A <: AnyRef](
     capacity: Int,
     val maxIdleTime: Duration,
+    referenceType: ReferenceType,
     _factory: () => A,
     _reset: A => Unit,
     _dispose: A => Unit
-) extends ArrayBlockingQueuePool[A](capacity) {
-  type Item = ExpiringItem
+) extends ArrayBlockingQueuePool[A](capacity, referenceType) {
 
   implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
 
-  protected class ExpiringItem(val a: A, val timerTask: TimerTask = () => {}) {
-    def acquire() = {
-      timerTask.cancel()
-      a
-    }
+  final protected class ExpiringItem(
+      val id: Long,
+      r: Ref[A],
+      val timerTask: TimerTask = () => {}
+  ) extends Item(r) {
+
+    def consume() = timerTask.cancel()
+
+    def offerSuccess() = timer.schedule(timerTask, maxIdleTime.toMillis)
 
     override def equals(that: Any) = that match {
-      case that: Item => this.a eq that.a
+      case that: ExpiringItem @unchecked => this.id == that.id
       case _ => false
     }
   }
 
   private[this] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
+  private[this] val adder = Adder()
 
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
   @inline protected[this] def reset(a: A) = _reset(a)
 
-  @inline protected[this] def acquireItem(a: Item) = a.acquire()
-  @inline protected[this] def createItem(a: A) = new Item(a, () => if (items.remove(new Item(a))) destroy(a))
-  @inline protected[this] def offerSuccess(i: Item) = timer.schedule(i.timerTask, maxIdleTime.toMillis)
+  @inline protected[this] def newItem(a: A) = {
+    adder.increment()
+    val id = adder.count()
+    val r = Ref(a, referenceType)
+    new ExpiringItem(id, r, () => {
+      val i = new ExpiringItem(id, r)
+      if (items.remove(i)) i.destroy()
+    })
+  }
 }
 
 /**
@@ -54,8 +64,9 @@ object ExpiringPool {
     capacity: Int,
     maxIdleTime: Duration,
     factory: () => A,
+    referenceType: ReferenceType = Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ) =
-    new ExpiringPool(capacity, maxIdleTime, factory, reset, dispose)
+    new ExpiringPool(capacity, maxIdleTime, referenceType, factory, reset, dispose)
 }

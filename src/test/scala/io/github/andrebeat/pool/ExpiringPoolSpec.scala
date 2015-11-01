@@ -6,9 +6,10 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
   def Pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
+    referenceType: ReferenceType = Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
-  ) = ExpiringPool(capacity, 42.hours, factory, reset, dispose)
+  ) = ExpiringPool(capacity, 42.hours, factory, referenceType, reset, dispose)
 
   "A ExpiringPool" should {
     "evict idle objects" >> {

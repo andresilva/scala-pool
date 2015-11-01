@@ -11,12 +11,51 @@ import scala.concurrent.duration.{ Duration, NANOSECONDS }
   * underlying data structure to implement the pool interface. Furthermore, for synchronization and
   * tracking of live instances an `AtomicInteger` is used. No locks are used in this implementation.
   *
-  * The type of items inserted in the queue is generic and implementations of this class must
-  * provide methods to create and acquire these items. Additionally, there's an "hook" that's called
-  * whenever an item is succesfully inserted into the queue.
+  * The type of items inserted in the queue must implement the `Item` interface. This class defines
+  * methods for consuming the item (e.g. disposing of any resources associated with it) and a method
+  * that's called whenever an item is successfully inserted into the queue (useful for triggering a
+  * side-effect). This class is also responsible for dealing with the reference type that's wrapping
+  * the value (i.e. ensure calling its destructor if the value is defined).
   */
-abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int) extends Pool[A] {
-  type Item
+abstract class ArrayBlockingQueuePool[A <: AnyRef](
+    val capacity: Int,
+    val referenceType: ReferenceType
+) extends Pool[A] { pool =>
+  abstract protected class Item(val r: Ref[A]) {
+    def isDefined(): Boolean = r.toOption().isDefined
+
+    /**
+      * This method should only be called from this class and it is guaranteed that the value is
+      * always defined before calling. Whenever this method is called it is considered that the
+      * value is consumed.
+      */
+    def get(): A = {
+      val a = r.toOption().get
+      consume()
+      a
+    }
+
+    /**
+      * This method is only called whenever using a Soft/Weak reference that was invalidated by the
+      * garbage collector. Whenever this method is called it is considered that the value is
+      * consumed.
+      */
+    def destroy(): Unit = {
+      r.toOption.map(pool.dispose)
+      decrementLive
+      consume()
+    }
+
+    /**
+      * This method is called whenever the item is successfully inserted in the queue.
+      */
+    def offerSuccess(): Unit
+
+    /**
+      * This method is called whenever the item is consumed from the queue.
+      */
+    def consume(): Unit
+  }
 
   protected[this] val items = new ArrayBlockingQueue[Item](capacity)
   private[this] val live = new AtomicInteger(0)
@@ -28,13 +67,11 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int) extends Po
     decrementLive
   }
 
-  protected[this] def acquireItem(i: Item): A
-  protected[this] def createItem(a: A): Item
-  protected[this] def offerSuccess(i: Item): Unit
+  protected[this] def newItem(a: A): Item
 
   @inline private[this] def tryOffer(a: A) = {
-    val item = createItem(a)
-    if (items.offer(item)) offerSuccess(item)
+    val item = newItem(a)
+    if (items.offer(item)) item.offerSuccess()
     else destroy(a)
   }
 
@@ -49,12 +86,20 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int) extends Po
     }
   }
 
-  @inline private[this] def createOr(a: => Option[Item]): Option[A] = {
+  @inline private[this] def createOr(io: => Option[Item]): Option[A] = {
     live.getAndIncrement match {
       case n if n < capacity =>
         Some(factory())
       case _ =>
-        decrementLive; a.map(acquireItem)
+        decrementLive;
+
+        io match {
+          case Some(i) if i.isDefined => Some(i.get)
+          case Some(i) =>
+            i.destroy()
+            createOr(io)
+          case _ => None
+        }
     }
   }
 
@@ -70,7 +115,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int) extends Po
   @tailrec final def drain() = {
     val i = Option(items.poll())
     if (i.nonEmpty) {
-      destroy(acquireItem(i.get))
+      i.get.destroy()
       drain()
     }
   }
