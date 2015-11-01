@@ -41,7 +41,8 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
       * consumed.
       */
     def destroy(): Unit = {
-      r.toOption.map(pool.destroy)
+      r.toOption.map(pool.dispose)
+      decrementLive
       consume()
     }
 
