@@ -81,6 +81,11 @@ trait Pool[A <: AnyRef] {
   def tryAcquire(atMost: Duration): Option[Lease[A]]
 
   /**
+    * Returns the `ReferenceType` of the objects stored in the pool.
+    */
+  def referenceType: ReferenceType
+
+  /**
     * Acquire a lease for an object blocking if none is available.
     * @return a lease for an object from this pool.
     */
@@ -99,6 +104,10 @@ trait Pool[A <: AnyRef] {
 
   /**
     * Returns the number of objects in the pool.
+    *
+    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
+    * GC-based eviction is checked only when trying to acquire an object.
+    *
     * @return the number of objects in the pool.
     */
   def size(): Int
@@ -112,12 +121,20 @@ trait Pool[A <: AnyRef] {
   /**
     * Returns the number of live objects, i.e. the number of currently pooled objects plus leased
     * objects.
+    *
+    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
+    * GC-based eviction is checked only when trying to acquire an object.
+    *
     * @return the number of live objects.
     */
   def live(): Int
 
   /**
     * Returns the number of leased objects.
+    *
+    * The value returned by this method is only accurate when the `referenceType` is `Strong`, since
+    * GC-based eviction is checked only when trying to acquire an object.
+    *
     * @return the number of leased objects.
     */
   def leased(): Int = live - size

@@ -6,5 +6,5 @@ class SimplePoolSpec extends PoolSpec[SimplePool] {
     factory: () => A,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
-  ) = SimplePool(capacity, factory, reset, dispose)
+  ) = SimplePool(capacity, factory, Strong, reset, dispose)
 }

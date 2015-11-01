@@ -13,22 +13,21 @@ import scala.concurrent.duration.{ Duration, NANOSECONDS }
 class ExpiringPool[A <: AnyRef](
     capacity: Int,
     val maxIdleTime: Duration,
+    referenceType: ReferenceType,
     _factory: () => A,
     _reset: A => Unit,
     _dispose: A => Unit
-) extends ArrayBlockingQueuePool[A](capacity) {
-  type Item = ExpiringItem
+) extends ArrayBlockingQueuePool[A](capacity, referenceType) {
 
   implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
 
-  protected class ExpiringItem(val a: A, val timerTask: TimerTask = () => {}) {
-    def acquire() = {
-      timerTask.cancel()
-      a
-    }
+  final protected class ExpiringItem(r: Ref[A], val timerTask: TimerTask = () => {}) extends Item(r) {
+    def consume() = timerTask.cancel()
+
+    def offerSuccess() = timer.schedule(timerTask, maxIdleTime.toMillis)
 
     override def equals(that: Any) = that match {
-      case that: Item => this.a eq that.a
+      case that: ExpiringItem @unchecked => this.r eq that.r
       case _ => false
     }
   }
@@ -39,9 +38,10 @@ class ExpiringPool[A <: AnyRef](
   @inline protected[this] def dispose(a: A) = _dispose(a)
   @inline protected[this] def reset(a: A) = _reset(a)
 
-  @inline protected[this] def acquireItem(a: Item) = a.acquire()
-  @inline protected[this] def createItem(a: A) = new Item(a, () => if (items.remove(new Item(a))) destroy(a))
-  @inline protected[this] def offerSuccess(i: Item) = timer.schedule(i.timerTask, maxIdleTime.toMillis)
+  @inline protected[this] def newItem(a: A) = {
+    val r = Ref(a, referenceType)
+    new ExpiringItem(r, () => if (items.remove(new ExpiringItem(r))) destroy(a))
+  }
 }
 
 /**
@@ -54,8 +54,9 @@ object ExpiringPool {
     capacity: Int,
     maxIdleTime: Duration,
     factory: () => A,
+    referenceType: ReferenceType = Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ) =
-    new ExpiringPool(capacity, maxIdleTime, factory, reset, dispose)
+    new ExpiringPool(capacity, maxIdleTime, referenceType, factory, reset, dispose)
 }
