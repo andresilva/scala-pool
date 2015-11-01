@@ -255,3 +255,17 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
     }
   }
 }
+
+class PoolObjectSpec extends Specification {
+  "The Pool companion object" should {
+    "create specific Pool instances based on the given criteria" >> {
+      Pool(1, () => new Object) must haveClass[SimplePool[Object]]
+      Pool(1, () => new Object, maxIdleTime = 10.seconds) must haveClass[ExpiringPool[Object]]
+
+      Pool(1, () => new Object, referenceType = ReferenceType.Weak).referenceType === ReferenceType.Weak
+      Pool(
+        1, () => new Object, referenceType = ReferenceType.Soft, maxIdleTime = 10.seconds
+      ).referenceType === ReferenceType.Soft
+    }
+  }
+}

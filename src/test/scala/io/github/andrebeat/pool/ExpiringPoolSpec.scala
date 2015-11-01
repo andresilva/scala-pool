@@ -9,11 +9,11 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
     referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
-  ) = ExpiringPool(capacity, 42.hours, factory, referenceType, reset, dispose)
+  ) = ExpiringPool(capacity, referenceType, 42.hours, factory, reset, dispose)
 
   "A ExpiringPool" should {
     "evict idle objects" >> {
-      val p = ExpiringPool(3, 50.millis, () => new Object)
+      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
       p.fill()
 
       p.size() === 3
@@ -26,7 +26,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
     }
 
     "when released, objects are counted as idle" >> {
-      val p = ExpiringPool(3, 50.millis, () => new Object)
+      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
       p.fill()
 
       val l = p.acquire()

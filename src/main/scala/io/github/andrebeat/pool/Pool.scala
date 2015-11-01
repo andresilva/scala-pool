@@ -139,3 +139,35 @@ trait Pool[A <: AnyRef] {
     */
   def leased(): Int = live - size
 }
+
+/**
+  * Object containing factory methods for `Pool`.
+  */
+object Pool {
+  /**
+    * Creates a new `ExpiringPool` or `SimplePool` instance depending on whether a non-zero and
+    * finite `maxIdleTime` is set or not.
+    *
+    * @param capacity the maximum capacity of the pool
+    * @param factory the function used to create new objects in the pool
+    * @param referenceType the reference type of objects in the `Pool`. `Soft` and `Weak` reference
+    *        are eligible for collection by the GC
+    * @param maxIdleTime the maximum amount of the time that objects are allowed to
+    *        idle in the pool before being evicted
+    * @param reset the function used to reset objects in the pool (called when leasing an object from the pool)
+    * @param dispose the function used to destroy an object from the pool
+    * @return a new instance of `Pool`.
+    */
+  def apply[A <: AnyRef](
+    capacity: Int,
+    factory: () => A,
+    referenceType: ReferenceType = ReferenceType.Strong,
+    maxIdleTime: Duration = Duration.Inf,
+    reset: A => Unit = { _: A => () },
+    dispose: A => Unit = { _: A => () }
+  ): Pool[A] =
+    if (maxIdleTime.isFinite())
+      ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose)
+    else
+      SimplePool(capacity, referenceType, factory, reset, dispose)
+}

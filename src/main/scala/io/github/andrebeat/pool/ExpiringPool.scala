@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger
   */
 class ExpiringPool[A <: AnyRef](
     capacity: Int,
-    val maxIdleTime: Duration,
     referenceType: ReferenceType,
+    val maxIdleTime: Duration,
     _factory: () => A,
     _reset: A => Unit,
     _dispose: A => Unit
@@ -62,11 +62,11 @@ object ExpiringPool {
 
   def apply[A <: AnyRef](
     capacity: Int,
+    referenceType: ReferenceType,
     maxIdleTime: Duration,
     factory: () => A,
-    referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ) =
-    new ExpiringPool(capacity, maxIdleTime, referenceType, factory, reset, dispose)
+    new ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose)
 }

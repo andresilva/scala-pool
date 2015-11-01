@@ -32,8 +32,8 @@ class SimplePool[A <: AnyRef](
 object SimplePool {
   def apply[A <: AnyRef](
     capacity: Int,
+    referenceType: ReferenceType,
     factory: () => A,
-    referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ) =

@@ -7,5 +7,5 @@ class SimplePoolSpec extends PoolSpec[SimplePool] {
     referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
-  ) = SimplePool(capacity, factory, referenceType, reset, dispose)
+  ) = SimplePool(capacity, referenceType, factory, reset, dispose)
 }
