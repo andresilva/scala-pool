@@ -12,7 +12,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
   def Pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
-    referenceType: ReferenceType = Strong,
+    referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ): P[A]
@@ -191,7 +191,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
 
     "handle GC-based eviction" >> {
       var i = 0
-      val p = Pool(3, () => { i += 1; new Object }, referenceType = Weak)
+      val p = Pool(3, () => { i += 1; new Object }, referenceType = ReferenceType.Weak)
 
       p.fill()
 

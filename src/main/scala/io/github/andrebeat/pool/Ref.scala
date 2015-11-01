@@ -19,6 +19,8 @@ final private[pool] class WeakRef[A <: AnyRef](val a: WeakReference[A]) extends 
 }
 
 private[pool] object Ref {
+  import ReferenceType._
+
   def apply[A <: AnyRef](a: A, t: ReferenceType) =
     t match {
       case Strong => new StrongRef(a)
@@ -31,6 +33,17 @@ private[pool] object Ref {
   * An enum-type for Java reference types.
   */
 sealed trait ReferenceType
-case object Strong extends ReferenceType
-case object Soft extends ReferenceType
-case object Weak extends ReferenceType
+object ReferenceType {
+  /**
+    * Strong references (normal references).
+    */
+  case object Strong extends ReferenceType
+  /**
+    * Soft references (`java.lang.ref.SoftReference`).
+    */
+  case object Soft extends ReferenceType
+  /**
+    * Weak references (`java.lang.ref.WeakReference`).
+    */
+  case object Weak extends ReferenceType
+}

@@ -64,7 +64,7 @@ object ExpiringPool {
     capacity: Int,
     maxIdleTime: Duration,
     factory: () => A,
-    referenceType: ReferenceType = Strong,
+    referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ) =
