@@ -82,10 +82,11 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A generic object pooling implementation based on <code>java.util.concurrent.ArrayBlockingQueue</code>.</p><div class="fullcomment"><div class="comment cmt"><p>A generic object pooling implementation based on <code>java.util.concurrent.ArrayBlockingQueue</code>.
+      <p class="shortcomment cmt">A generic object pooling implementation based on <span class="extype" name="java.util.concurrent.ArrayBlockingQueue">java.util.concurrent.ArrayBlockingQueue</span>.</p><div class="fullcomment"><div class="comment cmt"><p>A generic object pooling implementation based on <span class="extype" name="java.util.concurrent.ArrayBlockingQueue">java.util.concurrent.ArrayBlockingQueue</span>.
 This implementation relies on the thread-safety and blocking/non-blocking mechanisms of the
 underlying data structure to implement the pool interface. Furthermore, for synchronization and
-tracking of live instances an <code>AtomicInteger</code> is used. No locks are used in this implementation.</p><p>The type of items inserted in the queue must implement the <code>Item</code> interface. This class defines
+tracking of live instances an <span class="extype" name="java.util.concurrent.atomic.AtomicInteger">java.util.concurrent.atomic.AtomicInteger</span> is used. No locks
+are used in this implementation.</p><p>The type of items inserted in the queue must implement the <code>Item</code> interface. This class defines
 methods for consuming the item (e.g. disposing of any resources associated with it) and a method
 that's called whenever an item is successfully inserted into the queue (useful for triggering a
 side-effect). This class is also responsible for dealing with the reference type that's wrapping
@@ -125,8 +126,8 @@ created and automatically evicts objects after they have been idle for a given a
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A lease on an object requested from a <code>Pool</code> allowing the object to be accessed and then released
-back to the pool when no longer needed.</p>
+      <p class="shortcomment cmt">A lease on an object requested from a <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a> allowing the object to
+be accessed and then released back to the pool when no longer needed.</p>
     </li><li name="io.github.andrebeat.pool.Pool" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Pool[A&lt;:AnyRef]extendsAnyRef"></a>
       <a id="Pool[A&lt;:AnyRef]:Pool[A]"></a>
@@ -204,7 +205,7 @@ been created.</p>
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Object containing factory methods for <code>ExpiringPool</code>.</p>
+      <p class="shortcomment cmt">Object containing factory methods for <a href="ExpiringPool.html" class="extype" name="io.github.andrebeat.pool.ExpiringPool">io.github.andrebeat.pool.ExpiringPool</a>.</p>
     </li><li name="io.github.andrebeat.pool.Pool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Pool"></a>
       <a id="Pool:Pool"></a>
@@ -221,7 +222,7 @@ been created.</p>
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Object containing factory methods for <code>Pool</code>.</p>
+      <p class="shortcomment cmt">Object containing factory methods for <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a>.</p>
     </li><li name="io.github.andrebeat.pool.ReferenceType" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ReferenceType"></a>
       <a id="ReferenceType:ReferenceType"></a>
@@ -255,7 +256,7 @@ been created.</p>
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Object containing factory methods for <code>SimplePool</code>.</p>
+      <p class="shortcomment cmt">Object containing factory methods for <a href="SimplePool.html" class="extype" name="io.github.andrebeat.pool.SimplePool">io.github.andrebeat.pool.SimplePool</a>.</p>
     </li></ol>
             </div>
 
