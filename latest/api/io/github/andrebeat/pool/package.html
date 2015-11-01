@@ -66,8 +66,31 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="io.github.andrebeat.pool.ExpiringPool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ExpiringPool[A&lt;:AnyRef]extendsPool[A]"></a>
+              <ol><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="ArrayBlockingQueuePool[A&lt;:AnyRef]extendsPool[A]"></a>
+      <a id="ArrayBlockingQueuePool[A&lt;:AnyRef]:ArrayBlockingQueuePool[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ArrayBlockingQueuePool.html"><span class="name">ArrayBlockingQueuePool</span></a><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.package@ArrayBlockingQueuePool[A&lt;:AnyRef]extendsPool[A]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A generic object pooling implementation based on <code>java.util.concurrent.ArrayBlockingQueue</code>.</p><div class="fullcomment"><div class="comment cmt"><p>A generic object pooling implementation based on <code>java.util.concurrent.ArrayBlockingQueue</code>.
+This implementation relies on the thread-safety and blocking/non-blocking mechanisms of the
+underlying data structure to implement the pool interface. Furthermore, for synchronization and
+tracking of live instances an <code>AtomicInteger</code> is used. No locks are used in this implementation.</p><p>The type of items inserted in the queue is generic and implementations of this class must
+provide methods to create and acquire these items. Additionally, there's an &quot;hook&quot; that's called
+whenever an item is succesfully inserted into the queue.
+</p></div></div>
+    </li><li name="io.github.andrebeat.pool.ExpiringPool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ExpiringPool[A&lt;:AnyRef]extendsArrayBlockingQueuePool[A]"></a>
       <a id="ExpiringPool[A&lt;:AnyRef]:ExpiringPool[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -75,10 +98,10 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="ExpiringPool.html"><span class="name">ExpiringPool</span></a><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</span>
+        <a href="ExpiringPool.html"><span class="name">ExpiringPool</span></a><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.package@ExpiringPool[A&lt;:AnyRef]extendsPool[A]" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.package@ExpiringPool[A&lt;:AnyRef]extendsArrayBlockingQueuePool[A]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -122,7 +145,7 @@ back to the pool when no longer needed.</p>
 thread-safe.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of object to pool</p></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.SimplePool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="SimplePool[A&lt;:AnyRef]extendsPool[A]"></a>
+      <a id="SimplePool[A&lt;:AnyRef]extendsArrayBlockingQueuePool[A]"></a>
       <a id="SimplePool[A&lt;:AnyRef]:SimplePool[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -130,10 +153,10 @@ thread-safe.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="SimplePool.html"><span class="name">SimplePool</span></a><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.SimplePool.A">A</span>]</span>
+        <a href="SimplePool.html"><span class="name">SimplePool</span></a><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.SimplePool.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.package@SimplePool[A&lt;:AnyRef]extendsPool[A]" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.package@SimplePool[A&lt;:AnyRef]extendsArrayBlockingQueuePool[A]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

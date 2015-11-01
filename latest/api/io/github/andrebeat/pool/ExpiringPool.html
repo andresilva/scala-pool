@@ -47,7 +47,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ExpiringPool</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</span>
+        <span class="name">ExpiringPool</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</span>
       </span>
       </h4>
       
@@ -55,7 +55,7 @@
 created and automatically evicts objects after they have been idle for a given amount of time.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>], <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -73,7 +73,7 @@ created and automatically evicts objects after they have been idle for a given a
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="io.github.andrebeat.pool.ExpiringPool"><span>ExpiringPool</span></li><li class="in" name="io.github.andrebeat.pool.Pool"><span>Pool</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="io.github.andrebeat.pool.ExpiringPool"><span>ExpiringPool</span></li><li class="in" name="io.github.andrebeat.pool.ArrayBlockingQueuePool"><span>ArrayBlockingQueuePool</span></li><li class="in" name="io.github.andrebeat.pool.Pool"><span>Pool</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -112,7 +112,44 @@ created and automatically evicts objects after they have been idle for a given a
     </li></ol>
             </div>
 
-        
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.github.andrebeat.pool.ExpiringPool.ExpiringItem" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ExpiringItemextendsAnyRef"></a>
+      <a id="ExpiringItem:ExpiringItem"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ExpiringPool$ExpiringItem.html"><span class="name">ExpiringItem</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@ExpiringItemextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ExpiringPool.Item" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Item=ExpiringPool.this.ExpiringItem"></a>
+      <a id="Item:Item"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Item</span><span class="result"> = <a href="ExpiringPool$ExpiringItem.html" class="extype" name="io.github.andrebeat.pool.ExpiringPool.ExpiringItem">ExpiringItem</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@Item=ExpiringPool.this.ExpiringItem" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -169,7 +206,7 @@ created and automatically evicts objects after they have been idle for a given a
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#acquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#acquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="acquire():io.github.andrebeat.pool.Lease[A]"></a>
       <a id="acquire():Lease[A]"></a>
       <h4 class="signature">
@@ -185,7 +222,27 @@ created and automatically evicts objects after they have been idle for a given a
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Acquire a lease for an object blocking if none is available.</p><div class="fullcomment"><div class="comment cmt"><p>Acquire a lease for an object blocking if none is available.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Acquire a lease for an object blocking if none is available.</p><div class="fullcomment"><div class="comment cmt"><p>Acquire a lease for an object blocking if none is available.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ExpiringPool#acquireItem" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="acquireItem(a:ExpiringPool.this.Item):A"></a>
+      <a id="acquireItem(Item):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">acquireItem</span><span class="params">(<span name="a">a: <a href="#Item=ExpiringPool.this.ExpiringItem" class="extmbr" name="io.github.andrebeat.pool.ExpiringPool.Item">Item</a></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@acquireItem(a:ExpiringPool.this.Item):A" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -203,7 +260,7 @@ created and automatically evicts objects after they have been idle for a given a
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#capacity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#capacity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="capacity:Int"></a>
       <a id="capacity:Int"></a>
       <h4 class="signature">
@@ -219,7 +276,7 @@ created and automatically evicts objects after they have been idle for a given a
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the capacity of the pool, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the capacity of the pool, i.e. the maximum number of objects the pool can hold.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the capacity of the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns the capacity of the pool, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the capacity of the pool, i.e. the maximum number of objects the pool can hold.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the capacity of the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -243,6 +300,46 @@ created and automatically evicts objects after they have been idle for a given a
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ExpiringPool#createItem" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="createItem(a:A):ExpiringPool.this.ExpiringItem"></a>
+      <a id="createItem(A):ExpiringItem"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createItem</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span></span>)</span><span class="result">: <a href="ExpiringPool$ExpiringItem.html" class="extype" name="io.github.andrebeat.pool.ExpiringPool.ExpiringItem">ExpiringItem</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@createItem(a:A):ExpiringPool.this.ExpiringItem" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#destroy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="destroy(a:A):Unit"></a>
+      <a id="destroy(A):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">destroy</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@destroy(a:A):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ExpiringPool#dispose" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dispose(a:A):Unit"></a>
       <a id="dispose(A):Unit"></a>
@@ -262,11 +359,11 @@ created and automatically evicts objects after they have been idle for a given a
       <p class="shortcomment cmt">Object &quot;destructor&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>Object &quot;destructor&quot;. This method is called whenever the object is evicted from the pool.  For
 example, when doing connection pooling it is necessary to close the connection whenever it is
 evicted (i.e. permanently removed) from the pool.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#drain" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#drain" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="drain():Unit"></a>
       <a id="drain():Unit"></a>
       <h4 class="signature">
@@ -283,7 +380,7 @@ evicted (i.e. permanently removed) from the pool.
       </a>
     </span>
       <p class="shortcomment cmt">Drains the object pool, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Drains the object pool, i.e. evicts every object currently pooled.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@tailrec</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -337,11 +434,11 @@ evicted (i.e. permanently removed) from the pool.
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Factory method for creating new objects.</p><div class="fullcomment"><div class="comment cmt"><p>Factory method for creating new objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new object.</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+      <p class="shortcomment cmt">Factory method for creating new objects.</p><div class="fullcomment"><div class="comment cmt"><p>Factory method for creating new objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new object.</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#fill" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#fill" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fill():Unit"></a>
       <a id="fill():Unit"></a>
       <h4 class="signature">
@@ -360,7 +457,7 @@ evicted (i.e. permanently removed) from the pool.
       <p class="shortcomment cmt">Fills the object pool by creating (and pooling) new objects until the number of live objects
 reaches the pool capacity.</p><div class="fullcomment"><div class="comment cmt"><p>Fills the object pool by creating (and pooling) new objects until the number of live objects
 reaches the pool capacity.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@tailrec</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -438,6 +535,23 @@ reaches the pool capacity.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#items" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="items:java.util.concurrent.ArrayBlockingQueue[ArrayBlockingQueuePool.this.Item]"></a>
+      <a id="items:ArrayBlockingQueue[Item]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">items</span><span class="result">: <span class="extype" name="java.util.concurrent.ArrayBlockingQueue">ArrayBlockingQueue</span>[<a href="#Item=ExpiringPool.this.ExpiringItem" class="extmbr" name="io.github.andrebeat.pool.ExpiringPool.Item">Item</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@items:java.util.concurrent.ArrayBlockingQueue[ArrayBlockingQueuePool.this.Item]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.Pool#leased" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="leased():Int"></a>
       <a id="leased():Int"></a>
@@ -455,7 +569,7 @@ reaches the pool capacity.
       </a>
     </span>
       <p class="shortcomment cmt">Returns the number of leased objects.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of leased objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of leased objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#live" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#live" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="live():Int"></a>
       <a id="live():Int"></a>
       <h4 class="signature">
@@ -472,7 +586,7 @@ reaches the pool capacity.
       </a>
     </span>
       <p class="shortcomment cmt">Returns the number of live objects, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of live objects, i.e. the number of currently pooled objects plus leased
-objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of live objects.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ExpiringPool#maxIdleTime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="maxIdleTime:scala.concurrent.duration.Duration"></a>
       <a id="maxIdleTime:Duration"></a>
@@ -541,6 +655,26 @@ objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ExpiringPool#offerSuccess" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="offerSuccess(i:ExpiringPool.this.Item):Unit"></a>
+      <a id="offerSuccess(Item):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">offerSuccess</span><span class="params">(<span name="i">i: <a href="#Item=ExpiringPool.this.ExpiringItem" class="extmbr" name="io.github.andrebeat.pool.ExpiringPool.Item">Item</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ExpiringPool@offerSuccess(i:ExpiringPool.this.Item):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ExpiringPool#reset" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="reset(a:A):Unit"></a>
       <a id="reset(A):Unit"></a>
@@ -561,11 +695,11 @@ objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p
 added/released back to the pool. For example, if pooling an object like a <code>ByteBuffer</code> it
 might make sense to call its <code>reset()</code> method whenever the object is released to the pool, so
 that its future users do not observe the internal state introduced by previous ones.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="size():Int"></a>
       <a id="size():Int"></a>
       <h4 class="signature">
@@ -581,7 +715,7 @@ that its future users do not observe the internal state introduced by previous o
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns the number of objects in the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the number of objects in the pool.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the number of objects in the pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -616,7 +750,7 @@ that its future users do not observe the internal state introduced by previous o
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tryAcquire(atMost:scala.concurrent.duration.Duration):Option[io.github.andrebeat.pool.Lease[A]]"></a>
       <a id="tryAcquire(Duration):Option[Lease[A]]"></a>
       <h4 class="signature">
@@ -632,8 +766,8 @@ that its future users do not observe the internal state introduced by previous o
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Try to acquire a lease for an object blocking at most until the given duration.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object blocking at most until the given duration.</p></div><dl class="paramcmts block"><dt class="param">atMost</dt><dd class="cmt"><p>maximum wait time for the lease to be available.</p></dd><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available until the given duration, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ExpiringPool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Try to acquire a lease for an object blocking at most until the given duration.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object blocking at most until the given duration.</p></div><dl class="paramcmts block"><dt class="param">atMost</dt><dd class="cmt"><p>maximum wait time for the lease to be available.</p></dd><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available until the given duration, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tryAcquire():Option[io.github.andrebeat.pool.Lease[A]]"></a>
       <a id="tryAcquire():Option[Lease[A]]"></a>
       <h4 class="signature">
@@ -649,7 +783,7 @@ that its future users do not observe the internal state introduced by previous o
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Try to acquire a lease for an object without blocking.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object without blocking.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ExpiringPool">ExpiringPool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+      <p class="shortcomment cmt">Try to acquire a lease for an object without blocking.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object without blocking.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -728,7 +862,9 @@ that its future users do not observe the internal state introduced by previous o
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="io.github.andrebeat.pool.Pool">
+        <div class="parent" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">
+              <h3>Inherited from <a href="ArrayBlockingQueuePool.html" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</h3>
+            </div><div class="parent" name="io.github.andrebeat.pool.Pool">
               <h3>Inherited from <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a>[<span class="extype" name="io.github.andrebeat.pool.ExpiringPool.A">A</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
