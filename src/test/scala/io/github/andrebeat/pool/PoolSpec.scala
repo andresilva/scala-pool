@@ -2,15 +2,17 @@ package io.github.andrebeat.pool
 
 import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
-import scala.concurrent.{ Await, Future }
+import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.concurrent.{ Await, Future }
 import scala.reflect.ClassTag
 
 abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) extends Specification {
   def Pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
+    referenceType: ReferenceType = Strong,
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () }
   ): P[A]
@@ -185,6 +187,23 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
         // The object is disposed
         i === 1
       }
+    }
+
+    "handle GC-based eviction" >> {
+      var i = 0
+      val p = Pool(3, () => { i += 1; new Object }, referenceType = Weak)
+
+      p.fill()
+
+      p.size() === 3
+      i === 3
+
+      Platform.collectGarbage
+
+      p.acquire()
+
+      // A new object add to be created since the existing ones were invalidated by the GC
+      i === 4
     }
 
     s"A ${ct.runtimeClass.getSimpleName} Lease" should {
