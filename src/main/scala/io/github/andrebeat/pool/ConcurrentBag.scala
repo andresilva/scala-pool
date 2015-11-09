@@ -1,5 +1,8 @@
 package io.github.andrebeat.pool
 
+import scala.annotation.tailrec
+import scala.collection.mutable.ListBuffer
+
 /**
   * A `ConcurrentBag` is a a thread-safe, unordered collection that allows duplicates and that
   * provides add and get operations. The implementation is optimized for scenarios where the same
@@ -71,6 +74,186 @@ package io.github.andrebeat.pool
   *
   */
 class ConcurrentBag[A <: AnyRef] {
+  // ThreadLocalList object that contains the data per thread
+  private[this] val locals = new ThreadLocal[ThreadLocalList]()
+
+  // This head and tail pointers points to the first and last local lists, to allow enumeration on
+  // the thread locals objects (using the `nextList` pointer inside the `ThreadLocalList`).
+  @volatile private[this] var headList: ThreadLocalList = _
+
+  @volatile private[this] var tailList: ThreadLocalList = _
+
+  // A global lock object, used in two cases:
+  // 1 - To maintain the tailList pointer for each new list addition process (first time a thread called add)
+  // 2 - To freeze the bag
+  private[this] val globalListsLock = new Object
+
+  // A flag used to tell the operations thread that it must synchronize the operation, this flag is
+  // set/unset within `globalListsLock` lock
+  private[this] var needSync: Boolean = false
+
+  def add(a: A) = {
+    val l = getThreadList(forceCreate = true)
+    addInternal(l, a)
+  }
+
+  private[this] def addInternal(l: ThreadLocalList, a: A) = {
+    try {
+      l.currentOp = ListOperation.Add
+
+      // Synchronization cases:
+      // - if the list count is less than two (to avoid conflict with any stealing thread)
+      // - if needSync is set, this means there is a thread that needs to freeze the bag
+      if (l.count < 2 || needSync) {
+        // reset it back to zero to avoid deadlock with stealing/freezing thread
+        l.currentOp = ListOperation.None
+        l.synchronized { l.add(a, true) }
+
+      } else l.add(a, false)
+
+    } finally {
+      l.currentOp = ListOperation.None
+    }
+  }
+
+  def tryTake(): Option[A] = tryTakeOrPeek(take = true)
+
+  def tryPeek(): Option[A] = tryTakeOrPeek(take = false)
+
+  private[this] def tryTakeOrPeek(take: Boolean): Option[A] = {
+    val l = getThreadList(forceCreate = false)
+
+    if ((l eq null) || l.count == 0) steal(take)
+    else if (take) {
+      try {
+        l.currentOp = ListOperation.Take
+
+        // Synchronization cases:
+        // - if the list count is less than two (to avoid conflict with any stealing thread)
+        // - if needSync is set, this means there is a thread that needs to freeze the bag
+        if (l.count < 2 || needSync) {
+          // reset it back to zero to avoid deadlock with stealing/freezing thread
+          l.currentOp = ListOperation.None
+
+          l.synchronized {
+            // Double check the count and steal if it became empty
+            if (l.count == 0) steal(take = true)
+            else Some(l.remove())
+          }
+
+        } else {
+          Some(l.remove())
+        }
+
+      } finally {
+        l.currentOp = ListOperation.None
+      }
+
+    } else {
+      val p = l.peek()
+
+      if (p.isEmpty) steal(take = false)
+      else p
+    }
+  }
+
+  private[this] def steal(take: Boolean): Option[A] = {
+    var loop = false
+    val versionsList = ListBuffer[Int]()
+
+    do {
+      versionsList.clear()
+      loop = false
+
+      var currentList = headList
+      while (currentList ne null) {
+        versionsList += currentList.version
+
+        val s = trySteal(currentList, take)
+        if ((currentList.head ne null) && s.isDefined) return s
+
+        currentList = currentList.nextList
+      }
+
+      // verify versioning, if other items are added to this list since we last visit it, we should retry
+      currentList = headList
+      versionsList.foreach { version =>
+        if (version != currentList.version) {
+          loop = true
+          val s = trySteal(currentList, take)
+          if ((currentList.head ne null) && s.isDefined) return s
+        }
+        currentList = currentList.nextList
+      }
+
+    } while (loop)
+
+    None
+  }
+
+  private[this] def trySteal(l: ThreadLocalList, take: Boolean): Option[A] =
+    l.synchronized {
+      if (canSteal(l)) Some(l.steal(take))
+      else None
+    }
+
+  private[this] def canSteal(l: ThreadLocalList): Boolean = {
+    if (l.count <= 2 && l.currentOp != ListOperation.None) {
+      while (l.currentOp != ListOperation.None) {
+        // FIXME: the C# code uses a `SpinWait`, an object for busy-waiting in a "smart way". It
+        // busy-waits for a couple of iterations (according to the OS scheduler's time-slice) and
+        // after that yields the current thread.
+        Thread.`yield`()
+      }
+    }
+
+    l.count > 0
+  }
+
+  private[this] def getThreadList(forceCreate: Boolean): ThreadLocalList = {
+    var list = locals.get()
+
+    if (list ne null) list
+    else if (forceCreate) {
+      // Acquire the lock to update the tailList pointer
+      globalListsLock.synchronized {
+        if (headList eq null) {
+          list = new ThreadLocalList(Thread.currentThread)
+          headList = list
+          tailList = list
+
+        } else {
+          list = getUnownedList()
+
+          if (list eq null) {
+            list = new ThreadLocalList(Thread.currentThread)
+            tailList.nextList = list
+            tailList = list
+          }
+        }
+
+        assert(list ne null)
+        locals.set(list)
+        list
+      }
+    } else null
+  }
+
+  private[this] def getUnownedList(): ThreadLocalList = {
+    // the global lock must be held at this point
+    // FIXME: Contract.Assert(Monitor.IsEntered(GlobalListsLock));
+    @tailrec def aux(l: ThreadLocalList): ThreadLocalList =
+      if (l ne null) {
+        if (l.ownerThread.getState == Thread.State.TERMINATED) {
+          l.ownerThread = Thread.currentThread
+          l
+        } else {
+          aux(l.nextList)
+        }
+      } else null
+
+    aux(headList)
+  }
 
   private class Node(
     val value: A,
@@ -78,7 +261,7 @@ class ConcurrentBag[A <: AnyRef] {
     var prev: Node = null
   )
 
-  private class ThreadLocalList(private[pool] var ownerThreadId: Int) {
+  private class ThreadLocalList(private[pool] var ownerThread: Thread) {
 
     // Head node in the list, null means the list is empty
     @volatile private[pool] var head: Node = _
@@ -90,19 +273,19 @@ class ConcurrentBag[A <: AnyRef] {
     @volatile private[pool] var currentOp: ListOperation = ListOperation.None
 
     // The list count from the Add/Take perspective
-    private[this] var count: Int = _
+    private[this] var count: Int = 0
 
     // The stealing count
-    private[this] var stealCount: Int = _
+    private[this] var stealCount: Int = 0
 
     // Next list in the dictionary values
     @volatile private[pool] var nextList: ThreadLocalList = _
 
     // Set if the local lock is taken
-    private[pool] var lockTaken: Boolean = _
+    private[pool] var lockTaken: Boolean = false
 
     // the version of the list, incremented only when the list changed from empty to non empty state
-    @volatile private[pool] var version: Int = _
+    @volatile private[pool] var version: Int = 0
 
     def add(a: A, updateCount: Boolean) {
       count += 1
