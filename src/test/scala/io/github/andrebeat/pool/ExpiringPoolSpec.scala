@@ -2,7 +2,7 @@ package io.github.andrebeat.pool
 
 import scala.concurrent.duration._
 
-class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
+class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
   def Pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
@@ -19,7 +19,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 3
       p.live() === 3
 
-      Thread.sleep(200)
+      sleep(200.millis)
 
       p.size() === 0
       p.live() === 0
@@ -34,7 +34,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 2
       p.live() === 3
 
-      Thread.sleep(200)
+      sleep(200.millis)
 
       p.size() === 0
       p.live() === 1
@@ -44,7 +44,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] {
       p.size() === 1
       p.live() === 1
 
-      Thread.sleep(200)
+      sleep(200.millis)
 
       p.size() === 0
       p.live() === 0
