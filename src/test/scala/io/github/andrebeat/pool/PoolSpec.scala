@@ -4,11 +4,13 @@ import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
 import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.concurrent.{ Await, Future }
 import scala.reflect.ClassTag
 
-abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) extends Specification {
+abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
+    extends Specification
+    with TestHelper {
   def Pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
@@ -121,11 +123,11 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
       }
 
       Future {
-        Thread.sleep(100)
+        sleep(100.millis)
         l1.release()
       }
 
-      Await.result(f, 300.millis) must beSome
+      await(f, 300.millis) must beSome
     }
 
     "only block until a given duration when trying to acquire an object" >> {
@@ -136,9 +138,11 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
       p.acquire()
       p.acquire()
 
-      Await.result(Future[Option[Lease[_]]] {
-        p.tryAcquire(100.millis)
-      }, 300.millis) must beNone
+      val f = Future {
+        p.tryAcquire(100.millis): Option[Lease[_]]
+      }
+
+      await(f, 300.millis) must beNone
     }
 
     "call the reset method when adding/releasing an object to the pool" >> {
