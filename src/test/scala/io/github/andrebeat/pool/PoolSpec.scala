@@ -53,6 +53,27 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) 
       i === 2
     }
 
+    "never create objects if there are any available on the pool (regression)" >> {
+      var i = 0
+
+      val p = Pool(2, () => { i += 1; new Object })
+      p.live() === 0
+      p.size() === 0
+      i === 0
+
+      p.acquire().release()
+
+      p.live() === 1
+      p.size() === 1
+      i === 1
+
+      p.acquire()
+
+      p.live() === 1
+      p.size() === 0
+      i === 1
+    }
+
     "allow filling the pool" >> {
       val p = Pool(3, () => new Object)
       p.live() === 0
