@@ -30,6 +30,9 @@ To use it in an existing SBT project, add the following dependency to your `buil
 libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.1-SNAPSHOT"
 ```
 
+Currently, the library has no external dependencies apart from the Java and Scala standard
+libraries.
+
 ## Usage
 
 ```scala

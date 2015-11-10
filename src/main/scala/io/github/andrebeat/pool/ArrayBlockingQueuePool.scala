@@ -87,31 +87,58 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
     }
   }
 
-  @inline private[this] def createOr(io: => Option[Item]): Option[A] = {
+  @inline private[this] def tryCreate(): Option[A] = {
     live.getAndIncrement match {
       case n if n < capacity =>
         Some(factory())
       case _ =>
-        decrementLive;
-
-        io match {
-          case Some(i) if i.isDefined => Some(i.get)
-          case Some(i) =>
-            i.destroy()
-            createOr(io)
-          case _ => None
-        }
+        decrementLive
+        None
     }
   }
 
-  def acquire(): Lease[A] =
-    new PoolLease(createOr(Some(items.take())).get)
+  @inline private[this] def unwrapItem(io: => Option[Item], retry: Boolean = true): Option[A] =
+    io match {
+      case Some(i) if i.isDefined => Some(i.get)
+      case Some(i) =>
+        i.destroy()
 
-  def tryAcquire(): Option[Lease[A]] =
-    createOr(Option(items.poll())).map(new PoolLease(_))
+        if (retry) unwrapItem(io)
+        else None
+      case _ => None
+    }
 
-  def tryAcquire(atMost: Duration): Option[Lease[A]] =
-    createOr(Option(items.poll(atMost.toNanos, NANOSECONDS))).map(new PoolLease(_))
+  def acquire(): Lease[A] = {
+    val item = unwrapItem(Option(items.poll()))
+
+    if (item.isDefined) new PoolLease(item.get)
+    else {
+      tryCreate() match {
+        case Some(i) => new PoolLease(i)
+        case None => new PoolLease(unwrapItem(Some(items.take())).get)
+      }
+    }
+  }
+
+  def tryAcquire(): Option[Lease[A]] = {
+    val item = unwrapItem(Option(items.poll()))
+
+    if (item.isDefined) Some(new PoolLease(item.get))
+    else tryCreate().map(new PoolLease(_))
+  }
+
+  def tryAcquire(atMost: Duration): Option[Lease[A]] = {
+    val item = unwrapItem(Option(items.poll()))
+
+    if (item.isDefined) Some(new PoolLease(item.get))
+    else {
+      tryCreate() match {
+        case Some(i) => Some(new PoolLease(i))
+        case None =>
+          unwrapItem(Option(items.poll(atMost.toNanos, NANOSECONDS)), retry = false).map(new PoolLease(_))
+      }
+    }
+  }
 
   @tailrec final def drain() = {
     val i = Option(items.poll())
@@ -122,7 +149,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
   }
 
   @tailrec final def fill() = {
-    val ao = createOr(None)
+    val ao = tryCreate()
     if (ao.nonEmpty) {
       val a = ao.get
       reset(a)
