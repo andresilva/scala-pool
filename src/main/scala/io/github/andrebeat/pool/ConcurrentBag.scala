@@ -177,12 +177,17 @@ class ConcurrentBag[A <: AnyRef] {
 
       // verify versioning, if other items are added to this list since we last visit it, we should retry
       currentList = headList
-      versionsList.foreach { version =>
+      val it = versionsList.iterator
+      var version = 0
+      while (it.hasNext) {
+        version = it.next
+
         if (version != currentList.version) {
           loop = true
           val s = trySteal(currentList, take)
           if ((currentList.head ne null) && s.isDefined) return s
         }
+
         currentList = currentList.nextList
       }
 
