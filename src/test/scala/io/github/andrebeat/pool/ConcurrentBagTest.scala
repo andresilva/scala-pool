@@ -1,12 +1,11 @@
 package io.github.andrebeat.pool
 
 import java.util.concurrent.LinkedTransferQueue
-import java.util.concurrent.atomic.LongAdder
 import scala.collection.mutable
 import scala.collection.JavaConversions._
 import scala.util.Random
 
-object ConcurrencyBagTest extends App {
+object ConcurrentBagTest extends App {
   val N_THREADS = 1
   val N_OPERATIONS = 10
 
@@ -15,7 +14,7 @@ object ConcurrencyBagTest extends App {
   val queue = new LinkedTransferQueue[MyObject]()
   val bag = new ConcurrentBag[MyObject]()
 
-  val adder = new LongAdder
+  val adder = Adder()
 
   val takeProb = 0
   val addProb = 1 - takeProb
@@ -25,8 +24,8 @@ object ConcurrencyBagTest extends App {
       queue.poll()
       bag.tryTake()
     } else {
-      adder.increment
-      val i = adder.sum
+      adder.increment()
+      val i = adder.count()
 
       val myObject = new MyObject(i)
       queue.add(myObject)
