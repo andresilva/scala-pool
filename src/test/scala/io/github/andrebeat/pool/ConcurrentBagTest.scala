@@ -6,8 +6,8 @@ import scala.collection.JavaConversions._
 import scala.util.Random
 
 object ConcurrentBagTest extends App {
-  val N_THREADS = 1
-  val N_OPERATIONS = 10
+  val N_THREADS = 8
+  val N_OPERATIONS = 1000000
 
   case class MyObject(val x: Long)
 

@@ -176,8 +176,8 @@ class ConcurrentBag[A <: AnyRef] {
       while (currentList ne null) {
         versionsList += currentList.version
 
-        val s = trySteal(currentList, take)
-        if ((currentList.head ne null) && s.isDefined) return s
+        var s: Option[A] = None
+        if ((currentList.head ne null) && { s = trySteal(currentList, take); s.isDefined }) return s
 
         currentList = currentList.nextList
       }
@@ -191,8 +191,8 @@ class ConcurrentBag[A <: AnyRef] {
 
         if (version != currentList.version) {
           loop = true
-          val s = trySteal(currentList, take)
-          if ((currentList.head ne null) && s.isDefined) return s
+          var s: Option[A] = None
+          if ((currentList.head ne null) && { s = trySteal(currentList, take); s.isDefined }) return s
         }
 
         currentList = currentList.nextList
@@ -260,7 +260,7 @@ class ConcurrentBag[A <: AnyRef] {
 
   private[this] def getUnownedList(): ThreadLocalList = {
     // the global lock must be held at this point
-    // FIXME: Contract.Assert(Monitor.IsEntered(GlobalListsLock));
+    assert(globalListsLock.isLocked)
     @tailrec def aux(l: ThreadLocalList): ThreadLocalList =
       if (l ne null) {
         if (l.ownerThread.getState == Thread.State.TERMINATED) {
