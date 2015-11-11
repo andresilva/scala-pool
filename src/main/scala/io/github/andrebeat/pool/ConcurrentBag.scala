@@ -2,6 +2,7 @@ package io.github.andrebeat.pool
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
+import java.util.concurrent.locks.ReentrantLock
 
 /**
   * A `ConcurrentBag` is a a thread-safe, unordered collection that allows duplicates and that
@@ -86,7 +87,7 @@ class ConcurrentBag[A <: AnyRef] {
   // A global lock object, used in two cases:
   // 1 - To maintain the tailList pointer for each new list addition process (first time a thread called add)
   // 2 - To freeze the bag
-  private[this] val globalListsLock = new Object
+  private[this] val globalListsLock = new ReentrantLock()
 
   // A flag used to tell the operations thread that it must synchronize the operation, this flag is
   // set/unset within `globalListsLock` lock
@@ -98,6 +99,7 @@ class ConcurrentBag[A <: AnyRef] {
   }
 
   private[this] def addInternal(l: ThreadLocalList, a: A) = {
+    var lockTaken = false
     try {
       l.currentOp = ListOperation.Add
 
@@ -107,12 +109,15 @@ class ConcurrentBag[A <: AnyRef] {
       if (l.count < 2 || needSync) {
         // reset it back to zero to avoid deadlock with stealing/freezing thread
         l.currentOp = ListOperation.None
-        l.synchronized { l.add(a, true) }
+        l.lock.lock(); lockTaken = true
+      }
 
-      } else l.add(a, false)
+      l.add(a, lockTaken)
 
     } finally {
       l.currentOp = ListOperation.None
+
+      if (lockTaken) l.lock.unlock()
     }
   }
 
@@ -125,30 +130,32 @@ class ConcurrentBag[A <: AnyRef] {
 
     if ((l eq null) || l.count == 0) steal(take)
     else if (take) {
+      var lockTaken = false
       try {
         l.currentOp = ListOperation.Take
 
         // Synchronization cases:
         // - if the list count is less than two (to avoid conflict with any stealing thread)
         // - if needSync is set, this means there is a thread that needs to freeze the bag
-        if (l.count < 2 || needSync) {
+        if (l.count <= 2 || needSync) {
           // reset it back to zero to avoid deadlock with stealing/freezing thread
           l.currentOp = ListOperation.None
+          l.lock.lock(); lockTaken = true
 
-          l.synchronized {
-            // Double check the count and steal if it became empty
-            if (l.count == 0) steal(take = true)
-            else Some(l.remove())
-          }
+          // Double check the count and steal if it became empty
+          if (l.count == 0) {
+            try {} finally { l.lock.unlock(); lockTaken = false }
+            steal(take = true)
 
-        } else {
-          Some(l.remove())
-        }
+          } else Some(l.remove())
+
+        } else Some(l.remove())
 
       } finally {
         l.currentOp = ListOperation.None
-      }
 
+        if (lockTaken) l.lock.unlock()
+      }
     } else {
       val p = l.peek()
 
@@ -196,11 +203,15 @@ class ConcurrentBag[A <: AnyRef] {
     None
   }
 
-  private[this] def trySteal(l: ThreadLocalList, take: Boolean): Option[A] =
-    l.synchronized {
+  private[this] def trySteal(l: ThreadLocalList, take: Boolean): Option[A] = {
+    l.lock.lock()
+    try {
       if (canSteal(l)) Some(l.steal(take))
       else None
+    } finally {
+      l.lock.unlock()
     }
+  }
 
   private[this] def canSteal(l: ThreadLocalList): Boolean = {
     if (l.count <= 2 && l.currentOp != ListOperation.None) {
@@ -221,7 +232,8 @@ class ConcurrentBag[A <: AnyRef] {
     if (list ne null) list
     else if (forceCreate) {
       // Acquire the lock to update the tailList pointer
-      globalListsLock.synchronized {
+      globalListsLock.lock()
+      try {
         if (headList eq null) {
           list = new ThreadLocalList(Thread.currentThread)
           headList = list
@@ -240,6 +252,8 @@ class ConcurrentBag[A <: AnyRef] {
         assert(list ne null)
         locals.set(list)
         list
+      } finally {
+        globalListsLock.unlock()
       }
     } else null
   }
@@ -287,7 +301,10 @@ class ConcurrentBag[A <: AnyRef] {
     @volatile private[pool] var nextList: ThreadLocalList = _
 
     // Set if the local lock is taken
-    private[pool] var lockTaken: Boolean = false
+    private[this] var lockTaken: Boolean = false
+
+    // The list lock
+    private[pool] val lock = new ReentrantLock()
 
     // the version of the list, incremented only when the list changed from empty to non empty state
     @volatile private[pool] var version: Int = 0
