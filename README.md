@@ -45,7 +45,7 @@ libraries.
 import io.github.andrebeat.pool._
 
 // Creating a `Pool[Object]` with a capacity of 2 instances
-val pool = SimplePool(2, () => new Object)
+val pool = Pool(2, () => new Object)
 
 // Acquiring a lease on an object from the pool
 val lease = pool.acquire()
