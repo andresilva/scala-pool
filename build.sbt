@@ -48,15 +48,10 @@ publishTo := {
 
 pomIncludeRepository := { _ => false }
 
+publishArtifact in Test := false
+
 pomExtra := (
   <url>https://github.com/andrebeat/scala-pool</url>
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <url>git@github.com:andrebeat/scala-pool.git</url>
     <connection>scm:git:git@github.com:andrebeat/scala-pool.git</connection>
