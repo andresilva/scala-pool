@@ -30,6 +30,12 @@ To use it in an existing SBT project, add the following dependency to your `buil
 libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.1-SNAPSHOT"
 ```
 
+It might be necessary to add the Sonatype OSS Snapshot resolver:
+
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+```
+
 Currently, the library has no external dependencies apart from the Java and Scala standard
 libraries.
 
