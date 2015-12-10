@@ -11,7 +11,7 @@ import scala.reflect.ClassTag
 abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     extends Specification
     with TestHelper {
-  def Pool[A <: AnyRef](
+  def pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
     referenceType: ReferenceType = ReferenceType.Strong,
@@ -21,12 +21,12 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
   s"A ${ct.runtimeClass.getSimpleName}" should {
     "have a capacity" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.capacity() === 3
     }
 
     "return the number of pooled, live and leased objects" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.acquire()
 
       p.size() === 0
@@ -37,7 +37,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     "create objects lazily" >> {
       var i = 0
 
-      val p = Pool(2, () => { i += 1; new Object })
+      val p = pool(2, () => { i += 1; new Object })
       p.live() === 0
       p.size() === 0
       i === 0
@@ -58,7 +58,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     "never create objects if there are any available on the pool (regression)" >> {
       var i = 0
 
-      val p = Pool(2, () => { i += 1; new Object })
+      val p = pool(2, () => { i += 1; new Object })
       p.live() === 0
       p.size() === 0
       i === 0
@@ -77,7 +77,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "allow filling the pool" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.live() === 0
       p.size() === 0
 
@@ -88,7 +88,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "fill the pool taking into account live objects outside the pool" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.live() === 0
       p.size() === 0
 
@@ -100,7 +100,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "allow draining the pool" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.fill()
       p.size() === 3
 
@@ -111,7 +111,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "block when no objects available and all objects have been created" >> {
-      val p = Pool(3, () => new Object)
+      val p = pool(3, () => new Object)
       p.fill()
 
       p.acquire()
@@ -131,7 +131,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "only block until a given duration when trying to acquire an object" >> {
-      val p = Pool[Object](3, () => new Object)
+      val p = pool[Object](3, () => new Object)
       p.fill()
 
       p.acquire()
@@ -149,7 +149,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when filling" >> {
         var i = 0
 
-        val p = Pool(3, () => new Object, reset = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, reset = { _: Object => i += 1 })
         p.fill()
 
         p.size() === 3
@@ -159,7 +159,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when releasing" >> {
         var i = 0
 
-        val p = Pool(3, () => new Object, reset = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, reset = { _: Object => i += 1 })
         p.acquire().release()
 
         i === 1
@@ -170,7 +170,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when invalidated" >> {
         var i = 0
 
-        val p = Pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
         p.acquire().invalidate()
 
         i === 1
@@ -179,7 +179,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when draining" >> {
         var i = 0
 
-        val p = Pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
         p.fill()
         p.drain()
 
@@ -189,7 +189,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when added to an already full pool" >> {
         // This situtation should never happen in a normal usage of the pool
         var i = 0
-        val p = Pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
 
         p.fill()
         val l = p.acquire()
@@ -216,7 +216,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
     "handle GC-based eviction" >> {
       var i = 0
-      val p = Pool(3, () => { i += 1; new Object }, referenceType = ReferenceType.Weak)
+      val p = pool(3, () => { i += 1; new Object }, referenceType = ReferenceType.Weak)
 
       p.fill()
 
@@ -233,7 +233,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
     s"A ${ct.runtimeClass.getSimpleName} Lease" should {
       "allow being invalidated and removed from the pool" >> {
-        val p = Pool(3, () => new Object)
+        val p = pool(3, () => new Object)
 
         p.fill()
 
@@ -248,7 +248,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       }
 
       "allow being released back to the pool" >> {
-        val p = Pool(3, () => new Object)
+        val p = pool(3, () => new Object)
 
         p.fill()
 
@@ -265,7 +265,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       }
 
       "throw an exception when reading from an invalidated or released lease" >> {
-        val p = Pool(3, () => new Object)
+        val p = pool(3, () => new Object)
 
         val l1 = p.acquire()
         l1.invalidate()
