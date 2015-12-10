@@ -6,6 +6,8 @@ import scala.concurrent.duration.Duration
 /**
   * A lease on an object requested from a [[io.github.andrebeat.pool.Pool]] allowing the object to
   * be accessed and then released back to the pool when no longer needed.
+  *
+  * @tparam A the type of object stored in this lease
   */
 trait Lease[A <: AnyRef] {
   private[this] val dirty = new AtomicBoolean(false)
@@ -37,6 +39,23 @@ trait Lease[A <: AnyRef] {
     * If the lease has already been released or invalidated this method does nothing.
     */
   def invalidate(): Unit = if (dirty.compareAndSet(false, true)) handleInvalidate
+
+  /**
+    * Gets the value from the lease, passing it onto the provided function and
+    * releasing it back to the pool after the function is run.
+    *
+    * If needed, it is possible to invalidate the lease from inside the provided
+    * function.
+    *
+    * @tparam B the type of object returned by the function `f`
+    * @param f a function that uses the value stored in the lease to produce a new value
+    * @return the value produced by the function `f`.
+    */
+  def use[B](f: A => B): B = try {
+    f(get())
+  } finally {
+    release()
+  }
 }
 
 /**

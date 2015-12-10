@@ -227,7 +227,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
       p.acquire()
 
-      // A new object add to be created since the existing ones were invalidated by the GC
+      // A new object had to be created since the existing ones were invalidated by the GC
       i === 4
     }
 
