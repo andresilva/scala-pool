@@ -277,6 +277,34 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
         l2.get() must throwAn[IllegalStateException]
       }
+
+      "have a `use` method that releases an object after its used" in {
+        val p = pool(1, () => new Object)
+
+        val l1 = p.acquire()
+        p.size() === 0
+
+        l1.use { o =>
+          ()
+        }
+
+        l1.get() must throwAn[IllegalStateException]
+        p.size() === 1
+      }
+
+      "allow invalidating an object inside the `use` method" in {
+        val p = pool(1, () => new Object)
+
+        val l1 = p.acquire()
+        p.size() === 0
+
+        l1.use { o =>
+          l1.invalidate()
+        }
+
+        l1.get() must throwAn[IllegalStateException]
+        p.size() === 0
+      }
     }
   }
 }
