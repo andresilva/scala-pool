@@ -45,7 +45,15 @@ trait Lease[A <: AnyRef] {
     * releasing it back to the pool after the function is run.
     *
     * If needed, it is possible to invalidate the lease from inside the provided
-    * function.
+    * function, for example:
+    *
+    * {{{
+    * val lease = pool.acquire()
+    * val x = lease.use { v =>
+    *   if (/* invalid condition */) { lease.invalidate(); None }
+    *   else Some(/* result */)
+    * }
+    * }}}
     *
     * It is important that no references are kept to the leased object after
     * this method finishes. For example, the following code is invalid since the
