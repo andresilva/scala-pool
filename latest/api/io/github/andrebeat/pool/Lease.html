@@ -51,7 +51,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A lease on an object requested from a <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a> allowing the object to
 be accessed and then released back to the pool when no longer needed.
-</p></div><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of object stored in this lease</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -490,6 +490,33 @@ there are no references to the returned object.</p><p>If the lease has already b
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.Lease#use" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="use[B](f:A=&gt;B):B"></a>
+      <a id="use[B]((A)⇒B):B"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">use</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span>) ⇒ <span class="extype" name="io.github.andrebeat.pool.Lease.use.B">B</span></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.use.B">B</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@use[B](f:A=&gt;B):B" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets the value from the lease, passing it onto the provided function and
+releasing it back to the pool after the function is run.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the value from the lease, passing it onto the provided function and
+releasing it back to the pool after the function is run.</p><p>If needed, it is possible to invalidate the lease from inside the provided
+function, for example:</p><pre><span class="kw">val</span> lease = pool.acquire()
+<span class="kw">val</span> x = lease.use { v <span class="kw">=&gt;</span>
+  <span class="kw">if</span> (<span class="cmt">/* invalid condition */</span>) { lease.invalidate(); <span class="std">None</span> }
+  <span class="kw">else</span> <span class="std">Some</span>(<span class="cmt">/* result */</span>)
+}</pre><p>It is important that no references are kept to the leased object after
+this method finishes. For example, the following code is invalid since the
+variable <code>x</code> holds a reference to an object that was returned to the pool.</p><pre><span class="kw">val</span> lease = pool.acquire()
+<span class="kw">val</span> x = lease.use(identity)</pre></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>the type of object returned by the function <code>f</code></p></dd><dt class="param">f</dt><dd class="cmt"><p>a function that uses the value stored in the lease to produce a new value</p></dd><dt>returns</dt><dd class="cmt"><p>the value produced by the function <code>f</code>.</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

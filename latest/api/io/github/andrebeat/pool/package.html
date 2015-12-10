@@ -137,7 +137,7 @@ the value (i.e. ensure calling its destructor if the value is defined).
     </span>
       <p class="shortcomment cmt">An object pool that creates the objects as needed until a maximum number of objects has been
 created and automatically evicts objects after they have been idle for a given amount of time.</p>
-    </li><li name="io.github.andrebeat.pool.Lease" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.Lease" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Lease[A&lt;:AnyRef]extendsAnyRef"></a>
       <a id="Lease[A&lt;:AnyRef]:Lease[A]"></a>
       <h4 class="signature">
@@ -154,7 +154,9 @@ created and automatically evicts objects after they have been idle for a given a
       </a>
     </span>
       <p class="shortcomment cmt">A lease on an object requested from a <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a> allowing the object to
-be accessed and then released back to the pool when no longer needed.</p>
+be accessed and then released back to the pool when no longer needed.</p><div class="fullcomment"><div class="comment cmt"><p>A lease on an object requested from a <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a> allowing the object to
+be accessed and then released back to the pool when no longer needed.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of object stored in this lease</p></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.Pool" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Pool[A&lt;:AnyRef]extendsAnyRef"></a>
       <a id="Pool[A&lt;:AnyRef]:Pool[A]"></a>
