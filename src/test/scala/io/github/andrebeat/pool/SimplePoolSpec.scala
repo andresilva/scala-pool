@@ -1,7 +1,7 @@
 package io.github.andrebeat.pool
 
 class SimplePoolSpec extends PoolSpec[SimplePool] {
-  def Pool[A <: AnyRef](
+  def pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
     referenceType: ReferenceType = ReferenceType.Strong,

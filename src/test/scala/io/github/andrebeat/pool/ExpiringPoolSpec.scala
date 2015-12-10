@@ -3,7 +3,7 @@ package io.github.andrebeat.pool
 import scala.concurrent.duration._
 
 class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
-  def Pool[A <: AnyRef](
+  def pool[A <: AnyRef](
     capacity: Int,
     factory: () => A,
     referenceType: ReferenceType = ReferenceType.Strong,
