@@ -23,7 +23,10 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
     val referenceType: ReferenceType
 ) extends Pool[A] { pool =>
   abstract protected class Item(val r: Ref[A]) {
-    def isDefined(): Boolean = r.toOption().isDefined
+    def isDefined(): Boolean = {
+      val ro = r.toOption
+      ro.isDefined && healthCheck(ro.get)
+    }
 
     /**
       * This method should only be called from this class and it is guaranteed that the value is

@@ -11,12 +11,14 @@ class SimplePool[A <: AnyRef](
     referenceType: ReferenceType,
     _factory: () => A,
     _reset: A => Unit,
-    _dispose: A => Unit
+    _dispose: A => Unit,
+    _healthCheck: A => Boolean
 ) extends ArrayBlockingQueuePool[A](capacity, referenceType) {
 
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
   @inline protected[this] def reset(a: A) = _reset(a)
+  @inline protected[this] def healthCheck(a: A) = _healthCheck(a)
 
   final protected class SimpleItem(a: Ref[A]) extends Item(a) {
     def consume() = {}
@@ -35,7 +37,8 @@ object SimplePool {
     referenceType: ReferenceType,
     factory: () => A,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }
+    dispose: A => Unit = { _: A => () },
+    healthCheck: A => Boolean = { _: A => true }
   ) =
-    new SimplePool(capacity, referenceType, factory, reset, dispose)
+    new SimplePool(capacity, referenceType, factory, reset, dispose, healthCheck)
 }

@@ -105,6 +105,13 @@ trait Pool[A <: AnyRef] {
   protected def dispose(a: A): Unit
 
   /**
+    * An health check that is performed on an object before its leased from the
+    * pool. If the health check passes the object is successfully leased.
+    * Otherwise, the object is destroyed (and a new one is fetched or created)
+    */
+  protected def healthCheck(a: A): Boolean
+
+  /**
     * Try to acquire a lease for an object without blocking.
     * @return a lease for an object from this pool if available, `None` otherwise.
     */
@@ -199,6 +206,8 @@ object Pool {
     *        idle in the pool before being evicted
     * @param reset the function used to reset objects in the pool (called when leasing an object from the pool)
     * @param dispose the function used to destroy an object from the pool
+    * @param healthCheck the predicate used to test whether an object is healthy and should be used,
+    *                    or destroyed otherwise.
     * @return a new instance of [[io.github.andrebeat.pool.Pool]].
     */
   def apply[A <: AnyRef](
@@ -207,10 +216,11 @@ object Pool {
     referenceType: ReferenceType = ReferenceType.Strong,
     maxIdleTime: Duration = Duration.Inf,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }
+    dispose: A => Unit = { _: A => () },
+    healthCheck: A => Boolean = { _: A => true }
   ): Pool[A] =
     if (maxIdleTime.isFinite())
-      ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose)
+      ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose, healthCheck)
     else
-      SimplePool(capacity, referenceType, factory, reset, dispose)
+      SimplePool(capacity, referenceType, factory, reset, dispose, healthCheck)
 }
