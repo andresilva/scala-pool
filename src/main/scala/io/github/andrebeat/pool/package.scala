@@ -17,8 +17,20 @@ package io.github.andrebeat
   * scala> val pool = Pool(4, () => new Object)
   * pool: io.github.andrebeat.pool.SimplePool[Object] = _
   * scala> val lease = pool.acquire()
-  * lease: io.github.andrebeat.pool.Lease[Array[Byte]] = _
+  * lease: io.github.andrebeat.pool.Lease[Object] = _
   * scala> lease.release()
+  * }}}
+  *
+  * Additionally, in order to avoid manually releasing the lease after its used,
+  * you can use the `use` method on the lease:
+  *
+  * {{{
+  * scala> val pool = Pool(4, () => new Object)
+  * pool: io.github.andrebeat.pool.SimplePool[Object] = _
+  * scala> val lease = pool.acquire()
+  * lease: io.github.andrebeat.pool.Lease[Object] = _
+  * scala> lease.use(println) // the lease is released automatically after its used
+  * java.lang.Object@7970d6d
   * }}}
   */
 package object pool {}
