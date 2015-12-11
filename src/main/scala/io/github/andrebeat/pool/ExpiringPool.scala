@@ -15,7 +15,8 @@ class ExpiringPool[A <: AnyRef](
     val maxIdleTime: Duration,
     _factory: () => A,
     _reset: A => Unit,
-    _dispose: A => Unit
+    _dispose: A => Unit,
+    _healthCheck: A => Boolean
 ) extends ArrayBlockingQueuePool[A](capacity, referenceType) {
 
   implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
@@ -42,6 +43,7 @@ class ExpiringPool[A <: AnyRef](
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
   @inline protected[this] def reset(a: A) = _reset(a)
+  @inline protected[this] def healthCheck(a: A) = _healthCheck(a)
 
   @inline protected[this] def newItem(a: A) = {
     adder.increment()
@@ -66,7 +68,8 @@ object ExpiringPool {
     maxIdleTime: Duration,
     factory: () => A,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }
+    dispose: A => Unit = { _: A => () },
+    healthCheck: A => Boolean = { _: A => true }
   ) =
-    new ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose)
+    new ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose, healthCheck)
 }
