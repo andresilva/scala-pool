@@ -8,8 +8,9 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
     factory: () => A,
     referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }
-  ) = ExpiringPool(capacity, referenceType, 42.hours, factory, reset, dispose)
+    dispose: A => Unit = { _: A => () },
+    healthCheck: A => Boolean = { _: A => true }
+  ) = ExpiringPool(capacity, referenceType, 42.hours, factory, reset, dispose, healthCheck)
 
   "A ExpiringPool" should {
     "evict idle objects" >> {

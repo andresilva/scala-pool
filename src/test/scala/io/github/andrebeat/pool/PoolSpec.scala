@@ -16,7 +16,8 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     factory: () => A,
     referenceType: ReferenceType = ReferenceType.Strong,
     reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () }
+    dispose: A => Unit = { _: A => () },
+    healthCheck: A => Boolean = { _: A => true }
   ): P[A]
 
   s"A ${ct.runtimeClass.getSimpleName}" should {
@@ -212,6 +213,26 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         // The object is disposed
         i === 1
       }
+
+      "when an object fails the health check" >> {
+        var i = 0
+        var failOnce = false
+
+        val p = pool(
+          3,
+          () => new Object,
+          dispose = { _: Object => i += 1 },
+          healthCheck = { _: Object => if (!failOnce) { failOnce = true; false } else true }
+        )
+
+        p.fill()
+
+        p.acquire()
+
+        // The dispose method was called once when we tried to acquire the first
+        // object which failed the health check
+        i === 1
+      }
     }
 
     "handle GC-based eviction" >> {
@@ -278,7 +299,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         l2.get() must throwAn[IllegalStateException]
       }
 
-      "have a `use` method that releases an object after its used" in {
+      "have a `use` method that releases an object after its used" >> {
         val p = pool(1, () => new Object)
 
         val l1 = p.acquire()
@@ -292,7 +313,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         p.size() === 1
       }
 
-      "allow invalidating an object inside the `use` method" in {
+      "allow invalidating an object inside the `use` method" >> {
         val p = pool(1, () => new Object)
 
         val l1 = p.acquire()
