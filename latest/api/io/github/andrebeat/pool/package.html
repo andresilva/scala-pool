@@ -51,8 +51,14 @@
 like so</p><pre>scala&gt; <span class="kw">val</span> pool = Pool(<span class="num">4</span>, () <span class="kw">=&gt;</span> <span class="kw">new</span> <span class="std">Object</span>)
 pool: io.github.andrebeat.pool.SimplePool[<span class="std">Object</span>] = _
 scala&gt; <span class="kw">val</span> lease = pool.acquire()
-lease: io.github.andrebeat.pool.Lease[<span class="std">Array</span>[<span class="std">Byte</span>]] = _
-scala&gt; lease.release()</pre></div><div class="toggleContainer block">
+lease: io.github.andrebeat.pool.Lease[<span class="std">Object</span>] = _
+scala&gt; lease.release()</pre><p>Additionally, in order to avoid manually releasing the lease after its used,
+you can use the <code>use</code> method on the lease:</p><pre>scala&gt; <span class="kw">val</span> pool = Pool(<span class="num">4</span>, () <span class="kw">=&gt;</span> <span class="kw">new</span> <span class="std">Object</span>)
+pool: io.github.andrebeat.pool.SimplePool[<span class="std">Object</span>] = _
+scala&gt; <span class="kw">val</span> lease = pool.acquire()
+lease: io.github.andrebeat.pool.Lease[<span class="std">Object</span>] = _
+scala&gt; lease.use(println) <span class="cmt">// the lease is released automatically after its used</span>
+java.lang.<span class="std">Object</span>@<span class="num">7970</span>d6d</pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
