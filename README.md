@@ -65,16 +65,16 @@ All of the different pool features are exposed in the `Pool` companion object `a
 
 ```scala
 Pool(
-  capacity: Int,                                       // the maximum capacity of the pool
-  factory: () => A,                                    // the function used to create new objects in the pool
-  referenceType: ReferenceType = ReferenceType.Strong, // the reference type of objects in the pool
-  maxIdleTime: Duration = Duration.Inf,                // the maximum amount of the time that objects are allowed
-                                                       //   to idle in the pool before being evicted
-  reset: A => Unit = { _: A => () },                   // the function used to reset objects in the pool
-                                                       //   (called when leasing an object from the pool)
-  dispose: A => Unit = { _: A => () }                  // the function used to destroy an object from the pool
-  healthCheck: A => Boolean = { _: A => true })        // the predicate used to test whether an object is
-                                                       //   healthy and should be used, or destroyed otherwise
+  capacity: Int,                // the maximum capacity of the pool
+  factory: () => A,             // the function used to create new objects in the pool
+  referenceType: ReferenceType, // the reference type of objects in the pool
+  maxIdleTime: Duration,        // the maximum amount of the time that objects are allowed
+                                //   to idle in the pool before being evicted
+  reset: A => Unit,             // the function used to reset objects in the pool
+                                //   (called when leasing an object from the pool)
+  dispose: A => Unit,           // the function used to destroy an object from the pool
+  healthCheck: A => Boolean)    // the predicate used to test whether an object is
+                                //   healthy and should be used, or destroyed otherwise
 ```
 
 It is also possible to get a value from a lease and release it (or invalidate) manually.
