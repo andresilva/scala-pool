@@ -6,6 +6,7 @@ package io.github.andrebeat
   *   - object invalidation
   *   - capping the number of pooled objects
   *   - creating new objects lazily, as needed
+  *   - health checking
   *   - time-based pool eviction (idle instances)
   *   - GC-based pool eviction (soft and weak references)
   *   - efficient thread-safety
