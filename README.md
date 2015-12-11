@@ -22,13 +22,18 @@
 
 ## Installation
 
-scala-pool is currently only released as a snapshot with version `0.1-SNAPSHOT` and is built against
-Scala 2.11.7.
+scala-pool's latest release is `0.1.0` and is built against Scala `2.11.7`.
 
 To use it in an existing SBT project, add the following dependency to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.1-SNAPSHOT"
+libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.1.0"
+```
+
+The latest snapshot version is also available:
+
+```scala
+libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.2.0-SNAPSHOT"
 ```
 
 It might be necessary to add the Sonatype OSS Snapshot resolver:
