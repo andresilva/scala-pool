@@ -181,6 +181,27 @@ evicted (i.e. permanently removed) from the pool.
       </a>
     </span>
       <p class="shortcomment cmt">Factory method for creating new objects.</p><div class="fullcomment"><div class="comment cmt"><p>Factory method for creating new objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new object.</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.Pool#healthCheck" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="healthCheck(a:A):Boolean"></a>
+      <a id="healthCheck(A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">healthCheck</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@healthCheck(a:A):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An health check that is performed on an object before its leased from the
+pool.</p><div class="fullcomment"><div class="comment cmt"><p>An health check that is performed on an object before its leased from the
+pool. If the health check passes the object is successfully leased.
+Otherwise, the object is destroyed (and a new one is fetched or created)
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#newItem" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="newItem(a:A):ArrayBlockingQueuePool.this.Item"></a>
       <a id="newItem(A):Item"></a>

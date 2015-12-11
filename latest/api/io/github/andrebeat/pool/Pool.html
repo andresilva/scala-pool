@@ -206,6 +206,27 @@ evicted (i.e. permanently removed) from the pool.
     </span>
       <p class="shortcomment cmt">Fills the object pool by creating (and pooling) new objects until the number of live objects
 reaches the pool capacity.</p>
+    </li><li name="io.github.andrebeat.pool.Pool#healthCheck" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="healthCheck(a:A):Boolean"></a>
+      <a id="healthCheck(A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">healthCheck</span><span class="params">(<span name="a">a: <span class="extype" name="io.github.andrebeat.pool.Pool.A">A</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool@healthCheck(a:A):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An health check that is performed on an object before its leased from the
+pool.</p><div class="fullcomment"><div class="comment cmt"><p>An health check that is performed on an object before its leased from the
+pool. If the health check passes the object is successfully leased.
+Otherwise, the object is destroyed (and a new one is fetched or created)
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="io.github.andrebeat.pool.Pool#live" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="live():Int"></a>
       <a id="live():Int"></a>
