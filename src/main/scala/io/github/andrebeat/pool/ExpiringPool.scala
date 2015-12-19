@@ -29,7 +29,14 @@ class ExpiringPool[A <: AnyRef](
 
     def consume() = timerTask.cancel()
 
-    def offerSuccess() = timer.schedule(timerTask, maxIdleTime.toMillis)
+    def offerSuccess() = try {
+      timer.schedule(timerTask, maxIdleTime.toMillis)
+    } catch {
+      case e: IllegalStateException =>
+      // it is possible that this item has already been consumed by the time this method executes.
+      // this will trigger an exception since we're trying to schedule a task that's already been
+      // canceled.
+    }
 
     override def equals(that: Any) = that match {
       case that: ExpiringItem @unchecked => this.id == that.id
