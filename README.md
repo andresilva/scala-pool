@@ -18,8 +18,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.11.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.11)
 [![Coverage](https://img.shields.io/coveralls/andrebeat/scala-pool/master.svg)](https://coveralls.io/github/andrebeat/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE)
-
-[Scaladoc](https://andrebeat.github.io/scala-pool/latest/api/index.html#io.github.andrebeat.pool.package)
+[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.11.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.11)
+[![Scaladoc](https://img.shields.io/badge/scaladoc-latest-brightgreen.svg)](https://andrebeat.github.io/scala-pool/latest/api/index.html)
 
 ## Installation
 
@@ -118,7 +118,7 @@ pool.size
 // res4: Int = 1
 ```
 
-The API is documented in depth in the [Scaladoc](https://andrebeat.github.io/scala-pool/latest/api/index.html#io.github.andrebeat.pool.package).
+The API is documented in depth in the [Scaladoc](https://andrebeat.github.io/scala-pool/latest/api/index.html).
 
 ## License
 
