@@ -71,6 +71,7 @@ import scalariform.formatter.preferences._
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(DoubleIndentClassDeclaration, true)
   .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
+  .setPreference(DanglingCloseParenthesis, Preserve)
 
 site.settings
 site.includeScaladoc()

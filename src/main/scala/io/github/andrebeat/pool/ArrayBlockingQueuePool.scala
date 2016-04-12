@@ -20,8 +20,7 @@ import scala.concurrent.duration.{ Duration, NANOSECONDS }
   */
 abstract class ArrayBlockingQueuePool[A <: AnyRef](
     val capacity: Int,
-    val referenceType: ReferenceType
-) extends Pool[A] { pool =>
+    val referenceType: ReferenceType) extends Pool[A] { pool =>
   abstract protected class Item(val r: Ref[A]) {
     def isDefined(): Boolean = {
       val ro = r.toOption
