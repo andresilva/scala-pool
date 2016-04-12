@@ -4,7 +4,7 @@ organization := "io.github.andrebeat"
 startYear := Some(2015)
 licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE"))
 
-version := "0.3.0"
+version := "0.4.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
