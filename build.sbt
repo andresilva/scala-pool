@@ -73,7 +73,6 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
   .setPreference(DanglingCloseParenthesis, Preserve)
 
-site.settings
-site.includeScaladoc()
+enablePlugins(SiteScaladocPlugin)
 ghpages.settings
 git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andrebeat/scala-pool.git"""
