@@ -30,7 +30,7 @@ package io.github.andrebeat
   * pool: io.github.andrebeat.pool.SimplePool[Object] = _
   * scala> val lease = pool.acquire()
   * lease: io.github.andrebeat.pool.Lease[Object] = _
-  * scala> lease.use(println) // the lease is released automatically after its used
+  * scala> lease(println) // the lease is released automatically after its used
   * java.lang.Object@7970d6d
   * }}}
   */

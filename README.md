@@ -60,7 +60,7 @@ val pool = Pool(2, () => new Object)
 val lease = pool.acquire()
 
 // Using the lease
-lease.use { o =>
+lease { o =>
   println(o)
 }
 

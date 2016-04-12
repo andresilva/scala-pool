@@ -305,7 +305,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         val l1 = p.acquire()
         p.size() === 0
 
-        l1.use { o =>
+        l1 { o =>
           ()
         }
 
@@ -319,7 +319,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         val l1 = p.acquire()
         p.size() === 0
 
-        l1.use { o =>
+        l1 { o =>
           l1.invalidate()
         }
 

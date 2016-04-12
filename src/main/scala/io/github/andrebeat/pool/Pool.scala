@@ -49,7 +49,7 @@ trait Lease[A <: AnyRef] {
     *
     * {{{
     * val lease = pool.acquire()
-    * val x = lease.use { v =>
+    * val x = lease { v =>
     *   if (/* invalid condition */) { lease.invalidate(); None }
     *   else Some(/* result */)
     * }
@@ -61,18 +61,28 @@ trait Lease[A <: AnyRef] {
     *
     * {{{
     * val lease = pool.acquire()
-    * val x = lease.use(identity)
+    * val x = lease(identity)
     * }}}
     *
     * @tparam B the type of object returned by the function `f`
     * @param f a function that uses the value stored in the lease to produce a new value
     * @return the value produced by the function `f`.
     */
-  def use[B](f: A => B): B = try {
+  def apply[B](f: A => B): B = try {
     f(get())
   } finally {
     release()
   }
+
+  /**
+    * Gets the value from the lease, passing it onto the provided function and
+    * releasing it back to the pool after the function is run.
+    *
+    * Alias method for `apply`.
+    *
+    * @see [[io.github.andrebeat.pool.Lease.apply]]
+    */
+  def use[B](f: A => B): B = apply(f)
 }
 
 /**
