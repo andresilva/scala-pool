@@ -23,7 +23,7 @@
 
 ## Installation
 
-scala-pool's latest release is `0.3.0` and is built against Scala `2.11.8`.
+scala-pool is currently available for Scala 2.10 and 2.11, the latest version is `0.3.0`.
 
 To use it in an existing SBT project, add the following dependency to your `build.sbt`:
 
