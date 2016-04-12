@@ -8,6 +8,8 @@ version := "0.4.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
+crossScalaVersions := Seq("2.10.6")
+
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-core" % "3.7.2" % "test")
 
