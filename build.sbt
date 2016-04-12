@@ -6,10 +6,10 @@ licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andrebea
 
 version := "0.3.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "3.6.5" % "test")
+  "org.specs2" %% "specs2-core" % "3.7.2" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
