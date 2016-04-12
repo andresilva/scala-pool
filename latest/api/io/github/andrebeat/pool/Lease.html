@@ -201,6 +201,33 @@ be accessed and then released back to the pool when no longer needed.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.Lease#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply[B](f:A=&gt;B):B"></a>
+      <a id="apply[B]((A)⇒B):B"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span>) ⇒ <span class="extype" name="io.github.andrebeat.pool.Lease.apply.B">B</span></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.apply.B">B</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@apply[B](f:A=&gt;B):B" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets the value from the lease, passing it onto the provided function and
+releasing it back to the pool after the function is run.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the value from the lease, passing it onto the provided function and
+releasing it back to the pool after the function is run.</p><p>If needed, it is possible to invalidate the lease from inside the provided
+function, for example:</p><pre><span class="kw">val</span> lease = pool.acquire()
+<span class="kw">val</span> x = lease { v <span class="kw">=&gt;</span>
+  <span class="kw">if</span> (<span class="cmt">/* invalid condition */</span>) { lease.invalidate(); <span class="std">None</span> }
+  <span class="kw">else</span> <span class="std">Some</span>(<span class="cmt">/* result */</span>)
+}</pre><p>It is important that no references are kept to the leased object after
+this method finishes. For example, the following code is invalid since the
+variable <code>x</code> holds a reference to an object that was returned to the pool.</p><pre><span class="kw">val</span> lease = pool.acquire()
+<span class="kw">val</span> x = lease(identity)</pre></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>the type of object returned by the function <code>f</code></p></dd><dt class="param">f</dt><dd class="cmt"><p>a function that uses the value stored in the lease to produce a new value</p></dd><dt>returns</dt><dd class="cmt"><p>the value produced by the function <code>f</code>.</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -508,15 +535,8 @@ there are no references to the returned object.</p><p>If the lease has already b
     </span>
       <p class="shortcomment cmt">Gets the value from the lease, passing it onto the provided function and
 releasing it back to the pool after the function is run.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the value from the lease, passing it onto the provided function and
-releasing it back to the pool after the function is run.</p><p>If needed, it is possible to invalidate the lease from inside the provided
-function, for example:</p><pre><span class="kw">val</span> lease = pool.acquire()
-<span class="kw">val</span> x = lease.use { v <span class="kw">=&gt;</span>
-  <span class="kw">if</span> (<span class="cmt">/* invalid condition */</span>) { lease.invalidate(); <span class="std">None</span> }
-  <span class="kw">else</span> <span class="std">Some</span>(<span class="cmt">/* result */</span>)
-}</pre><p>It is important that no references are kept to the leased object after
-this method finishes. For example, the following code is invalid since the
-variable <code>x</code> holds a reference to an object that was returned to the pool.</p><pre><span class="kw">val</span> lease = pool.acquire()
-<span class="kw">val</span> x = lease.use(identity)</pre></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>the type of object returned by the function <code>f</code></p></dd><dt class="param">f</dt><dd class="cmt"><p>a function that uses the value stored in the lease to produce a new value</p></dd><dt>returns</dt><dd class="cmt"><p>the value produced by the function <code>f</code>.</p></dd></dl></div>
+releasing it back to the pool after the function is run.</p><p>Alias method for <code>apply</code>.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="#apply[B](f:A=&gt;B):B" class="extmbr" name="io.github.andrebeat.pool.Lease#apply">io.github.andrebeat.pool.Lease.apply</a></p></span></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
