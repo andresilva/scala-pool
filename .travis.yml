@@ -7,18 +7,20 @@ jdk:
   - oraclejdk7
   - openjdk7
 script:
-  - sbt clean coverage test
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
 after_success:
   - git config --global user.name "travisbot"
   - git config --global user.email "support@travis-ci.org"
   - git config --global push.default simple
-  - sbt coveralls
+  - sbt ++$TRAVIS_SCALA_VERSION coverageReport coveralls
   -
   >
-    echo $TRAVIS_BRANCH; echo $TRAVIS_PULL_REQUEST; echo $TRAVIS_JDK_VERSION;
-    if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_JDK_VERSION == 'oraclejdk8' ]]; then
+    if [[ $TRAVIS_BRANCH == 'master' && \
+          $TRAVIS_PULL_REQUEST == 'false' && \
+          $TRAVIS_JDK_VERSION == 'oraclejdk8' && \
+          $TRAVIS_SCALA_VERSION == "2.11.8" ]]; then
       export SBT_GHPAGES_COMMIT_MESSAGE="Auto-update site ($TRAVIS_COMMIT)"
-      sbt ghpages-push-site
+      sbt ++$TRAVIS_SCALA_VERSION ghpages-push-site
     fi
 cache:
   directories:
