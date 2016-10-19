@@ -349,6 +349,20 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         l1.get() must throwAn[IllegalStateException]
         p.size() === 0
       }
+
+      "destroy the object when it is returned to a closed pool" >> {
+        val p = pool(1, () => new Object)
+
+        val l1 = p.acquire()
+
+        p.close()
+        p.live() === 1
+
+        l1.release()
+
+        p.live() === 0
+        p.size() === 0
+      }
     }
   }
 }
