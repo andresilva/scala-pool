@@ -50,5 +50,13 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
       p.size() === 0
       p.live() === 0
     }
+
+    "shutdown the pool timer when it is closed" >> {
+      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
+      p.close()
+
+      p.timer.scheduleAtFixedRate(null, 1, 1) must
+        throwA[IllegalStateException](message = "Timer already cancelled.")
+    }
   }
 }

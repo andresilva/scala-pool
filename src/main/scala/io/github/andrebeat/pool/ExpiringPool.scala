@@ -42,7 +42,7 @@ class ExpiringPool[A <: AnyRef](
     }
   }
 
-  private[this] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
+  private[pool] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
   private[this] val adder = Adder()
 
   @inline protected[this] def factory() = _factory()

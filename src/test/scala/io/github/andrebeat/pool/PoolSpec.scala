@@ -188,7 +188,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       }
 
       "when added to an already full pool" >> {
-        // This situtation should never happen in a normal usage of the pool
+        // This situation should never happen in a normal usage of the pool
         var i = 0
         val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
 
@@ -250,6 +250,29 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
 
       // A new object had to be created since the existing ones were invalidated by the GC
       i === 4
+    }
+
+    "drain the pool when it is closed" >> {
+      val p = pool(3, () => new Object)
+
+      p.fill()
+      p.live() === 3
+
+      p.close()
+
+      p.live() === 0
+    }
+
+    "throw an exception when using a closed pool" >> {
+      val p = pool(3, () => new Object)
+
+      p.close()
+
+      (p.acquire(): Unit) must throwA[Pool.ClosedPoolException]
+      (p.tryAcquire(): Unit) must throwA[Pool.ClosedPoolException]
+      (p.tryAcquire(100.millis): Unit) must throwA[Pool.ClosedPoolException]
+      p.drain() must throwA[Pool.ClosedPoolException]
+      p.fill() must throwA[Pool.ClosedPoolException]
     }
 
     s"A ${ct.runtimeClass.getSimpleName} Lease" should {
