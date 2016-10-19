@@ -50,6 +50,10 @@ class ExpiringPool[A <: AnyRef](
   @inline protected[this] def reset(a: A) = _reset(a)
   @inline protected[this] def healthCheck(a: A) = _healthCheck(a)
 
+  @inline protected[this] def handleClose() = {
+    timer.cancel()
+  }
+
   @inline protected[this] def newItem(a: A) = {
     adder.increment()
     val id = adder.count()

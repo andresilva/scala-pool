@@ -110,7 +110,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
       case _ => None
     }
 
-  def acquire(): Lease[A] = {
+  protected[this] def handleAcquire(): Lease[A] = {
     val item = unwrapItem(Option(items.poll()))
 
     if (item.isDefined) new PoolLease(item.get)
@@ -122,14 +122,14 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
     }
   }
 
-  def tryAcquire(): Option[Lease[A]] = {
+  protected[this] def handleTryAcquire(): Option[Lease[A]] = {
     val item = unwrapItem(Option(items.poll()))
 
     if (item.isDefined) Some(new PoolLease(item.get))
     else tryCreate().map(new PoolLease(_))
   }
 
-  def tryAcquire(atMost: Duration): Option[Lease[A]] = {
+  protected[this] def handleTryAcquire(atMost: Duration): Option[Lease[A]] = {
     val item = unwrapItem(Option(items.poll()))
 
     if (item.isDefined) Some(new PoolLease(item.get))
@@ -142,21 +142,21 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
     }
   }
 
-  @tailrec final def drain() = {
+  @tailrec protected[this] final def handleDrain() = {
     val i = Option(items.poll())
     if (i.nonEmpty) {
       i.get.destroy()
-      drain()
+      handleDrain()
     }
   }
 
-  @tailrec final def fill() = {
+  @tailrec protected[this] final def handleFill() = {
     val ao = tryCreate()
     if (ao.nonEmpty) {
       val a = ao.get
       reset(a)
       tryOffer(a)
-      fill()
+      handleFill()
     }
   }
 
