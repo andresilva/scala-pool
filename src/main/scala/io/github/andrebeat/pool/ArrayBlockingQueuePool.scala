@@ -80,8 +80,12 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
 
   private class PoolLease(protected val a: A) extends Lease[A] {
     protected def handleRelease() = {
-      reset(a)
-      tryOffer(a)
+      if (!closed.get()) {
+        reset(a)
+        tryOffer(a)
+      } else {
+        destroy(a)
+      }
     }
 
     protected def handleInvalidate() = {

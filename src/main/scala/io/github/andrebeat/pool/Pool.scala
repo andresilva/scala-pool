@@ -28,6 +28,8 @@ trait Lease[A <: AnyRef] {
     * Releases the object back to the pool for reuse. When releasing an object it is mandatory that
     * there are no references to the returned object.
     *
+    * When an object is released to a pool that has already been closed it is "destroyed".
+    *
     * If the lease has already been released or invalidated this method does nothing.
     */
   def release(): Unit = if (dirty.compareAndSet(false, true)) handleRelease
