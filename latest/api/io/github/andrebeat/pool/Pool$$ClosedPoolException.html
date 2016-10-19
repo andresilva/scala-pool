@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Lease - io.github.andrebeat.pool.Lease</title>
-          <meta name="description" content="Lease - io.github.andrebeat.pool.Lease" />
-          <meta name="keywords" content="Lease io.github.andrebeat.pool.Lease" />
+          <title>ClosedPoolException - io.github.andrebeat.pool.Pool.ClosedPoolException</title>
+          <meta name="description" content="ClosedPoolException - io.github.andrebeat.pool.Pool.ClosedPoolException" />
+          <meta name="keywords" content="ClosedPoolException io.github.andrebeat.pool.Pool.ClosedPoolException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'io.github.andrebeat.pool.Lease';
+            var hash = 'io.github.andrebeat.pool.Pool$$ClosedPoolException';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="io">io</a>.<a href="../../package.html" class="extype" name="io.github">github</a>.<a href="../package.html" class="extype" name="io.github.andrebeat">andrebeat</a>.<a href="package.html" class="extype" name="io.github.andrebeat.pool">pool</a></p>
-        <h1>Lease</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="io.github.andrebeat.pool">package pool</a>
+        <img alt="Class" src="../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="io">io</a>.<a href="../../package.html" class="extype" name="io.github">github</a>.<a href="../package.html" class="extype" name="io.github.andrebeat">andrebeat</a>.<a href="package.html" class="extype" name="io.github.andrebeat.pool">pool</a>.<a href="Pool$.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></p>
+        <h1>ClosedPoolException</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="Pool$.html" class="extype" name="io.github.andrebeat.pool.Pool">package Pool</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,18 +42,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Lease</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">ClosedPoolException</span><span class="result"> extends <span class="extype" name="scala.Exception">Exception</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A lease on an object requested from a <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">io.github.andrebeat.pool.Pool</a> allowing the object to
-be accessed and then released back to the pool when no longer needed.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of object stored in this lease</p></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>An exception that is thrown when trying to use a closed pool.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +70,7 @@ be accessed and then released back to the pool when no longer needed.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="io.github.andrebeat.pool.Lease"><span>Lease</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="io.github.andrebeat.pool.Pool.ClosedPoolException"><span>ClosedPoolException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -88,68 +87,34 @@ be accessed and then released back to the pool when no longer needed.
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="io.github.andrebeat.pool.Lease#a" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="a:A"></a>
-      <a id="a:A"></a>
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="io.github.andrebeat.pool.Pool.ClosedPoolException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;():io.github.andrebeat.pool.Pool.ClosedPoolException"></a>
+      <a id="&lt;init&gt;:ClosedPoolException"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">a</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span></span>
+        <span class="name">ClosedPoolException</span><span class="params">()</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@a:A" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@&lt;init&gt;():io.github.andrebeat.pool.Pool.ClosedPoolException" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#handleInvalidate" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="handleInvalidate():Unit"></a>
-      <a id="handleInvalidate():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleInvalidate</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@handleInvalidate():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#handleRelease" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="handleRelease():Unit"></a>
-      <a id="handleRelease():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleRelease</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@handleRelease():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd></dl></div>
+      
     </li></ol>
             </div>
 
+        
+
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -162,7 +127,7 @@ be accessed and then released back to the pool when no longer needed.
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -179,7 +144,7 @@ be accessed and then released back to the pool when no longer needed.
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -196,38 +161,28 @@ be accessed and then released back to the pool when no longer needed.
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[B](f:A=&gt;B):B"></a>
-      <a id="apply[B]((A)⇒B):B"></a>
+    </li><li name="java.lang.Throwable#addSuppressed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addSuppressed(x$1:Throwable):Unit"></a>
+      <a id="addSuppressed(Throwable):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span>) ⇒ <span class="extype" name="io.github.andrebeat.pool.Lease.apply.B">B</span></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.apply.B">B</span></span>
+        <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@apply[B](f:A=&gt;B):B" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Gets the value from the lease, passing it onto the provided function and
-releasing it back to the pool after the function is run.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the value from the lease, passing it onto the provided function and
-releasing it back to the pool after the function is run.</p><p>If needed, it is possible to invalidate the lease from inside the provided
-function, for example:</p><pre><span class="kw">val</span> lease = pool.acquire()
-<span class="kw">val</span> x = lease { v <span class="kw">=&gt;</span>
-  <span class="kw">if</span> (<span class="cmt">/* invalid condition */</span>) { lease.invalidate(); <span class="std">None</span> }
-  <span class="kw">else</span> <span class="std">Some</span>(<span class="cmt">/* result */</span>)
-}</pre><p>It is important that no references are kept to the leased object after
-this method finishes. For example, the following code is invalid since the
-variable <code>x</code> holds a reference to an object that was returned to the pool.</p><pre><span class="kw">val</span> lease = pool.acquire()
-<span class="kw">val</span> x = lease(identity)</pre></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>the type of object returned by the function <code>f</code></p></dd><dt class="param">f</dt><dd class="cmt"><p>a function that uses the value stored in the lease to produce a new value</p></dd><dt>returns</dt><dd class="cmt"><p>the value produced by the function <code>f</code>.</p></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -240,7 +195,7 @@ variable <code>x</code> holds a reference to an object that was returned to the 
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -257,7 +212,7 @@ variable <code>x</code> holds a reference to an object that was returned to the 
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -280,7 +235,7 @@ variable <code>x</code> holds a reference to an object that was returned to the 
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -297,11 +252,28 @@ variable <code>x</code> holds a reference to an object that was returned to the 
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="java.lang.Throwable#fillInStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fillInStackTrace():Throwable"></a>
+      <a id="fillInStackTrace():Throwable"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@fillInStackTrace():Throwable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -314,7 +286,7 @@ variable <code>x</code> holds a reference to an object that was returned to the 
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -325,24 +297,23 @@ variable <code>x</code> holds a reference to an object that was returned to the 
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="get():A"></a>
-      <a id="get():A"></a>
+    </li><li name="java.lang.Throwable#getCause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCause():Throwable"></a>
+      <a id="getCause():Throwable"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">get</span><span class="params">()</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span></span>
+        <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@get():A" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getCause():Throwable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the object being leased by the pool.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the object being leased by the pool. Throws an <span class="extype" name="java.lang.IllegalStateException">java.lang.IllegalStateException</span>
-if the lease has already been released or invalidated.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the object being leased by the pool.</p></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -355,11 +326,79 @@ if the lease has already been released or invalidated.</p></div><dl class="param
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="java.lang.Throwable#getLocalizedMessage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLocalizedMessage():String"></a>
+      <a id="getLocalizedMessage():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getLocalizedMessage():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getMessage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMessage():String"></a>
+      <a id="getMessage():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getMessage():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getStackTrace():Array[StackTraceElement]"></a>
+      <a id="getStackTrace():Array[StackTraceElement]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getSuppressed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getSuppressed():Array[Throwable]"></a>
+      <a id="getSuppressed():Array[Throwable]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -372,30 +411,28 @@ if the lease has already been released or invalidated.</p></div><dl class="param
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#invalidate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="invalidate():Unit"></a>
-      <a id="invalidate():Unit"></a>
+    </li><li name="java.lang.Throwable#initCause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initCause(x$1:Throwable):Throwable"></a>
+      <a id="initCause(Throwable):Throwable"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">invalidate</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@invalidate():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Invalidates the current lease.</p><div class="fullcomment"><div class="comment cmt"><p>Invalidates the current lease. The object is &quot;destroyed&quot; and is no longer eligible to be
-returned to the pool. Additionally, the number of live objects in the pool is decremented.</p><p>If the lease has already been released or invalidated this method does nothing.
-</p></div></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -408,7 +445,7 @@ returned to the pool. Additionally, the number of live objects in the pool is de
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -425,7 +462,7 @@ returned to the pool. Additionally, the number of live objects in the pool is de
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -442,7 +479,7 @@ returned to the pool. Additionally, the number of live objects in the pool is de
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -459,30 +496,79 @@ returned to the pool. Additionally, the number of live objects in the pool is de
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#release" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="release():Unit"></a>
-      <a id="release():Unit"></a>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace(x$1:java.io.PrintWriter):Unit"></a>
+      <a id="printStackTrace(PrintWriter):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">release</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@release():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Releases the object back to the pool for reuse.</p><div class="fullcomment"><div class="comment cmt"><p>Releases the object back to the pool for reuse. When releasing an object it is mandatory that
-there are no references to the returned object.</p><p>When an object is released to a pool that has already been closed it is &quot;destroyed&quot;.</p><p>If the lease has already been released or invalidated this method does nothing.
-</p></div></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace(x$1:java.io.PrintStream):Unit"></a>
+      <a id="printStackTrace(PrintStream):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace():Unit"></a>
+      <a id="printStackTrace():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@printStackTrace():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#setStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setStackTrace(x$1:Array[StackTraceElement]):Unit"></a>
+      <a id="setStackTrace(Array[StackTraceElement]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -495,12 +581,12 @@ there are no references to the returned object.</p><p>When an object is released
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="java.lang.Throwable#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
       <h4 class="signature">
@@ -512,31 +598,11 @@ there are no references to the returned object.</p><p>When an object is released
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@toString():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Lease#use" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="use[B](f:A=&gt;B):B"></a>
-      <a id="use[B]((A)⇒B):B"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">use</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="io.github.andrebeat.pool.Lease.A">A</span>) ⇒ <span class="extype" name="io.github.andrebeat.pool.Lease.use.B">B</span></span>)</span><span class="result">: <span class="extype" name="io.github.andrebeat.pool.Lease.use.B">B</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@use[B](f:A=&gt;B):B" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Gets the value from the lease, passing it onto the provided function and
-releasing it back to the pool after the function is run.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the value from the lease, passing it onto the provided function and
-releasing it back to the pool after the function is run.</p><p>Alias method for <code>apply</code>.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="#apply[B](f:A=&gt;B):B" class="extmbr" name="io.github.andrebeat.pool.Lease#apply">io.github.andrebeat.pool.Lease.apply</a></p></span></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -549,7 +615,7 @@ releasing it back to the pool after the function is run.</p><p>Alias method for 
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -572,7 +638,7 @@ releasing it back to the pool after the function is run.</p><p>Alias method for 
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -595,7 +661,7 @@ releasing it back to the pool after the function is run.</p><p>Alias method for 
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.Lease@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#io.github.andrebeat.pool.Pool$$ClosedPoolException@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -615,7 +681,13 @@ releasing it back to the pool after the function is run.</p><p>Alias method for 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="java.lang.Exception">
+              <h3>Inherited from <span class="extype" name="java.lang.Exception">Exception</span></h3>
+            </div><div class="parent" name="java.lang.Throwable">
+              <h3>Inherited from <span class="extype" name="java.lang.Throwable">Throwable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
