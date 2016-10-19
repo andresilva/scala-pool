@@ -181,23 +181,6 @@ evicted (i.e. permanently removed) from the pool.
       </a>
     </span>
       <p class="shortcomment cmt">Factory method for creating new objects.</p><div class="fullcomment"><div class="comment cmt"><p>Factory method for creating new objects.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new object.</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#handleClose" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="handleClose():Unit"></a>
-      <a id="handleClose():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleClose</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleClose():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.Pool#healthCheck" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="healthCheck(a:A):Boolean"></a>
       <a id="healthCheck(A):Boolean"></a>
@@ -314,7 +297,7 @@ by previous ones.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#acquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#acquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="acquire():io.github.andrebeat.pool.Lease[A]"></a>
       <a id="acquire():Lease[A]"></a>
       <h4 class="signature">
@@ -330,7 +313,7 @@ by previous ones.
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Acquire a lease for an object blocking if none is available.</p><div class="fullcomment"><div class="comment cmt"><p>Acquire a lease for an object blocking if none is available.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="ClosedPoolException"><code>ClosedPoolException</code></span> If this pool is closed.</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Acquire a lease for an object blocking if none is available.</p><div class="fullcomment"><div class="comment cmt"><p>Acquire a lease for an object blocking if none is available.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -388,43 +371,6 @@ by previous ones.
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#close" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="close():Unit"></a>
-      <a id="close():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">close</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@close():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Closes this pool, and properly disposes of each pooled object, releasing any resources
-associated with the pool (e.g.</p><div class="fullcomment"><div class="comment cmt"><p>Closes this pool, and properly disposes of each pooled object, releasing any resources
-associated with the pool (e.g. background timer threads).</p><p>If the pool has already been closed this method does nothing.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#closed" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="closed:java.util.concurrent.atomic.AtomicBoolean"></a>
-      <a id="closed:AtomicBoolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">closed</span><span class="result">: <span class="extype" name="java.util.concurrent.atomic.AtomicBoolean">AtomicBoolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@closed:java.util.concurrent.atomic.AtomicBoolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#destroy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="destroy(a:A):Unit"></a>
       <a id="destroy(A):Unit"></a>
@@ -445,12 +391,12 @@ associated with the pool (e.g. background timer threads).</p><p>If the pool has 
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#drain" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#drain" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="drain():Unit"></a>
       <a id="drain():Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -461,7 +407,11 @@ associated with the pool (e.g. background timer threads).</p><p>If the pool has 
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Drains the object pool, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Drains the object pool, i.e. evicts every object currently pooled.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="ClosedPoolException"><code>ClosedPoolException</code></span> If this pool is closed.</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Drains the object pool, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Drains the object pool, i.e. evicts every object currently pooled.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@tailrec</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -496,12 +446,12 @@ associated with the pool (e.g. background timer threads).</p><p>If the pool has 
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#fill" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#fill" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fill():Unit"></a>
       <a id="fill():Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -514,7 +464,11 @@ associated with the pool (e.g. background timer threads).</p><p>If the pool has 
     </span>
       <p class="shortcomment cmt">Fills the object pool by creating (and pooling) new objects until the number of live objects
 reaches the pool capacity.</p><div class="fullcomment"><div class="comment cmt"><p>Fills the object pool by creating (and pooling) new objects until the number of live objects
-reaches the pool capacity.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="ClosedPoolException"><code>ClosedPoolException</code></span> If this pool is closed.</p></span></dd></dl></div>
+reaches the pool capacity.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@tailrec</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -555,97 +509,6 @@ reaches the pool capacity.</p></div><dl class="attributes block"> <dt>Definition
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#handleAcquire" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleAcquire():io.github.andrebeat.pool.Lease[A]"></a>
-      <a id="handleAcquire():Lease[A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleAcquire</span><span class="params">()</span><span class="result">: <a href="Lease.html" class="extype" name="io.github.andrebeat.pool.Lease">Lease</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleAcquire():io.github.andrebeat.pool.Lease[A]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#handleDrain" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleDrain():Unit"></a>
-      <a id="handleDrain():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleDrain</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleDrain():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
-                <span class="name">@tailrec</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#handleFill" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleFill():Unit"></a>
-      <a id="handleFill():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleFill</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleFill():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Annotations</dt><dd>
-                <span class="name">@tailrec</span><span class="args">()</span>
-              
-        </dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#handleTryAcquire" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleTryAcquire(atMost:scala.concurrent.duration.Duration):Option[io.github.andrebeat.pool.Lease[A]]"></a>
-      <a id="handleTryAcquire(Duration):Option[Lease[A]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleTryAcquire</span><span class="params">(<span name="atMost">atMost: <span class="extype" name="scala.concurrent.duration.Duration">Duration</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Lease.html" class="extype" name="io.github.andrebeat.pool.Lease">Lease</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleTryAcquire(atMost:scala.concurrent.duration.Duration):Option[io.github.andrebeat.pool.Lease[A]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#handleTryAcquire" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleTryAcquire():Option[io.github.andrebeat.pool.Lease[A]]"></a>
-      <a id="handleTryAcquire():Option[Lease[A]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">handleTryAcquire</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Lease.html" class="extype" name="io.github.andrebeat.pool.Lease">Lease</a>[<span class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool.A">A</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#io.github.andrebeat.pool.ArrayBlockingQueuePool@handleTryAcquire():Option[io.github.andrebeat.pool.Lease[A]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[this] </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -861,7 +724,7 @@ when trying to acquire an object.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tryAcquire(atMost:scala.concurrent.duration.Duration):Option[io.github.andrebeat.pool.Lease[A]]"></a>
       <a id="tryAcquire(Duration):Option[Lease[A]]"></a>
       <h4 class="signature">
@@ -877,8 +740,8 @@ when trying to acquire an object.
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Try to acquire a lease for an object blocking at most until the given duration.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object blocking at most until the given duration.</p></div><dl class="paramcmts block"><dt class="param">atMost</dt><dd class="cmt"><p>maximum wait time for the lease to be available.</p></dd><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available until the given duration, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="ClosedPoolException"><code>ClosedPoolException</code></span> If this pool is closed.</p></span></dd></dl></div>
-    </li><li name="io.github.andrebeat.pool.Pool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Try to acquire a lease for an object blocking at most until the given duration.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object blocking at most until the given duration.</p></div><dl class="paramcmts block"><dt class="param">atMost</dt><dd class="cmt"><p>maximum wait time for the lease to be available.</p></dd><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available until the given duration, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
+    </li><li name="io.github.andrebeat.pool.ArrayBlockingQueuePool#tryAcquire" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tryAcquire():Option[io.github.andrebeat.pool.Lease[A]]"></a>
       <a id="tryAcquire():Option[Lease[A]]"></a>
       <h4 class="signature">
@@ -894,7 +757,7 @@ when trying to acquire an object.
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Try to acquire a lease for an object without blocking.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object without blocking.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="ClosedPoolException"><code>ClosedPoolException</code></span> If this pool is closed.</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Try to acquire a lease for an object without blocking.</p><div class="fullcomment"><div class="comment cmt"><p>Try to acquire a lease for an object without blocking.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a lease for an object from this pool if available, <code>None</code> otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.github.andrebeat.pool.ArrayBlockingQueuePool">ArrayBlockingQueuePool</a> → <a href="Pool.html" class="extype" name="io.github.andrebeat.pool.Pool">Pool</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
