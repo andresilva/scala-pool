@@ -24,6 +24,8 @@ class SimplePool[A <: AnyRef](
     def offerSuccess() = {}
   }
 
+  @inline protected[this] def handleClose() = {}
+
   @inline protected[this] def newItem(a: A): Item = new SimpleItem(Ref(a, referenceType))
 }
 

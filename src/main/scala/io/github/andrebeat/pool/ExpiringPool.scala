@@ -42,13 +42,17 @@ class ExpiringPool[A <: AnyRef](
     }
   }
 
-  private[this] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
+  private[pool] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
   private[this] val adder = Adder()
 
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
   @inline protected[this] def reset(a: A) = _reset(a)
   @inline protected[this] def healthCheck(a: A) = _healthCheck(a)
+
+  @inline protected[this] def handleClose() = {
+    timer.cancel()
+  }
 
   @inline protected[this] def newItem(a: A) = {
     adder.increment()

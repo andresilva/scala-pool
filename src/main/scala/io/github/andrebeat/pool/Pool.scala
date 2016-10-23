@@ -28,6 +28,8 @@ trait Lease[A <: AnyRef] {
     * Releases the object back to the pool for reuse. When releasing an object it is mandatory that
     * there are no references to the returned object.
     *
+    * When an object is released to a pool that has already been closed it is "destroyed".
+    *
     * If the lease has already been released or invalidated this method does nothing.
     */
   def release(): Unit = if (dirty.compareAndSet(false, true)) handleRelease
@@ -92,6 +94,17 @@ trait Lease[A <: AnyRef] {
   * @tparam A the type of object to pool
   */
 trait Pool[A <: AnyRef] {
+  import Pool.ClosedPoolException
+
+  protected[this] val closed = new AtomicBoolean(false)
+
+  protected def handleTryAcquire(): Option[Lease[A]]
+  protected def handleTryAcquire(atMost: Duration): Option[Lease[A]]
+  protected def handleAcquire(): Lease[A]
+  protected def handleDrain(): Unit
+  protected def handleFill(): Unit
+  protected def handleClose(): Unit
+
   /**
     * Factory method for creating new objects.
     * @return a new object.
@@ -124,15 +137,19 @@ trait Pool[A <: AnyRef] {
   /**
     * Try to acquire a lease for an object without blocking.
     * @return a lease for an object from this pool if available, `None` otherwise.
+    * @throws ClosedPoolException If this pool is closed.
     */
-  def tryAcquire(): Option[Lease[A]]
+  def tryAcquire(): Option[Lease[A]] =
+    if (!closed.get()) handleTryAcquire else throw new ClosedPoolException
 
   /**
     * Try to acquire a lease for an object blocking at most until the given duration.
     * @param atMost maximum wait time for the lease to be available.
     * @return a lease for an object from this pool if available until the given duration, `None` otherwise.
+    * @throws ClosedPoolException If this pool is closed.
     */
-  def tryAcquire(atMost: Duration): Option[Lease[A]]
+  def tryAcquire(atMost: Duration): Option[Lease[A]] =
+    if (!closed.get()) handleTryAcquire(atMost) else throw new ClosedPoolException
 
   /**
     * Returns the [[io.github.andrebeat.pool.ReferenceType]] of the objects stored in the pool.
@@ -142,19 +159,25 @@ trait Pool[A <: AnyRef] {
   /**
     * Acquire a lease for an object blocking if none is available.
     * @return a lease for an object from this pool.
+    * @throws ClosedPoolException If this pool is closed.
     */
-  def acquire(): Lease[A]
+  def acquire(): Lease[A] =
+    if (!closed.get()) handleAcquire else throw new ClosedPoolException
 
   /**
     * Drains the object pool, i.e. evicts every object currently pooled.
+    * @throws ClosedPoolException If this pool is closed.
     */
-  def drain(): Unit
+  def drain(): Unit =
+    if (!closed.get()) handleDrain else throw new ClosedPoolException
 
   /**
     * Fills the object pool by creating (and pooling) new objects until the number of live objects
     * reaches the pool capacity.
+    * @throws ClosedPoolException If this pool is closed.
     */
-  def fill(): Unit
+  def fill(): Unit =
+    if (!closed.get()) handleFill else throw new ClosedPoolException
 
   /**
     * Returns the number of objects in the pool.
@@ -195,12 +218,30 @@ trait Pool[A <: AnyRef] {
     * @return the number of leased objects.
     */
   def leased(): Int = live - size
+
+  /**
+    * Closes this pool, and properly disposes of each pooled object, releasing any resources
+    * associated with the pool (e.g. background timer threads).
+    *
+    * If the pool has already been closed this method does nothing.
+    */
+  def close(): Unit = {
+    if (closed.compareAndSet(false, true)) {
+      handleDrain
+      handleClose
+    }
+  }
 }
 
 /**
   * Object containing factory methods for [[io.github.andrebeat.pool.Pool]].
   */
 object Pool {
+  /**
+    * An exception that is thrown when trying to use a closed pool.
+    */
+  class ClosedPoolException extends Exception
+
   /**
     * Creates a new [[io.github.andrebeat.pool.ExpiringPool]] or
     * [[io.github.andrebeat.pool.SimplePool]] instance depending on whether a non-zero and finite

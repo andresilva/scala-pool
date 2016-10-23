@@ -116,9 +116,13 @@ lease.release
 // Its now in the pool waiting to be reused
 pool.size
 // res4: Int = 1
+
+// Closes this pool, properly disposing of each pooled object and 
+// releasing any resources associated with the pool
+pool.close()
 ```
 
-The API is documented in depth in the [Scaladoc](https://andrebeat.github.io/scala-pool/latest/api/index.html).
+The API is documented in depth in the [Scaladoc](https://andrebeat.github.io/scala-pool/).
 
 ## License
 
