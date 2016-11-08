@@ -1,11 +1,18 @@
 language: scala
 scala:
+  - 2.12.0
   - 2.11.8
   - 2.10.6
 jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk7
+matrix:
+  exclude:
+  - scala: 2.12.0
+    jdk: oraclejdk7
+  - scala: 2.12.0
+    jdk: openjdk7
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
 after_success:
@@ -18,7 +25,7 @@ after_success:
     if [[ $TRAVIS_BRANCH == 'master' && \
           $TRAVIS_PULL_REQUEST == 'false' && \
           $TRAVIS_JDK_VERSION == 'oraclejdk8' && \
-          $TRAVIS_SCALA_VERSION == "2.11.8" ]]; then
+          $TRAVIS_SCALA_VERSION == "2.12.0" ]]; then
       export SBT_GHPAGES_COMMIT_MESSAGE="Auto-update site ($TRAVIS_COMMIT)"
       sbt ++$TRAVIS_SCALA_VERSION ghpages-push-site
     fi
