@@ -236,20 +236,25 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     }
 
     "handle GC-based eviction" >> {
-      var i = 0
-      val p = pool(3, () => { i += 1; new Object }, referenceType = ReferenceType.Weak)
+      def test(referenceType: ReferenceType) = {
+        var i = 0
+        val p = pool(3, () => { i += 1; new Object }, referenceType = ReferenceType.Weak)
 
-      p.fill()
+        p.fill()
 
-      p.size() === 3
-      i === 3
+        p.size() === 3
+        i === 3
 
-      Platform.collectGarbage
+        Platform.collectGarbage
 
-      p.acquire()
+        p.acquire()
 
-      // A new object had to be created since the existing ones were invalidated by the GC
-      i === 4
+        // A new object had to be created since the existing ones were invalidated by the GC
+        i === 4
+      }
+
+      test(referenceType = ReferenceType.Soft)
+      test(referenceType = ReferenceType.Weak)
     }
 
     "drain the pool when it is closed" >> {
