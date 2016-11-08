@@ -29,9 +29,12 @@ scalacOptions ++= Seq(
 val javaVersion = settingKey[String]("Java version")
 javaVersion := System.getProperty("java.version")
 
-unmanagedSourceDirectories in Compile <+= (javaVersion, sourceDirectory in Compile) {
-  case (v, dir) if v startsWith "1.8" => dir / "java_8"
-  case (v, dir) if v startsWith "1.7" => dir / "java_7"
+unmanagedSourceDirectories in Compile += {
+  val v  = javaVersion.value
+  val dir = (sourceDirectory in Compile).value
+
+  if (v.startsWith("1.8")) dir / "java_8"
+  else dir / "java_7"
 }
 
 scalacOptions in Test ++= Seq("-Yrangepos")
