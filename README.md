@@ -15,15 +15,15 @@
 * * *
 
 [![Build Status](https://img.shields.io/travis/andrebeat/scala-pool/master.svg)](https://travis-ci.org/andrebeat/scala-pool)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.11.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.11)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.12)
 [![Coverage](https://img.shields.io/coveralls/andrebeat/scala-pool/master.svg)](https://coveralls.io/github/andrebeat/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE)
-[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.11.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.11#io.github.andrebeat.pool.package)
+[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.12.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.12#io.github.andrebeat.pool.package)
 [![Scaladoc](https://img.shields.io/badge/scaladoc-latest-brightgreen.svg)](https://andrebeat.github.io/scala-pool)
 
 ## Installation
 
-scala-pool is currently available for Scala 2.10 and 2.11, the latest version is `0.4.0`.
+scala-pool is currently available for Scala 2.12, 2.11 and 2.10, the latest version is `0.4.0`.
 
 To use it in an existing SBT project, add the following dependency to your `build.sbt`:
 

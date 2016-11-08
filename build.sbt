@@ -6,12 +6,12 @@ licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andrebea
 
 version := "0.5.0-SNAPSHOT"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 
-crossScalaVersions := Seq("2.10.6")
+crossScalaVersions := Seq("2.11.8", "2.10.6")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "3.7.2" % "test")
+  "org.specs2" %% "specs2-core" % "3.8.6" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -29,9 +29,12 @@ scalacOptions ++= Seq(
 val javaVersion = settingKey[String]("Java version")
 javaVersion := System.getProperty("java.version")
 
-unmanagedSourceDirectories in Compile <+= (javaVersion, sourceDirectory in Compile) {
-  case (v, dir) if v startsWith "1.8" => dir / "java_8"
-  case (v, dir) if v startsWith "1.7" => dir / "java_7"
+unmanagedSourceDirectories in Compile += {
+  val v  = javaVersion.value
+  val dir = (sourceDirectory in Compile).value
+
+  if (v.startsWith("1.8")) dir / "java_8"
+  else dir / "java_7"
 }
 
 scalacOptions in Test ++= Seq("-Yrangepos")
