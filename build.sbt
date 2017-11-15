@@ -2,7 +2,7 @@ name := "scala-pool"
 
 organization := "io.github.andrebeat"
 startYear := Some(2015)
-licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andrebeat/scala-pool/master/LICENSE"))
+licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andresilva/scala-pool/master/LICENSE"))
 
 version := "0.5.0-SNAPSHOT"
 
@@ -56,16 +56,16 @@ pomIncludeRepository := { _ => false }
 publishArtifact in Test := false
 
 pomExtra := (
-  <url>https://github.com/andrebeat/scala-pool</url>
+  <url>https://github.com/andresilva/scala-pool</url>
   <scm>
-    <url>git@github.com:andrebeat/scala-pool.git</url>
-    <connection>scm:git:git@github.com:andrebeat/scala-pool.git</connection>
+    <url>git@github.com:andresilva/scala-pool.git</url>
+    <connection>scm:git:git@github.com:andresilva/scala-pool.git</connection>
   </scm>
   <developers>
     <developer>
-      <id>andrebeat</id>
+      <id>andresilva</id>
       <name>Andre Silva</name>
-      <url>https://github.com/andrebeat/</url>
+      <url>https://github.com/andresilva/</url>
     </developer>
   </developers>
 )
@@ -80,4 +80,4 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 
 enablePlugins(SiteScaladocPlugin)
 ghpages.settings
-git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andrebeat/scala-pool.git"""
+git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andresilva/scala-pool.git"""
