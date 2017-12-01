@@ -2,7 +2,6 @@ name := "scala-pool"
 
 organization := "io.github.andrebeat"
 startYear := Some(2015)
-licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andresilva/scala-pool/master/LICENSE"))
 
 version := "0.5.0-SNAPSHOT"
 
@@ -41,34 +40,15 @@ scalacOptions in Test ++= Seq("-Yrangepos")
 
 fork := true
 
-publishMavenStyle := true
-
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
+publishTo := Some(
   if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
+    Opts.resolver.sonatypeSnapshots
   else
-    Some("staging"  at nexus + "service/local/staging/deploy/maven2")
-}
+    Opts.resolver.sonatypeStaging)
 
 pomIncludeRepository := { _ => false }
 
 publishArtifact in Test := false
-
-pomExtra := (
-  <url>https://github.com/andresilva/scala-pool</url>
-  <scm>
-    <url>git@github.com:andresilva/scala-pool.git</url>
-    <connection>scm:git:git@github.com:andresilva/scala-pool.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>andresilva</id>
-      <name>Andre Silva</name>
-      <url>https://github.com/andresilva/</url>
-    </developer>
-  </developers>
-)
 
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 import scalariform.formatter.preferences._
