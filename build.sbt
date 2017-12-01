@@ -6,12 +6,12 @@ licenses := Seq("MIT License" -> url("https://raw.githubusercontent.com/andresil
 
 version := "0.5.0-SNAPSHOT"
 
-scalaVersion := "2.12.0"
+scalaVersion := "2.12.4"
 
-crossScalaVersions := Seq("2.11.8", "2.10.6")
+crossScalaVersions := Seq("2.11.11", "2.10.6")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "3.8.6" % "test")
+  "org.specs2" %% "specs2-core" % "3.9.5" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -74,10 +74,9 @@ import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 import scalariform.formatter.preferences._
 
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
-  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(DoubleIndentConstructorArguments, true)
   .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
-  .setPreference(DanglingCloseParenthesis, Preserve)
 
 enablePlugins(SiteScaladocPlugin)
-ghpages.settings
+enablePlugins(GhpagesPlugin)
 git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andresilva/scala-pool.git"""
