@@ -27,7 +27,7 @@ after_success:
           $TRAVIS_JDK_VERSION == 'oraclejdk8' && \
           $TRAVIS_SCALA_VERSION == "2.12.4" ]]; then
       export SBT_GHPAGES_COMMIT_MESSAGE="Auto-update site ($TRAVIS_COMMIT)"
-      sbt ++$TRAVIS_SCALA_VERSION ghpages-push-site
+      sbt ++$TRAVIS_SCALA_VERSION ghpagesPushSite
     fi
 cache:
   directories:
