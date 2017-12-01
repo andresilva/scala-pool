@@ -14,7 +14,7 @@ matrix:
   - scala: 2.12.4
     jdk: openjdk7
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+  - sbt ++$TRAVIS_SCALA_VERSION "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" clean coverage test
 after_success:
   - git config --global user.name "travisbot"
   - git config --global user.email "support@travis-ci.org"

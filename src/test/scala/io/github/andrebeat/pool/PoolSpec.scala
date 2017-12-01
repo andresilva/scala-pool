@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
 import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ blocking, Future }
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
 
@@ -18,6 +18,8 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () },
     healthCheck: A => Boolean = { _: A => true }): P[A]
+
+  sequential
 
   s"A ${ct.runtimeClass.getSimpleName}" should {
     "have a capacity" >> {
@@ -119,15 +121,19 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       val l1 = p.acquire()
 
       val f = Future {
-        Some(p.acquire().get())
+        blocking {
+          Some(p.acquire().get())
+        }
       }
 
       Future {
-        sleep(100.millis)
-        l1.release()
+        blocking {
+          sleep(100.millis)
+          l1.release()
+        }
       }
 
-      await(f, 300.millis) must beSome
+      await(f, 500.millis) must beSome
     }
 
     "only block until a given duration when trying to acquire an object" >> {
@@ -139,10 +145,12 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       p.acquire()
 
       val f = Future {
-        p.tryAcquire(100.millis): Option[Lease[_]]
+        blocking {
+          p.tryAcquire(100.millis): Option[Lease[_]]
+        }
       }
 
-      await(f, 300.millis) must beNone
+      await(f, 500.millis) must beNone
     }
 
     "call the reset method when adding/releasing an object to the pool" >> {

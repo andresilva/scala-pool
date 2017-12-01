@@ -14,20 +14,20 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
 
   "A ExpiringPool" should {
     "evict idle objects" >> {
-      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
+      val p = ExpiringPool(3, ReferenceType.Strong, 100.millis, () => new Object)
       p.fill()
 
       p.size() === 3
       p.live() === 3
 
-      sleep(200.millis)
+      sleep(500.millis)
 
       p.size() === 0
       p.live() === 0
     }
 
     "when released, objects are counted as idle" >> {
-      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
+      val p = ExpiringPool(3, ReferenceType.Strong, 100.millis, () => new Object)
       p.fill()
 
       val l = p.acquire()
@@ -35,7 +35,7 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
       p.size() === 2
       p.live() === 3
 
-      sleep(200.millis)
+      sleep(500.millis)
 
       p.size() === 0
       p.live() === 1
@@ -45,14 +45,14 @@ class ExpiringPoolSpec extends PoolSpec[ExpiringPool] with TestHelper {
       p.size() === 1
       p.live() === 1
 
-      sleep(200.millis)
+      sleep(500.millis)
 
       p.size() === 0
       p.live() === 0
     }
 
     "shutdown the pool timer when it is closed" >> {
-      val p = ExpiringPool(3, ReferenceType.Strong, 50.millis, () => new Object)
+      val p = ExpiringPool(3, ReferenceType.Strong, 100.millis, () => new Object)
       p.close()
 
       p.timer.scheduleAtFixedRate(null, 1, 1) must
