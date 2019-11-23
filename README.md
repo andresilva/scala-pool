@@ -15,10 +15,10 @@
 * * *
 
 [![Build Status](https://img.shields.io/travis/andresilva/scala-pool/master.svg)](https://travis-ci.org/andresilva/scala-pool)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.12)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.13)
 [![Coverage](https://img.shields.io/coveralls/andresilva/scala-pool/master.svg)](https://coveralls.io/github/andresilva/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andresilva/scala-pool/master/LICENSE)
-[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.12.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.12/io/github/andrebeat/pool/index.html)
+[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.13.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.13/io/github/andrebeat/pool/index.html)
 [![Scaladoc](https://img.shields.io/badge/scaladoc-latest-brightgreen.svg)](https://andresilva.github.io/scala-pool)
 
 ## Installation
