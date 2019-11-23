@@ -8,7 +8,8 @@ jdk:
   - openjdk11
 matrix:
   include:
-  - scala: 2.11.12
+  - dist: precise
+    scala: 2.11.12
     jdk: openjdk7
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" clean coverage test
