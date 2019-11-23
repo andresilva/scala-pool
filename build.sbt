@@ -3,7 +3,7 @@ name := "scala-pool"
 organization := "io.github.andrebeat"
 startYear := Some(2015)
 
-version := "0.4.3"
+version := "0.5.0-SNAPSHOT"
 
 scalaVersion := "2.13.1"
 
