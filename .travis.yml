@@ -24,8 +24,8 @@ after_success:
   >
     if [[ $TRAVIS_BRANCH == 'master' && \
           $TRAVIS_PULL_REQUEST == 'false' && \
-          $TRAVIS_JDK_VERSION == 'oraclejdk8' && \
-          $TRAVIS_SCALA_VERSION == "2.12.4" ]]; then
+          $TRAVIS_JDK_VERSION == 'openjdk8' && \
+          $TRAVIS_SCALA_VERSION == "2.13.1" ]]; then
       export SBT_GHPAGES_COMMIT_MESSAGE="Auto-update site ($TRAVIS_COMMIT)"
       sbt ++$TRAVIS_SCALA_VERSION ghpagesPushSite
     fi
