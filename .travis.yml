@@ -5,7 +5,6 @@ scala:
   - 2.11.12
 jdk:
   - openjdk8
-  - openjdk10
   - openjdk11
 matrix:
   include:
