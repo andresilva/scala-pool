@@ -7,10 +7,10 @@ version := "0.5.0-SNAPSHOT"
 
 scalaVersion := "2.13.1"
 
-crossScalaVersions := Seq("2.11.12", "2.12.10")
+crossScalaVersions := Seq("2.12.10", "2.11.12")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "4.7.1" % "test")
+  "org.specs2" %% "specs2-core" % "4.8.1" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -32,8 +32,8 @@ unmanagedSourceDirectories in Compile += {
   val v  = javaVersion.value
   val dir = (sourceDirectory in Compile).value
 
-  if (v.startsWith("1.8")) dir / "java_8"
-  else dir / "java_7"
+  if (v.startsWith("1.7.")) dir / "java_7"
+  else dir / "java_8"
 }
 
 scalacOptions in Test ++= Seq("-Yrangepos")

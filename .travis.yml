@@ -1,17 +1,15 @@
 language: scala
 scala:
-  - 2.12.4
-  - 2.11.11
-  - 2.10.6
+  - 2.13.1
+  - 2.12.10
+  - 2.11.12
 jdk:
-  - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+  - openjdk8
+  - openjdk11
 matrix:
-  exclude:
-  - scala: 2.12.4
-    jdk: oraclejdk7
-  - scala: 2.12.4
+  include:
+  - dist: trusty
+    scala: 2.11.12
     jdk: openjdk7
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" clean coverage test
@@ -24,8 +22,8 @@ after_success:
   >
     if [[ $TRAVIS_BRANCH == 'master' && \
           $TRAVIS_PULL_REQUEST == 'false' && \
-          $TRAVIS_JDK_VERSION == 'oraclejdk8' && \
-          $TRAVIS_SCALA_VERSION == "2.12.4" ]]; then
+          $TRAVIS_JDK_VERSION == 'openjdk8' && \
+          $TRAVIS_SCALA_VERSION == "2.13.1" ]]; then
       export SBT_GHPAGES_COMMIT_MESSAGE="Auto-update site ($TRAVIS_COMMIT)"
       sbt ++$TRAVIS_SCALA_VERSION ghpagesPushSite
     fi

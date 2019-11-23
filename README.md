@@ -46,6 +46,13 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 Currently, the library has no external dependencies apart from the Java and Scala standard
 libraries.
 
+### JDK7 support
+
+This library relies on features only available in Java 8 (`java.util.concurrent.atomic.LongAdder`),
+the versions published on Sonatype are compiled with JDK 8. This library provides support for JVM 7
+if it is compiled with JDK 7 (only for Scala 2.11). If you need to use this library on JVM 7 then
+you should compile and package it yourself.
+
 ## Usage
 
 The basic usage of the pool is shown below:

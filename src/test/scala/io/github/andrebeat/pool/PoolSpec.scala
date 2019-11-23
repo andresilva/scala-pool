@@ -2,7 +2,6 @@ package io.github.andrebeat.pool
 
 import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
-import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ blocking, Future }
 import scala.concurrent.duration._
@@ -251,7 +250,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         p.size() === 3
         i === 3
 
-        Platform.collectGarbage
+        java.lang.System.gc();
 
         p.acquire()
 
