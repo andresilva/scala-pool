@@ -32,8 +32,8 @@ unmanagedSourceDirectories in Compile += {
   val v  = javaVersion.value
   val dir = (sourceDirectory in Compile).value
 
-  if (v.startsWith("1.8")) dir / "java_8"
-  else dir / "java_7"
+  if (v.startsWith("1.7.")) dir / "java_7"
+  else dir / "java_8"
 }
 
 scalacOptions in Test ++= Seq("-Yrangepos")
