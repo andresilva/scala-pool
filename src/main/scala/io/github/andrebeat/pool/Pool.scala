@@ -269,7 +269,7 @@ object Pool {
     reset: A => Unit = { _: A => () },
     dispose: A => Unit = { _: A => () },
     healthCheck: A => Boolean = { _: A => true }): Pool[A] =
-    if (maxIdleTime.isFinite())
+    if (maxIdleTime.isFinite)
       ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose, healthCheck)
     else
       SimplePool(capacity, referenceType, factory, reset, dispose, healthCheck)

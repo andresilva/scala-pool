@@ -5,12 +5,12 @@ startYear := Some(2015)
 
 version := "0.5.0-SNAPSHOT"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.13.1"
 
-crossScalaVersions := Seq("2.11.11", "2.10.6")
+crossScalaVersions := Seq("2.11.12", "2.12.10")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "3.9.5" % "test")
+  "org.specs2" %% "specs2-core" % "4.7.1" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
