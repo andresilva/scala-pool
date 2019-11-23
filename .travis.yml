@@ -11,6 +11,8 @@ matrix:
   - dist: precise
     scala: 2.11.12
     jdk: openjdk7
+    before_script:
+    - curl --create-dirs -L -o $HOME/.sbt/launchers/0.13.18/sbt-launch.jar https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.18/sbt-launch.jar
 script:
   - sbt ++$TRAVIS_SCALA_VERSION "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" clean coverage test
 after_success:
