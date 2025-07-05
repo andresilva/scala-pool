@@ -5,12 +5,12 @@ startYear := Some(2015)
 
 version := "0.5.0-SNAPSHOT"
 
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.16"
 
-crossScalaVersions := Seq("2.12.10", "2.11.12")
+crossScalaVersions := Seq("2.13.16", "2.12.20")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "4.8.1" % "test")
+  "org.specs2" %% "specs2-core" % "4.21.0" % "test")
 
 resolvers ++= Seq(
   "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -25,18 +25,7 @@ scalacOptions ++= Seq(
   "-language:higherKinds",
   "-language:implicitConversions")
 
-val javaVersion = settingKey[String]("Java version")
-javaVersion := System.getProperty("java.version")
-
-unmanagedSourceDirectories in Compile += {
-  val v  = javaVersion.value
-  val dir = (sourceDirectory in Compile).value
-
-  if (v.startsWith("1.7.")) dir / "java_7"
-  else dir / "java_8"
-}
-
-scalacOptions in Test ++= Seq("-Yrangepos")
+Test / scalacOptions ++= Seq("-Yrangepos")
 
 fork := true
 
@@ -48,7 +37,7 @@ publishTo := Some(
 
 pomIncludeRepository := { _ => false }
 
-publishArtifact in Test := false
+Test / publishArtifact := false
 
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 import scalariform.formatter.preferences._

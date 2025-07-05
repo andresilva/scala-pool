@@ -18,7 +18,7 @@ class ExpiringPool[A <: AnyRef](
     _dispose: A => Unit,
     _healthCheck: A => Boolean) extends ArrayBlockingQueuePool[A](capacity, referenceType) {
 
-  implicit private[this] def function2TimerTask[A](f: () => A) = new TimerTask() { def run() = f() }
+  implicit private[this] def function2TimerTask[A](f: () => A): TimerTask = new TimerTask() { def run() = f() }
 
   final protected class ExpiringItem(
       val id: Long,

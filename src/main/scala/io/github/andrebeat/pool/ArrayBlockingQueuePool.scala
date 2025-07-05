@@ -23,7 +23,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
     val referenceType: ReferenceType) extends Pool[A] { pool =>
   abstract protected class Item(val r: Ref[A]) {
     def isDefined(): Boolean = {
-      val ro = r.toOption
+      val ro = r.toOption()
       ro.isDefined && healthCheck(ro.get)
     }
 
@@ -44,7 +44,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
       * consumed.
       */
     def destroy(): Unit = {
-      r.toOption.map(pool.dispose)
+      r.toOption().map(pool.dispose)
       decrementLive
       consume()
     }
@@ -105,7 +105,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
 
   @inline private[this] def unwrapItem(io: => Option[Item], retry: Boolean = true): Option[A] =
     io match {
-      case Some(i) if i.isDefined => Some(i.get)
+      case Some(i) if i.isDefined() => Some(i.get())
       case Some(i) =>
         i.destroy()
 

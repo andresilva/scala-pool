@@ -32,7 +32,7 @@ trait Lease[A <: AnyRef] {
     *
     * If the lease has already been released or invalidated this method does nothing.
     */
-  def release(): Unit = if (dirty.compareAndSet(false, true)) handleRelease
+  def release(): Unit = if (dirty.compareAndSet(false, true)) handleRelease()
 
   /**
     * Invalidates the current lease. The object is "destroyed" and is no longer eligible to be
@@ -40,7 +40,7 @@ trait Lease[A <: AnyRef] {
     *
     * If the lease has already been released or invalidated this method does nothing.
     */
-  def invalidate(): Unit = if (dirty.compareAndSet(false, true)) handleInvalidate
+  def invalidate(): Unit = if (dirty.compareAndSet(false, true)) handleInvalidate()
 
   /**
     * Gets the value from the lease, passing it onto the provided function and
@@ -140,7 +140,7 @@ trait Pool[A <: AnyRef] {
     * @throws ClosedPoolException If this pool is closed.
     */
   def tryAcquire(): Option[Lease[A]] =
-    if (!closed.get()) handleTryAcquire else throw new ClosedPoolException
+    if (!closed.get()) handleTryAcquire() else throw new ClosedPoolException
 
   /**
     * Try to acquire a lease for an object blocking at most until the given duration.
@@ -162,14 +162,14 @@ trait Pool[A <: AnyRef] {
     * @throws ClosedPoolException If this pool is closed.
     */
   def acquire(): Lease[A] =
-    if (!closed.get()) handleAcquire else throw new ClosedPoolException
+    if (!closed.get()) handleAcquire() else throw new ClosedPoolException
 
   /**
     * Drains the object pool, i.e. evicts every object currently pooled.
     * @throws ClosedPoolException If this pool is closed.
     */
   def drain(): Unit =
-    if (!closed.get()) handleDrain else throw new ClosedPoolException
+    if (!closed.get()) handleDrain() else throw new ClosedPoolException
 
   /**
     * Fills the object pool by creating (and pooling) new objects until the number of live objects
@@ -177,7 +177,7 @@ trait Pool[A <: AnyRef] {
     * @throws ClosedPoolException If this pool is closed.
     */
   def fill(): Unit =
-    if (!closed.get()) handleFill else throw new ClosedPoolException
+    if (!closed.get()) handleFill() else throw new ClosedPoolException
 
   /**
     * Returns the number of objects in the pool.
@@ -217,7 +217,7 @@ trait Pool[A <: AnyRef] {
     *
     * @return the number of leased objects.
     */
-  def leased(): Int = live - size
+  def leased(): Int = live() - size()
 
   /**
     * Closes this pool, and properly disposes of each pooled object, releasing any resources
@@ -227,8 +227,8 @@ trait Pool[A <: AnyRef] {
     */
   def close(): Unit = {
     if (closed.compareAndSet(false, true)) {
-      handleDrain
-      handleClose
+      handleDrain()
+      handleClose()
     }
   }
 }
