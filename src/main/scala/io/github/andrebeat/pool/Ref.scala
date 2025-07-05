@@ -1,6 +1,6 @@
 package io.github.andrebeat.pool
 
-import java.lang.ref.{ SoftReference, WeakReference }
+import java.lang.ref.{SoftReference, WeakReference}
 
 sealed private[pool] trait Ref[A <: AnyRef] {
   def toOption(): Option[A]

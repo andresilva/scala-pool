@@ -3,7 +3,7 @@ package io.github.andrebeat.pool
 import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ blocking, Future }
+import scala.concurrent.{blocking, Future}
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
 

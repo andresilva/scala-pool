@@ -1,6 +1,6 @@
 package io.github.andrebeat.pool
 
-import java.util.concurrent.atomic.{ LongAdder, AtomicLong }
+import java.util.concurrent.atomic.{LongAdder, AtomicLong}
 
 final private[pool] class Jdk8Adder extends LongAdder with Adder {
   def count() = this.sum

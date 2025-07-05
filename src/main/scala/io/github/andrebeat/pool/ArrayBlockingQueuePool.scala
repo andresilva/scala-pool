@@ -3,7 +3,7 @@ package io.github.andrebeat.pool
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
-import scala.concurrent.duration.{ Duration, NANOSECONDS }
+import scala.concurrent.duration.{Duration, NANOSECONDS}
 
 /** A generic object pooling implementation based on [[java.util.concurrent.ArrayBlockingQueue]]. This implementation
   * relies on the thread-safety and blocking/non-blocking mechanisms of the underlying data structure to implement the

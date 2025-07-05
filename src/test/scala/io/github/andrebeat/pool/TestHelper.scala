@@ -1,7 +1,7 @@
 package io.github.andrebeat.pool
 
 import scala.annotation.tailrec
-import scala.concurrent.{ Await, Future }
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.util.Properties
 

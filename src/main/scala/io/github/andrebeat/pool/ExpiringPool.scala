@@ -1,6 +1,6 @@
 package io.github.andrebeat.pool
 
-import java.util.{ Timer, TimerTask }
+import java.util.{Timer, TimerTask}
 import scala.annotation.tailrec
 import scala.concurrent.duration.Duration
 import java.util.concurrent.atomic.AtomicInteger
