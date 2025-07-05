@@ -5,32 +5,27 @@ import java.util.concurrent.atomic.AtomicInteger
 import scala.annotation.tailrec
 import scala.concurrent.duration.{ Duration, NANOSECONDS }
 
-/**
-  * A generic object pooling implementation based on [[java.util.concurrent.ArrayBlockingQueue]].
-  * This implementation relies on the thread-safety and blocking/non-blocking mechanisms of the
-  * underlying data structure to implement the pool interface. Furthermore, for synchronization and
-  * tracking of live instances an [[java.util.concurrent.atomic.AtomicInteger]] is used. No locks
-  * are used in this implementation.
+/** A generic object pooling implementation based on [[java.util.concurrent.ArrayBlockingQueue]]. This implementation
+  * relies on the thread-safety and blocking/non-blocking mechanisms of the underlying data structure to implement the
+  * pool interface. Furthermore, for synchronization and tracking of live instances an
+  * [[java.util.concurrent.atomic.AtomicInteger]] is used. No locks are used in this implementation.
   *
-  * The type of items inserted in the queue must implement the `Item` interface. This class defines
-  * methods for consuming the item (e.g. disposing of any resources associated with it) and a method
-  * that's called whenever an item is successfully inserted into the queue (useful for triggering a
-  * side-effect). This class is also responsible for dealing with the reference type that's wrapping
-  * the value (i.e. ensure calling its destructor if the value is defined).
+  * The type of items inserted in the queue must implement the `Item` interface. This class defines methods for
+  * consuming the item (e.g. disposing of any resources associated with it) and a method that's called whenever an item
+  * is successfully inserted into the queue (useful for triggering a side-effect). This class is also responsible for
+  * dealing with the reference type that's wrapping the value (i.e. ensure calling its destructor if the value is
+  * defined).
   */
-abstract class ArrayBlockingQueuePool[A <: AnyRef](
-    val capacity: Int,
-    val referenceType: ReferenceType) extends Pool[A] { pool =>
+abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int, val referenceType: ReferenceType)
+    extends Pool[A] { pool =>
   abstract protected class Item(val r: Ref[A]) {
     def isDefined(): Boolean = {
       val ro = r.toOption()
       ro.isDefined && healthCheck(ro.get)
     }
 
-    /**
-      * This method should only be called from this class and it is guaranteed that the value is
-      * always defined before calling. Whenever this method is called it is considered that the
-      * value is consumed.
+    /** This method should only be called from this class and it is guaranteed that the value is always defined before
+      * calling. Whenever this method is called it is considered that the value is consumed.
       */
     def get(): A = {
       val a = r.toOption().get
@@ -38,10 +33,8 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
       a
     }
 
-    /**
-      * This method is only called whenever using a Soft/Weak reference that was invalidated by the
-      * garbage collector. Whenever this method is called it is considered that the value is
-      * consumed.
+    /** This method is only called whenever using a Soft/Weak reference that was invalidated by the garbage collector.
+      * Whenever this method is called it is considered that the value is consumed.
       */
     def destroy(): Unit = {
       r.toOption().map(pool.dispose)
@@ -49,13 +42,11 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](
       consume()
     }
 
-    /**
-      * This method is called whenever the item is successfully inserted in the queue.
+    /** This method is called whenever the item is successfully inserted in the queue.
       */
     def offerSuccess(): Unit
 
-    /**
-      * This method is called whenever the item is consumed from the queue.
+    /** This method is called whenever the item is consumed from the queue.
       */
     def consume(): Unit
   }

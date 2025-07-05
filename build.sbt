@@ -1,7 +1,7 @@
 name := "scala-pool"
 
 organization := "io.github.andrebeat"
-startYear := Some(2015)
+startYear    := Some(2015)
 
 version := "0.5.0-SNAPSHOT"
 
@@ -9,13 +9,13 @@ scalaVersion := "2.13.16"
 
 crossScalaVersions := Seq("2.13.16", "2.12.20")
 
-libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "4.21.0" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.21.0" % "test")
 
 resolvers ++= Seq(
-  "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
-  "releases"            at "https://oss.sonatype.org/content/repositories/releases",
-  "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/")
+  "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+  "releases" at "https://oss.sonatype.org/content/repositories/releases",
+  "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+)
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -23,7 +23,8 @@ scalacOptions ++= Seq(
   "-feature",
   "-language:existentials",
   "-language:higherKinds",
-  "-language:implicitConversions")
+  "-language:implicitConversions"
+)
 
 Test / scalacOptions ++= Seq("-Yrangepos")
 
@@ -33,18 +34,14 @@ publishTo := Some(
   if (isSnapshot.value)
     Opts.resolver.sonatypeSnapshots
   else
-    Opts.resolver.sonatypeStaging)
+    Opts.resolver.sonatypeStaging
+)
 
 pomIncludeRepository := { _ => false }
 
 Test / publishArtifact := false
 
-import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-import scalariform.formatter.preferences._
-
-ScalariformKeys.preferences := ScalariformKeys.preferences.value
-  .setPreference(DoubleIndentConstructorArguments, true)
-  .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
+scalafmtOnCompile := true
 
 enablePlugins(SiteScaladocPlugin)
 enablePlugins(GhpagesPlugin)

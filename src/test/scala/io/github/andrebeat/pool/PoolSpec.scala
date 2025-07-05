@@ -7,16 +7,15 @@ import scala.concurrent.{ blocking, Future }
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
 
-abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
-  extends Specification
-  with TestHelper {
+abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]]) extends Specification with TestHelper {
   def pool[A <: AnyRef](
-    capacity: Int,
-    factory: () => A,
-    referenceType: ReferenceType = ReferenceType.Strong,
-    reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () },
-    healthCheck: A => Boolean = { _: A => true }): P[A]
+      capacity: Int,
+      factory: () => A,
+      referenceType: ReferenceType = ReferenceType.Strong,
+      reset: A => Unit = { _: A => () },
+      dispose: A => Unit = { _: A => () },
+      healthCheck: A => Boolean = { _: A => true }
+  ): P[A]
 
   sequential
 
@@ -202,8 +201,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         val l = p.acquire()
 
         val itemsField =
-          p.getClass
-            .getSuperclass
+          p.getClass.getSuperclass
             .getDeclaredField("items")
         itemsField.setAccessible(true)
 
@@ -228,7 +226,11 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
           3,
           () => new Object,
           dispose = { _: Object => i += 1 },
-          healthCheck = { _: Object => if (!failOnce) { failOnce = true; false } else true })
+          healthCheck = { _: Object =>
+            if (!failOnce) { failOnce = true; false }
+            else true
+          }
+        )
 
         p.fill()
 
@@ -384,7 +386,12 @@ class PoolObjectSpec extends Specification {
       Pool(1, () => new Object, maxIdleTime = 10.seconds) must haveClass[ExpiringPool[Object]]
 
       Pool(1, () => new Object, referenceType = ReferenceType.Weak).referenceType === ReferenceType.Weak
-      Pool(1, () => new Object, referenceType = ReferenceType.Soft, maxIdleTime = 10.seconds).referenceType === ReferenceType.Soft
+      Pool(
+        1,
+        () => new Object,
+        referenceType = ReferenceType.Soft,
+        maxIdleTime = 10.seconds
+      ).referenceType === ReferenceType.Soft
     }
   }
 }

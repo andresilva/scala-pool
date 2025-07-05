@@ -1,7 +1,6 @@
 package io.github.andrebeat
 
-/**
-  * This library provides classes for dealing with object pooling that allow:
+/** This library provides classes for dealing with object pooling that allow:
   *   - blocking/non-blocking object acquisition
   *   - object invalidation
   *   - capping the number of pooled objects
@@ -12,8 +11,7 @@ package io.github.andrebeat
   *   - efficient thread-safety
   *
   * ==Overview==
-  * In order create a new [[io.github.andrebeat.pool.Pool]] the constructor method should be used
-  * like so
+  * In order create a new [[io.github.andrebeat.pool.Pool]] the constructor method should be used like so
   * {{{
   * scala> val pool = Pool(4, () => new Object)
   * pool: io.github.andrebeat.pool.SimplePool[Object] = _
@@ -22,8 +20,8 @@ package io.github.andrebeat
   * scala> lease.release()
   * }}}
   *
-  * Additionally, in order to avoid manually releasing the lease after its used,
-  * you can use the `use` method on the lease:
+  * Additionally, in order to avoid manually releasing the lease after its used, you can use the `use` method on the
+  * lease:
   *
   * {{{
   * scala> val pool = Pool(4, () => new Object)
