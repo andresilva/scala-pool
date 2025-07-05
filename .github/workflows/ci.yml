@@ -1,6 +1,10 @@
 name: CI
 on: [push, pull_request]
 
+permissions:
+  # These are needed to push to gh-pages.
+  contents: write
+
 jobs:
   test:
     name: Test
@@ -39,5 +43,13 @@ jobs:
       - name: Run tests
         run: sbt ++${{ matrix.scala }} "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" coverage test
 
-      - name: Build Scaladoc
-        run: sbt ++${{ matrix.scala }} doc
+      - name: Update site
+        if: matrix.scala == '2.13' && matrix.java == '11'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: github-actions
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          sbt ++${{ matrix.scala }} ghpagesPushSite

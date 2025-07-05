@@ -45,4 +45,9 @@ scalafmtOnCompile := true
 
 enablePlugins(SiteScaladocPlugin)
 enablePlugins(GhpagesPlugin)
-git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andresilva/scala-pool.git"""
+git.remoteRepo := {
+  val actor = sys.env.getOrElse("GITHUB_ACTOR", "NULL")
+  val token = sys.env.getOrElse("GITHUB_TOKEN", "NULL")
+
+  s"""https://$actor:$token@github.com/andresilva/scala-pool.git"""
+}
