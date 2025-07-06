@@ -30,16 +30,36 @@ Test / scalacOptions ++= Seq("-Yrangepos")
 
 fork := true
 
-publishTo := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging
-)
+publishTo := {
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
+}
 
 pomIncludeRepository := { _ => false }
 
 Test / publishArtifact := false
+
+releaseCrossBuild    := true
+releaseTagComment    := s"Release ${(ThisBuild / version).value}"
+releaseCommitMessage := s"Set version to ${(ThisBuild / version).value}"
+
+import ReleaseTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommand("sonaRelease"),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
 
 scalafmtOnCompile := true
 
