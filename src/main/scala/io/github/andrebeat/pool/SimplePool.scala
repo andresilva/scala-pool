@@ -35,8 +35,8 @@ object SimplePool {
       capacity: Int,
       referenceType: ReferenceType,
       factory: () => A,
-      reset: A => Unit = { _: A => () },
-      dispose: A => Unit = { _: A => () },
-      healthCheck: A => Boolean = { _: A => true }
+      reset: A => Unit = { (_: A) => () },
+      dispose: A => Unit = { (_: A) => () },
+      healthCheck: A => Boolean = { (_: A) => true }
   ) = new SimplePool(capacity, referenceType, factory, reset, dispose, healthCheck)
 }

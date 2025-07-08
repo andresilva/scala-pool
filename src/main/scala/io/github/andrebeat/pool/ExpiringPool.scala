@@ -78,8 +78,8 @@ object ExpiringPool {
       referenceType: ReferenceType,
       maxIdleTime: Duration,
       factory: () => A,
-      reset: A => Unit = { _: A => () },
-      dispose: A => Unit = { _: A => () },
-      healthCheck: A => Boolean = { _: A => true }
+      reset: A => Unit = { (_: A) => () },
+      dispose: A => Unit = { (_: A) => () },
+      healthCheck: A => Boolean = { (_: A) => true }
   ) = new ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose, healthCheck)
 }

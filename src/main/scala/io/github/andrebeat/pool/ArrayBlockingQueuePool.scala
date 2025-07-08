@@ -16,7 +16,7 @@ import scala.concurrent.duration.{Duration, NANOSECONDS}
   * dealing with the reference type that's wrapping the value (i.e. ensure calling its destructor if the value is
   * defined).
   */
-abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int, val referenceType: ReferenceType)
+abstract class ArrayBlockingQueuePool[A <: AnyRef](val _capacity: Int, val referenceType: ReferenceType)
     extends Pool[A] { pool =>
   abstract protected class Item(val r: Ref[A]) {
     def isDefined(): Boolean = {
@@ -51,10 +51,10 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int, val refere
     def consume(): Unit
   }
 
-  protected[this] val items = new ArrayBlockingQueue[Item](capacity)
-  private[this] val live = new AtomicInteger(0)
+  protected[this] val items = new ArrayBlockingQueue[Item](_capacity)
+  private[this] val _live = new AtomicInteger(0)
 
-  @inline private[this] def decrementLive = live.getAndDecrement
+  @inline private[this] def decrementLive = _live.getAndDecrement
 
   @inline protected[this] def destroy(a: A): Unit = {
     dispose(a)
@@ -85,8 +85,8 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int, val refere
   }
 
   @inline private[this] def tryCreate(): Option[A] = {
-    live.getAndIncrement match {
-      case n if n < capacity =>
+    _live.getAndIncrement match {
+      case n if n < _capacity =>
         Some(factory())
       case _ =>
         decrementLive
@@ -157,5 +157,7 @@ abstract class ArrayBlockingQueuePool[A <: AnyRef](val capacity: Int, val refere
 
   def size() = items.size
 
-  def live() = live.get()
+  def capacity() = _capacity
+
+  def live() = _live.get()
 }

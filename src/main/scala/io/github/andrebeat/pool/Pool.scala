@@ -258,9 +258,9 @@ object Pool {
       factory: () => A,
       referenceType: ReferenceType = ReferenceType.Strong,
       maxIdleTime: Duration = Duration.Inf,
-      reset: A => Unit = { _: A => () },
-      dispose: A => Unit = { _: A => () },
-      healthCheck: A => Boolean = { _: A => true }
+      reset: A => Unit = { (_: A) => () },
+      dispose: A => Unit = { (_: A) => () },
+      healthCheck: A => Boolean = { (_: A) => true }
   ): Pool[A] =
     if (maxIdleTime.isFinite)
       ExpiringPool(capacity, referenceType, maxIdleTime, factory, reset, dispose, healthCheck)

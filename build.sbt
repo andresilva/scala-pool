@@ -5,9 +5,9 @@ startYear    := Some(2015)
 
 version := "0.5.0-SNAPSHOT"
 
-scalaVersion := "2.13.16"
+scalaVersion := "3.3.6"
 
-crossScalaVersions := Seq("2.13.16", "2.12.20")
+crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.21.0" % "test")
 
