@@ -32,7 +32,7 @@ jobs:
         uses: sbt/setup-sbt@v1
 
       - name: Update dependencies
-        if: steps.setup-java.outputs.cache-hit == 'false'
+        if: matrix.scala == '2.13' && matrix.java == '11' && steps.setup-java.outputs.cache-hit == 'false'
         run: sbt +update
 
       - name: Compile and check format
