@@ -3,7 +3,7 @@ package io.github.andrebeat.pool
 import java.util.{Timer, TimerTask}
 import scala.annotation.tailrec
 import scala.concurrent.duration.Duration
-import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.{AtomicInteger, LongAdder}
 
 /** An object pool that creates the objects as needed until a maximum number of objects has been created and
   * automatically evicts objects after they have been idle for a given amount of time.
@@ -42,7 +42,7 @@ class ExpiringPool[A <: AnyRef](
   }
 
   private[pool] val timer = new Timer(s"scala-pool-${ExpiringPool.count.getAndIncrement}", true)
-  private[this] val adder = Adder()
+  private[this] val adder = new LongAdder()
 
   @inline protected[this] def factory() = _factory()
   @inline protected[this] def dispose(a: A) = _dispose(a)
@@ -55,7 +55,7 @@ class ExpiringPool[A <: AnyRef](
 
   @inline protected[this] def newItem(a: A) = {
     adder.increment()
-    val id = adder.count()
+    val id = adder.sum()
     val r = Ref(a, referenceType)
     new ExpiringItem(
       id,
