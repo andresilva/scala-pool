@@ -3,8 +3,6 @@ name := "scala-pool"
 organization := "io.github.andrebeat"
 startYear    := Some(2015)
 
-version := "0.5.0-SNAPSHOT"
-
 scalaVersion := "3.3.6"
 
 crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
