@@ -1,0 +1,55 @@
+name: CI
+on: [push, pull_request]
+
+permissions:
+  # These are needed to push to gh-pages.
+  contents: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        scala: ['2.12', '2.13', '3.3']
+        java: ['8', '11']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        id: setup-java
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: ${{ matrix.java }}
+          cache: sbt
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Update dependencies
+        if: matrix.scala == '2.13' && matrix.java == '11' && steps.setup-java.outputs.cache-hit == 'false'
+        run: sbt +update
+
+      - name: Compile and check format
+        run: >-
+          sbt ++${{ matrix.scala }} Test/compile scalafmtSbt &&
+          git diff --exit-code
+
+      - name: Run tests
+        run: sbt ++${{ matrix.scala }} "set concurrentRestrictions in Global := Seq(Tags.limit(Tags.Test, 1))" coverage test
+
+      - name: Update site
+        if: github.ref == 'ref/head/master' && matrix.scala == '2.13' && matrix.java == '11'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: github-actions
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          sbt ++${{ matrix.scala }} ghpagesPushSite

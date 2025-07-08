@@ -2,6 +2,7 @@
 *.log
 
 # sbt specific
+.bsp
 .cache
 .history
 .lib/
@@ -15,3 +16,8 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+# Metals specific
+.bloop
+.metals
+metals.sbt

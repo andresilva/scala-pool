@@ -1,21 +1,19 @@
 name := "scala-pool"
 
 organization := "io.github.andrebeat"
-startYear := Some(2015)
+startYear    := Some(2015)
 
-version := "0.5.0-SNAPSHOT"
+scalaVersion := "3.3.6"
 
-scalaVersion := "2.13.1"
+crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
-crossScalaVersions := Seq("2.12.10", "2.11.12")
-
-libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core" % "4.8.1" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.21.0" % "test")
 
 resolvers ++= Seq(
-  "snapshots"           at "https://oss.sonatype.org/content/repositories/snapshots",
-  "releases"            at "https://oss.sonatype.org/content/repositories/releases",
-  "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/")
+  "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+  "releases" at "https://oss.sonatype.org/content/repositories/releases",
+  "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+)
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -23,40 +21,51 @@ scalacOptions ++= Seq(
   "-feature",
   "-language:existentials",
   "-language:higherKinds",
-  "-language:implicitConversions")
+  "-language:implicitConversions"
+)
 
-val javaVersion = settingKey[String]("Java version")
-javaVersion := System.getProperty("java.version")
-
-unmanagedSourceDirectories in Compile += {
-  val v  = javaVersion.value
-  val dir = (sourceDirectory in Compile).value
-
-  if (v.startsWith("1.7.")) dir / "java_7"
-  else dir / "java_8"
-}
-
-scalacOptions in Test ++= Seq("-Yrangepos")
+Test / scalacOptions ++= Seq("-Yrangepos")
 
 fork := true
 
-publishTo := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging)
+publishTo := {
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
+}
 
 pomIncludeRepository := { _ => false }
 
-publishArtifact in Test := false
+Test / publishArtifact := false
 
-import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-import scalariform.formatter.preferences._
+releaseCrossBuild    := true
+releaseTagComment    := s"Release ${(ThisBuild / version).value}"
+releaseCommitMessage := s"Set version to ${(ThisBuild / version).value}"
 
-ScalariformKeys.preferences := ScalariformKeys.preferences.value
-  .setPreference(DoubleIndentConstructorArguments, true)
-  .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
+import ReleaseTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommand("sonaRelease"),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
+
+scalafmtOnCompile := true
 
 enablePlugins(SiteScaladocPlugin)
 enablePlugins(GhpagesPlugin)
-git.remoteRepo := s"""https://${sys.env.getOrElse("GH_TOKEN", "NULL")}@github.com/andresilva/scala-pool.git"""
+git.remoteRepo := {
+  val actor = sys.env.getOrElse("GITHUB_ACTOR", "NULL")
+  val token = sys.env.getOrElse("GITHUB_TOKEN", "NULL")
+
+  s"""https://$actor:$token@github.com/andresilva/scala-pool.git"""
+}

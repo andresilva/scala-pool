@@ -14,16 +14,15 @@
 
 * * *
 
-[![Build Status](https://img.shields.io/travis/andresilva/scala-pool/master.svg)](https://travis-ci.org/andresilva/scala-pool)
+[![Build Status](https://github.com/andresilva/scala-pool/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/andresilva/scala-pool/actions/workflows/ci.yml?query=workflow%3ACI+branch%3Amaster)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.13)
 [![Coverage](https://img.shields.io/coveralls/andresilva/scala-pool/master.svg)](https://coveralls.io/github/andresilva/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andresilva/scala-pool/master/LICENSE)
-[![Scaladoc](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.13.svg?label=scaladoc)](http://javadoc-badge.appspot.com/io.github.andrebeat/scala-pool_2.13/io/github/andrebeat/pool/index.html)
 [![Scaladoc](https://img.shields.io/badge/scaladoc-latest-brightgreen.svg)](https://andresilva.github.io/scala-pool)
 
 ## Installation
 
-scala-pool is currently available for Scala 2.13, 2.12, and 2.11, the latest version is `0.4.3`.
+scala-pool is currently available for Scala 3, Scala 2.13 and 2.12, the latest version is `0.4.3`.
 
 To use it in an existing SBT project, add the following dependency to your `build.sbt`:
 
@@ -45,13 +44,6 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 
 Currently, the library has no external dependencies apart from the Java and Scala standard
 libraries.
-
-### JDK7 support
-
-This library relies on features only available in Java 8 (`java.util.concurrent.atomic.LongAdder`),
-the versions published on Sonatype are compiled with JDK 8. This library provides support for JVM 7
-if it is compiled with JDK 7 (only for Scala 2.11). If you need to use this library on JVM 7 then
-you should compile and package it yourself.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 package io.github.andrebeat.pool
 
-import java.lang.ref.{ SoftReference, WeakReference }
+import java.lang.ref.{SoftReference, WeakReference}
 
 sealed private[pool] trait Ref[A <: AnyRef] {
   def toOption(): Option[A]
@@ -29,21 +29,20 @@ private[pool] object Ref {
     }
 }
 
-/**
-  * An enum-type for Java reference types.
+/** An enum-type for Java reference types.
   */
 sealed trait ReferenceType
 object ReferenceType {
-  /**
-    * Strong references (normal references).
+
+  /** Strong references (normal references).
     */
   case object Strong extends ReferenceType
-  /**
-    * Soft references ([[java.lang.ref.SoftReference]]).
+
+  /** Soft references ([[java.lang.ref.SoftReference]]).
     */
   case object Soft extends ReferenceType
-  /**
-    * Weak references ([[java.lang.ref.WeakReference]]).
+
+  /** Weak references ([[java.lang.ref.WeakReference]]).
     */
   case object Weak extends ReferenceType
 }

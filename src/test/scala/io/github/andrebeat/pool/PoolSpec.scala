@@ -3,24 +3,22 @@ package io.github.andrebeat.pool
 import java.util.concurrent.BlockingQueue
 import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ blocking, Future }
+import scala.concurrent.{blocking, Future}
 import scala.concurrent.duration._
-import scala.reflect.ClassTag
 
-abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
-  extends Specification
-  with TestHelper {
+abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](poolName: String) extends Specification with TestHelper {
   def pool[A <: AnyRef](
-    capacity: Int,
-    factory: () => A,
-    referenceType: ReferenceType = ReferenceType.Strong,
-    reset: A => Unit = { _: A => () },
-    dispose: A => Unit = { _: A => () },
-    healthCheck: A => Boolean = { _: A => true }): P[A]
+      capacity: Int,
+      factory: () => A,
+      referenceType: ReferenceType = ReferenceType.Strong,
+      reset: A => Unit = { (_: A) => () },
+      dispose: A => Unit = { (_: A) => () },
+      healthCheck: A => Boolean = { (_: A) => true }
+  ): P[A]
 
   sequential
 
-  s"A ${ct.runtimeClass.getSimpleName}" should {
+  s"A ${poolName}" should {
     "have a capacity" >> {
       val p = pool(3, () => new Object)
       p.capacity() === 3
@@ -156,7 +154,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when filling" >> {
         var i = 0
 
-        val p = pool(3, () => new Object, reset = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, reset = { (_: Object) => i += 1 })
         p.fill()
 
         p.size() === 3
@@ -166,7 +164,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when releasing" >> {
         var i = 0
 
-        val p = pool(3, () => new Object, reset = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, reset = { (_: Object) => i += 1 })
         p.acquire().release()
 
         i === 1
@@ -177,7 +175,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when invalidated" >> {
         var i = 0
 
-        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { (_: Object) => i += 1 })
         p.acquire().invalidate()
 
         i === 1
@@ -186,7 +184,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when draining" >> {
         var i = 0
 
-        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { (_: Object) => i += 1 })
         p.fill()
         p.drain()
 
@@ -196,14 +194,13 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       "when added to an already full pool" >> {
         // This situation should never happen in a normal usage of the pool
         var i = 0
-        val p = pool(3, () => new Object, dispose = { _: Object => i += 1 })
+        val p = pool(3, () => new Object, dispose = { (_: Object) => i += 1 })
 
         p.fill()
         val l = p.acquire()
 
         val itemsField =
-          p.getClass
-            .getSuperclass
+          p.getClass.getSuperclass
             .getDeclaredField("items")
         itemsField.setAccessible(true)
 
@@ -227,8 +224,12 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
         val p = pool(
           3,
           () => new Object,
-          dispose = { _: Object => i += 1 },
-          healthCheck = { _: Object => if (!failOnce) { failOnce = true; false } else true })
+          dispose = { (_: Object) => i += 1 },
+          healthCheck = { (_: Object) =>
+            if (!failOnce) { failOnce = true; false }
+            else true
+          }
+        )
 
         p.fill()
 
@@ -285,7 +286,7 @@ abstract class PoolSpec[P[_ <: AnyRef] <: Pool[_]](implicit ct: ClassTag[P[_]])
       p.fill() must throwA[Pool.ClosedPoolException]
     }
 
-    s"A ${ct.runtimeClass.getSimpleName} Lease" should {
+    s"A ${poolName} Lease" should {
       "allow being invalidated and removed from the pool" >> {
         val p = pool(3, () => new Object)
 
@@ -384,7 +385,12 @@ class PoolObjectSpec extends Specification {
       Pool(1, () => new Object, maxIdleTime = 10.seconds) must haveClass[ExpiringPool[Object]]
 
       Pool(1, () => new Object, referenceType = ReferenceType.Weak).referenceType === ReferenceType.Weak
-      Pool(1, () => new Object, referenceType = ReferenceType.Soft, maxIdleTime = 10.seconds).referenceType === ReferenceType.Soft
+      Pool(
+        1,
+        () => new Object,
+        referenceType = ReferenceType.Soft,
+        maxIdleTime = 10.seconds
+      ).referenceType === ReferenceType.Soft
     }
   }
 }
