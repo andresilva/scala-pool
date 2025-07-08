@@ -22,18 +22,18 @@
 
 ## Installation
 
-scala-pool is currently available for Scala 3, Scala 2.13 and 2.12, the latest version is `0.4.3`.
+scala-pool is currently available for Scala 3, Scala 2.13 and 2.12, the latest version is `0.5.0`.
 
 To use it in an existing SBT project, add the following dependency to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.4.3"
+libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.5.0"
 ```
 
 The latest snapshot version is also available:
 
 ```scala
-libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.5.0-SNAPSHOT"
+libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.5.1-SNAPSHOT"
 ```
 
 It might be necessary to add the Sonatype OSS Snapshot resolver:
