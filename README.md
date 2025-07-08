@@ -14,7 +14,7 @@
 
 * * *
 
-[![Build Status](https://img.shields.io/travis/andresilva/scala-pool/master.svg)](https://travis-ci.org/andresilva/scala-pool)
+[![Build Status](https://github.com/andresilva/scala-pool/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/andresilva/scala-pool/actions/workflows/ci.yml?query=workflow%3ACI+branch%3Amaster)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.andrebeat/scala-pool_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.andrebeat/scala-pool_2.13)
 [![Coverage](https://img.shields.io/coveralls/andresilva/scala-pool/master.svg)](https://coveralls.io/github/andresilva/scala-pool)
 [![License](https://img.shields.io/dub/l/vibe-d.svg)](https://raw.githubusercontent.com/andresilva/scala-pool/master/LICENSE)
